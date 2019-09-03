@@ -1,0 +1,2769 @@
+Microsoft Windows [Version 10.0.18362.329]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# select * from users;
+ id | firstName | lastName | email | user_type | is_admin | createdAt | updatedAt
+----+-----------+----------+-------+-----------+----------+-----------+-----------
+(0 rows)
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d
+                List of relations
+ Schema |       Name        |   Type   |  Owner
+--------+-------------------+----------+----------
+ public | clips             | table    | postgres
+ public | clips_id_seq      | sequence | postgres
+ public | coaches           | table    | postgres
+ public | coaches_id_seq    | sequence | postgres
+ public | players           | table    | postgres
+ public | players_id_seq    | sequence | postgres
+ public | users             | table    | postgres
+ public | users_id_seq      | sequence | postgres
+ public | video_tags        | table    | postgres
+ public | video_tags_id_seq | sequence | postgres
+ public | videos            | table    | postgres
+ public | videos_id_seq     | sequence | postgres
+(12 rows)
+
+
+tennis=# select * from users;
+ id | firstName | lastName | email | user_type | is_admin | createdAt | updatedAt
+----+-----------+----------+-------+-----------+----------+-----------+-----------
+(0 rows)
+
+
+tennis=# \d users
+                                      Table "public.users"
+  Column   |           Type           | Collation | Nullable |              Default
+-----------+--------------------------+-----------+----------+-----------------------------------
+ id        | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ firstName | character varying(255)   |           |          |
+ lastName  | character varying(255)   |           |          |
+ email     | character varying(255)   |           |          |
+ user_type | character varying(255)   |           |          | 'player'::character varying
+ is_admin  | boolean                  |           |          |
+ createdAt | timestamp with time zone |           | not null |
+ updatedAt | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+
+
+tennis=# \d
+                List of relations
+ Schema |       Name        |   Type   |  Owner
+--------+-------------------+----------+----------
+ public | clips             | table    | postgres
+ public | clips_id_seq      | sequence | postgres
+ public | coaches           | table    | postgres
+ public | coaches_id_seq    | sequence | postgres
+ public | players           | table    | postgres
+ public | players_id_seq    | sequence | postgres
+ public | users             | table    | postgres
+ public | users_id_seq      | sequence | postgres
+ public | video_tags        | table    | postgres
+ public | video_tags_id_seq | sequence | postgres
+ public | videos            | table    | postgres
+ public | videos_id_seq     | sequence | postgres
+(12 rows)
+
+
+tennis=# drop table clips,coaches,players,users,video_tags,videos
+tennis-# drop table clips,coaches,players,users,video_tags,videos;
+ERROR:  syntax error at or near "drop"
+LINE 2: drop table clips,coaches,players,users,video_tags,videos;
+        ^
+tennis=# drop table clips,coaches,players,users,video_tags,videos;
+DROP TABLE
+tennis=# \d
+Did not find any relations.
+tennis=# select * from users
+tennis-# select * from users;
+ERROR:  syntax error at or near "select"
+LINE 2: select * from users;
+        ^
+tennis=# select * from users;
+ERROR:  relation "users" does not exist
+LINE 1: select * from users;
+                      ^
+tennis=# select * from users;
+ERROR:  relation "users" does not exist
+LINE 1: select * from users;
+                      ^
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# drop table clips,coaches,players,users,video_tags,videos;
+DROP TABLE
+tennis=# \d users
+Did not find any relation named "users".
+tennis=# \d users\q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_Id_fkey" FOREIGN KEY ("user_Id") REFERENCES users(id) ON UPDATE CASCADE ON DELETE SET NULL
+
+
+tennis=# \d coaches
+                                       Table "public.coaches"
+   Column   |           Type           | Collation | Nullable |               Default
+------------+--------------------------+-----------+----------+-------------------------------------
+ id         | integer                  |           | not null | nextval('coaches_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ coach_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+ user_Id    | integer                  |           |          |
+Indexes:
+    "coaches_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "coaches_user_Id_fkey" FOREIGN KEY ("user_Id") REFERENCES users(id) ON UPDATE CASCADE ON DELETE SET NULL
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_Id_fkey" FOREIGN KEY ("user_Id") REFERENCES users(id) ON UPDATE CASCADE ON DELETE SET NULL
+
+
+tennis=# \d coaches
+                                       Table "public.coaches"
+   Column   |           Type           | Collation | Nullable |               Default
+------------+--------------------------+-----------+----------+-------------------------------------
+ id         | integer                  |           | not null | nextval('coaches_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ coach_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+ user_Id    | integer                  |           |          |
+Indexes:
+    "coaches_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "coaches_user_Id_fkey" FOREIGN KEY ("user_Id") REFERENCES users(id) ON UPDATE CASCADE ON DELETE SET NULL
+
+
+tennis=# drop table clips,coaches,players,users,video_tags,videos;
+DROP TABLE
+tennis=# select * from users;
+ id | first_name | last_name | email | user_type | is_admin | createdAt | updatedAt
+----+------------+-----------+-------+-----------+----------+-----------+-----------
+(0 rows)
+
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# \d coaches
+                                       Table "public.coaches"
+   Column   |           Type           | Collation | Nullable |               Default
+------------+--------------------------+-----------+----------+-------------------------------------
+ id         | integer                  |           | not null | nextval('coaches_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ coach_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "coaches_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# \d coaches
+                                       Table "public.coaches"
+   Column   |           Type           | Collation | Nullable |               Default
+------------+--------------------------+-----------+----------+-------------------------------------
+ id         | integer                  |           | not null | nextval('coaches_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ coach_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "coaches_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# drop table clips,coaches,players,users,video_tags,videos;
+DROP TABLE
+tennis=# \d coaches
+Did not find any relation named "coaches".
+tennis=# \d coaches
+                                       Table "public.coaches"
+   Column   |           Type           | Collation | Nullable |               Default
+------------+--------------------------+-----------+----------+-------------------------------------
+ id         | integer                  |           | not null | nextval('coaches_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ coach_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "coaches_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# \d coaches
+                                       Table "public.coaches"
+   Column   |           Type           | Collation | Nullable |               Default
+------------+--------------------------+-----------+----------+-------------------------------------
+ id         | integer                  |           | not null | nextval('coaches_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ coach_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "coaches_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# \d videos
+                                       Table "public.videos"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+------------------------------------
+ id         | integer                  |           | not null | nextval('videos_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ video_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "videos_pkey" PRIMARY KEY, btree (id)
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d video
+Did not find any relation named "video".
+tennis=# \d videos
+                                       Table "public.videos"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+------------------------------------
+ id         | integer                  |           | not null | nextval('videos_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ video_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "videos_pkey" PRIMARY KEY, btree (id)
+
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# drop table clips,coaches,players,users,video_tags,videos;
+ERROR:  cannot drop desired object(s) because other objects depend on them
+DETAIL:  constraint type_match_player_id_fkey on table type_match depends on table players
+constraint type_practice_player_id_fkey on table type_practice depends on table players
+constraint clip_tags_clip_id_fkey on table clip_tags depends on table clips
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# \d
+                  List of relations
+ Schema |         Name         |   Type   |  Owner
+--------+----------------------+----------+----------
+ public | clip_tags            | table    | postgres
+ public | clip_tags_id_seq     | sequence | postgres
+ public | clips                | table    | postgres
+ public | clips_id_seq         | sequence | postgres
+ public | coaches              | table    | postgres
+ public | coaches_id_seq       | sequence | postgres
+ public | players              | table    | postgres
+ public | players_id_seq       | sequence | postgres
+ public | type_match           | table    | postgres
+ public | type_match_id_seq    | sequence | postgres
+ public | type_practice        | table    | postgres
+ public | type_practice_id_seq | sequence | postgres
+ public | users                | table    | postgres
+ public | users_id_seq         | sequence | postgres
+ public | video_tags           | table    | postgres
+ public | video_tags_id_seq    | sequence | postgres
+ public | videos               | table    | postgres
+ public | videos_id_seq        | sequence | postgres
+(18 rows)
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \d
+Did not find any relations.
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "type_match" CONSTRAINT "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d type_match
+                                       Table "public.type_match"
+   Column   |           Type           | Collation | Nullable |                Default
+------------+--------------------------+-----------+----------+----------------------------------------
+ id         | integer                  |           | not null | nextval('type_match_id_seq'::regclass)
+ tag_id     | integer                  |           |          |
+ player_id  | integer                  |           |          |
+ tournament | character varying(255)   |           |          |
+ result     | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "type_match_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "type_match" CONSTRAINT "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \d l
+Did not find any relation named "l".
+tennis=# \l
+                                               List of databases
+   Name    |  Owner   | Encoding |         Collate          |          Ctype           |   Access privileges
+-----------+----------+----------+--------------------------+--------------------------+-----------------------
+ postgres  | postgres | UTF8     | English_Philippines.1252 | English_Philippines.1252 |
+ template0 | postgres | UTF8     | English_Philippines.1252 | English_Philippines.1252 | =c/postgres          +
+           |          |          |                          |                          | postgres=CTc/postgres
+ template1 | postgres | UTF8     | English_Philippines.1252 | English_Philippines.1252 | =c/postgres          +
+           |          |          |                          |                          | postgres=CTc/postgres
+ tennis    | postgres | UTF8     | English_Philippines.1252 | English_Philippines.1252 |
+ testdb    | postgres | UTF8     | English_Philippines.1252 | English_Philippines.1252 |
+ trainerdb | postgres | UTF8     | English_Philippines.1252 | English_Philippines.1252 |
+(6 rows)
+
+
+tennis=# \d
+Did not find any relations.
+tennis=# \d clip_tags
+Did not find any relation named "clip_tags".
+tennis=# \d clip_tags
+                                      Table "public.clip_tags"
+  Column   |           Type           | Collation | Nullable |                Default
+-----------+--------------------------+-----------+----------+---------------------------------------
+ id        | integer                  |           | not null | nextval('clip_tags_id_seq'::regclass)
+ clip_id   | integer                  |           |          |
+ set       | integer                  |           |          |
+ game      | integer                  |           |          |
+ serve_in  | boolean                  |           |          |
+ serve_won | boolean                  |           |          |
+ createdAt | timestamp with time zone |           | not null |
+ updatedAt | timestamp with time zone |           | not null |
+Indexes:
+    "clip_tags_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "clip_tags_clip_id_fkey" FOREIGN KEY (clip_id) REFERENCES clips(id) ON UPDATE CASCADE
+
+
+tennis=# \d clips
+                                       Table "public.clips"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('clips_id_seq'::regclass)
+ video_id   | integer                  |           |          |
+ clip_name  | character varying(255)   |           |          |
+ start_time | timestamp with time zone |           |          |
+ end_time   | timestamp with time zone |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "clips_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "clips_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "clip_tags" CONSTRAINT "clip_tags_clip_id_fkey" FOREIGN KEY (clip_id) REFERENCES clips(id) ON UPDATE CASCADE
+
+
+tennis=# \d videos
+                                       Table "public.videos"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+------------------------------------
+ id         | integer                  |           | not null | nextval('videos_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ video_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "videos_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "clips" CONSTRAINT "clips_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+    TABLE "video_tags" CONSTRAINT "video_tags_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+
+
+tennis=# \d type_match
+                                       Table "public.type_match"
+   Column   |           Type           | Collation | Nullable |                Default
+------------+--------------------------+-----------+----------+----------------------------------------
+ id         | integer                  |           | not null | nextval('type_match_id_seq'::regclass)
+ tag_id     | integer                  |           |          |
+ player_id  | integer                  |           |          |
+ tournament | character varying(255)   |           |          |
+ result     | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "type_match_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d video_tag
+Did not find any relation named "video_tag".
+tennis=# \d video_tags
+                                        Table "public.video_tags"
+    Column    |           Type           | Collation | Nullable |                Default
+--------------+--------------------------+-----------+----------+----------------------------------------
+ id           | integer                  |           | not null | nextval('video_tags_id_seq'::regclass)
+ video_id     | integer                  |           |          |
+ opponent     | character varying(255)   |           |          |
+ match_type   | character varying(255)   |           |          |
+ set          | integer                  |           |          |
+ game         | integer                  |           |          |
+ match_length | timestamp with time zone |           |          |
+ location     | character varying(255)   |           |          |
+ createdAt    | timestamp with time zone |           | not null |
+ updatedAt    | timestamp with time zone |           | not null |
+Indexes:
+    "video_tags_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "video_tags_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+
+
+tennis=# \d video_tags
+                                        Table "public.video_tags"
+    Column    |           Type           | Collation | Nullable |                Default
+--------------+--------------------------+-----------+----------+----------------------------------------
+ id           | integer                  |           | not null | nextval('video_tags_id_seq'::regclass)
+ video_id     | integer                  |           |          |
+ opponent     | character varying(255)   |           |          |
+ match_type   | character varying(255)   |           |          |
+ set          | integer                  |           |          |
+ game         | integer                  |           |          |
+ match_length | timestamp with time zone |           |          |
+ location     | character varying(255)   |           |          |
+ createdAt    | timestamp with time zone |           | not null |
+ updatedAt    | timestamp with time zone |           | not null |
+Indexes:
+    "video_tags_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "video_tags_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+
+
+tennis=# \d video_tags
+                                        Table "public.video_tags"
+    Column    |           Type           | Collation | Nullable |                Default
+--------------+--------------------------+-----------+----------+----------------------------------------
+ id           | integer                  |           | not null | nextval('video_tags_id_seq'::regclass)
+ video_id     | integer                  |           |          |
+ opponent     | character varying(255)   |           |          |
+ match_type   | character varying(255)   |           |          |
+ set          | integer                  |           |          |
+ game         | integer                  |           |          |
+ match_length | timestamp with time zone |           |          |
+ location     | character varying(255)   |           |          |
+ createdAt    | timestamp with time zone |           | not null |
+ updatedAt    | timestamp with time zone |           | not null |
+Indexes:
+    "video_tags_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "video_tags_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+
+
+tennis=# \d video_tags
+                                        Table "public.video_tags"
+    Column    |           Type           | Collation | Nullable |                Default
+--------------+--------------------------+-----------+----------+----------------------------------------
+ id           | integer                  |           | not null | nextval('video_tags_id_seq'::regclass)
+ video_id     | integer                  |           |          |
+ opponent     | character varying(255)   |           |          |
+ match_type   | character varying(255)   |           |          |
+ set          | integer                  |           |          |
+ game         | integer                  |           |          |
+ match_length | timestamp with time zone |           |          |
+ location     | character varying(255)   |           |          |
+ createdAt    | timestamp with time zone |           | not null |
+ updatedAt    | timestamp with time zone |           | not null |
+Indexes:
+    "video_tags_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "video_tags_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+
+
+tennis=# \d video_tags
+                                        Table "public.video_tags"
+    Column    |           Type           | Collation | Nullable |                Default
+--------------+--------------------------+-----------+----------+----------------------------------------
+ id           | integer                  |           | not null | nextval('video_tags_id_seq'::regclass)
+ video_id     | integer                  |           |          |
+ opponent     | character varying(255)   |           |          |
+ match_type   | character varying(255)   |           |          |
+ set          | integer                  |           |          |
+ game         | integer                  |           |          |
+ match_length | timestamp with time zone |           |          |
+ location     | character varying(255)   |           |          |
+ createdAt    | timestamp with time zone |           | not null |
+ updatedAt    | timestamp with time zone |           | not null |
+Indexes:
+    "video_tags_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "video_tags_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d video_tags
+                                        Table "public.video_tags"
+    Column    |           Type           | Collation | Nullable |                Default
+--------------+--------------------------+-----------+----------+----------------------------------------
+ id           | integer                  |           | not null | nextval('video_tags_id_seq'::regclass)
+ video_id     | integer                  |           |          |
+ opponent     | character varying(255)   |           |          |
+ match_type   | character varying(255)   |           |          |
+ set          | integer                  |           |          |
+ game         | integer                  |           |          |
+ match_length | timestamp with time zone |           |          |
+ location     | character varying(255)   |           |          |
+ createdAt    | timestamp with time zone |           | not null |
+ updatedAt    | timestamp with time zone |           | not null |
+Indexes:
+    "video_tags_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "video_tags_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \d users
+Did not find any relation named "users".
+tennis=# \d video_tags
+Did not find any relation named "video_tags".
+tennis=# \d type_match
+                                       Table "public.type_match"
+   Column   |           Type           | Collation | Nullable |                Default
+------------+--------------------------+-----------+----------+----------------------------------------
+ id         | integer                  |           | not null | nextval('type_match_id_seq'::regclass)
+ tag_id     | integer                  |           |          |
+ player_id  | integer                  |           |          |
+ tournament | character varying(255)   |           |          |
+ result     | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "type_match_pkey" PRIMARY KEY, btree (id)
+
+
+tennis=# \d type_match
+                                       Table "public.type_match"
+   Column   |           Type           | Collation | Nullable |                Default
+------------+--------------------------+-----------+----------+----------------------------------------
+ id         | integer                  |           | not null | nextval('type_match_id_seq'::regclass)
+ tag_id     | integer                  |           |          |
+ player_id  | integer                  |           |          |
+ tournament | character varying(255)   |           |          |
+ result     | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "type_match_pkey" PRIMARY KEY, btree (id)
+
+
+tennis=# \d type_match
+                                       Table "public.type_match"
+   Column   |           Type           | Collation | Nullable |                Default
+------------+--------------------------+-----------+----------+----------------------------------------
+ id         | integer                  |           | not null | nextval('type_match_id_seq'::regclass)
+ tag_id     | integer                  |           |          |
+ player_id  | integer                  |           |          |
+ tournament | character varying(255)   |           |          |
+ result     | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "type_match_pkey" PRIMARY KEY, btree (id)
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d type_match
+                                       Table "public.type_match"
+   Column   |           Type           | Collation | Nullable |                Default
+------------+--------------------------+-----------+----------+----------------------------------------
+ id         | integer                  |           | not null | nextval('type_match_id_seq'::regclass)
+ tag_id     | integer                  |           |          |
+ player_id  | integer                  |           |          |
+ tournament | character varying(255)   |           |          |
+ result     | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "type_match_pkey" PRIMARY KEY, btree (id)
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+ERROR:  table "clip_tags" does not exist
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d video_tags
+                                        Table "public.video_tags"
+    Column    |           Type           | Collation | Nullable |                Default
+--------------+--------------------------+-----------+----------+----------------------------------------
+ id           | integer                  |           | not null | nextval('video_tags_id_seq'::regclass)
+ video_id     | integer                  |           |          |
+ opponent     | character varying(255)   |           |          |
+ match_type   | character varying(255)   |           |          |
+ set          | integer                  |           |          |
+ game         | integer                  |           |          |
+ match_length | timestamp with time zone |           |          |
+ location     | character varying(255)   |           |          |
+ createdAt    | timestamp with time zone |           | not null |
+ updatedAt    | timestamp with time zone |           | not null |
+Indexes:
+    "video_tags_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "video_tags_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "type_match" CONSTRAINT "type_match_tag_id_fkey" FOREIGN KEY (tag_id) REFERENCES video_tags(id) ON UPDATE CASCADE
+
+
+tennis=# \d
+                  List of relations
+ Schema |         Name         |   Type   |  Owner
+--------+----------------------+----------+----------
+ public | clip_tags            | table    | postgres
+ public | clip_tags_id_seq     | sequence | postgres
+ public | clips                | table    | postgres
+ public | clips_id_seq         | sequence | postgres
+ public | coaches              | table    | postgres
+ public | coaches_id_seq       | sequence | postgres
+ public | players              | table    | postgres
+ public | players_id_seq       | sequence | postgres
+ public | type_match           | table    | postgres
+ public | type_match_id_seq    | sequence | postgres
+ public | type_practice        | table    | postgres
+ public | type_practice_id_seq | sequence | postgres
+ public | users                | table    | postgres
+ public | users_id_seq         | sequence | postgres
+ public | video_tags           | table    | postgres
+ public | video_tags_id_seq    | sequence | postgres
+ public | videos               | table    | postgres
+ public | videos_id_seq        | sequence | postgres
+(18 rows)
+
+
+tennis=# \d clip_tags
+                                      Table "public.clip_tags"
+  Column   |           Type           | Collation | Nullable |                Default
+-----------+--------------------------+-----------+----------+---------------------------------------
+ id        | integer                  |           | not null | nextval('clip_tags_id_seq'::regclass)
+ clip_id   | integer                  |           |          |
+ set       | integer                  |           |          |
+ game      | integer                  |           |          |
+ serve_in  | boolean                  |           |          |
+ serve_won | boolean                  |           |          |
+ createdAt | timestamp with time zone |           | not null |
+ updatedAt | timestamp with time zone |           | not null |
+Indexes:
+    "clip_tags_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "clip_tags_clip_id_fkey" FOREIGN KEY (clip_id) REFERENCES clips(id) ON UPDATE CASCADE
+
+
+tennis=# \d clips
+                                       Table "public.clips"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('clips_id_seq'::regclass)
+ video_id   | integer                  |           |          |
+ clip_name  | character varying(255)   |           |          |
+ start_time | timestamp with time zone |           |          |
+ end_time   | timestamp with time zone |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "clips_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "clips_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "clip_tags" CONSTRAINT "clip_tags_clip_id_fkey" FOREIGN KEY (clip_id) REFERENCES clips(id) ON UPDATE CASCADE
+
+
+tennis=# \d coaches
+                                       Table "public.coaches"
+   Column   |           Type           | Collation | Nullable |               Default
+------------+--------------------------+-----------+----------+-------------------------------------
+ id         | integer                  |           | not null | nextval('coaches_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ coach_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "coaches_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "players" CONSTRAINT "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# \d users\q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \d users
+Did not find any relation named "users".
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "players" CONSTRAINT "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "players" CONSTRAINT "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "players" CONSTRAINT "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \d players
+Did not find any relation named "players".
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d type_match
+                                       Table "public.type_match"
+   Column   |           Type           | Collation | Nullable |                Default
+------------+--------------------------+-----------+----------+----------------------------------------
+ id         | integer                  |           | not null | nextval('type_match_id_seq'::regclass)
+ tag_id     | integer                  |           |          |
+ player_id  | integer                  |           |          |
+ tournament | character varying(255)   |           |          |
+ result     | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "type_match_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "type_match_tag_id_fkey" FOREIGN KEY (tag_id) REFERENCES video_tags(id) ON UPDATE CASCADE
+
+
+tennis=# \d type_practice
+                                      Table "public.type_practice"
+  Column   |           Type           | Collation | Nullable |                  Default
+-----------+--------------------------+-----------+----------+-------------------------------------------
+ id        | integer                  |           | not null | nextval('type_practice_id_seq'::regclass)
+ tag_id    | integer                  |           |          |
+ player_id | integer                  |           |          |
+ createdAt | timestamp with time zone |           | not null |
+ updatedAt | timestamp with time zone |           | not null |
+Indexes:
+    "type_practice_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d type_practice
+                                      Table "public.type_practice"
+  Column   |           Type           | Collation | Nullable |                  Default
+-----------+--------------------------+-----------+----------+-------------------------------------------
+ id        | integer                  |           | not null | nextval('type_practice_id_seq'::regclass)
+ tag_id    | integer                  |           |          |
+ player_id | integer                  |           |          |
+ createdAt | timestamp with time zone |           | not null |
+ updatedAt | timestamp with time zone |           | not null |
+Indexes:
+    "type_practice_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=#     Type_matchModel.associate = () => {
+tennis-#       Type_matchModel.belongsTo(datasource.models.PlayerModel, {
+tennis(#         foreignKey: 'player_id',
+tennis(#         as: 'player'
+tennis(#       });
+ERROR:  syntax error at or near "Type_matchModel"
+LINE 1: Type_matchModel.associate = () => {
+        ^
+tennis=#       });
+ERROR:  syntax error at or near "}"
+LINE 1: });
+        ^
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d type_match
+                                       Table "public.type_match"
+   Column   |           Type           | Collation | Nullable |                Default
+------------+--------------------------+-----------+----------+----------------------------------------
+ id         | integer                  |           | not null | nextval('type_match_id_seq'::regclass)
+ tag_id     | integer                  |           |          |
+ player_id  | integer                  |           |          |
+ tournament | character varying(255)   |           |          |
+ result     | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "type_match_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "type_match_tag_id_fkey" FOREIGN KEY (tag_id) REFERENCES video_tags(id) ON UPDATE CASCADE
+
+
+tennis=# \d videos
+                                       Table "public.videos"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+------------------------------------
+ id         | integer                  |           | not null | nextval('videos_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ video_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "videos_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "clips" CONSTRAINT "clips_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+    TABLE "video_tags" CONSTRAINT "video_tags_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \d
+Did not find any relations.
+tennis=# \d
+                  List of relations
+ Schema |         Name         |   Type   |  Owner
+--------+----------------------+----------+----------
+ public | clip_tags            | table    | postgres
+ public | clip_tags_id_seq     | sequence | postgres
+ public | clips                | table    | postgres
+ public | clips_id_seq         | sequence | postgres
+ public | coaches              | table    | postgres
+ public | coaches_id_seq       | sequence | postgres
+ public | players              | table    | postgres
+ public | players_id_seq       | sequence | postgres
+ public | type_match           | table    | postgres
+ public | type_match_id_seq    | sequence | postgres
+ public | type_practice        | table    | postgres
+ public | type_practice_id_seq | sequence | postgres
+ public | users                | table    | postgres
+ public | users_id_seq         | sequence | postgres
+ public | video_tags           | table    | postgres
+ public | video_tags_id_seq    | sequence | postgres
+ public | videos               | table    | postgres
+ public | videos_id_seq        | sequence | postgres
+(18 rows)
+
+
+tennis=# \d clip_tags
+                                      Table "public.clip_tags"
+  Column   |           Type           | Collation | Nullable |                Default
+-----------+--------------------------+-----------+----------+---------------------------------------
+ id        | integer                  |           | not null | nextval('clip_tags_id_seq'::regclass)
+ clip_id   | integer                  |           |          |
+ set       | integer                  |           |          |
+ game      | integer                  |           |          |
+ serve_in  | boolean                  |           |          |
+ serve_won | boolean                  |           |          |
+ createdAt | timestamp with time zone |           | not null |
+ updatedAt | timestamp with time zone |           | not null |
+Indexes:
+    "clip_tags_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "clip_tags_clip_id_fkey" FOREIGN KEY (clip_id) REFERENCES clips(id) ON UPDATE CASCADE
+
+
+tennis=# \d videos
+                                       Table "public.videos"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+------------------------------------
+ id         | integer                  |           | not null | nextval('videos_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ video_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "videos_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "clips" CONSTRAINT "clips_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d videos
+                                       Table "public.videos"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+------------------------------------
+ id         | integer                  |           | not null | nextval('videos_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ video_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "videos_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "clips" CONSTRAINT "clips_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \d
+                  List of relations
+ Schema |         Name         |   Type   |  Owner
+--------+----------------------+----------+----------
+ public | clip_tags            | table    | postgres
+ public | clip_tags_id_seq     | sequence | postgres
+ public | clips                | table    | postgres
+ public | clips_id_seq         | sequence | postgres
+ public | coaches              | table    | postgres
+ public | coaches_id_seq       | sequence | postgres
+ public | players              | table    | postgres
+ public | players_id_seq       | sequence | postgres
+ public | type_match           | table    | postgres
+ public | type_match_id_seq    | sequence | postgres
+ public | type_practice        | table    | postgres
+ public | type_practice_id_seq | sequence | postgres
+ public | users                | table    | postgres
+ public | users_id_seq         | sequence | postgres
+ public | video_tags           | table    | postgres
+ public | video_tags_id_seq    | sequence | postgres
+ public | videos               | table    | postgres
+ public | videos_id_seq        | sequence | postgres
+(18 rows)
+
+
+tennis=# \d videos
+                                       Table "public.videos"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+------------------------------------
+ id         | integer                  |           | not null | nextval('videos_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ video_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "videos_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "clips" CONSTRAINT "clips_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE
+    TABLE "video_tags" CONSTRAINT "video_tags_video_id_fkey" FOREIGN KEY (video_id) REFERENCES videos(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "type_match" CONSTRAINT "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "players" CONSTRAINT "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \d
+Did not find any relations.
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d
+                  List of relations
+ Schema |         Name         |   Type   |  Owner
+--------+----------------------+----------+----------
+ public | clip_tags            | table    | postgres
+ public | clip_tags_id_seq     | sequence | postgres
+ public | clips                | table    | postgres
+ public | clips_id_seq         | sequence | postgres
+ public | coaches              | table    | postgres
+ public | coaches_id_seq       | sequence | postgres
+ public | players              | table    | postgres
+ public | players_id_seq       | sequence | postgres
+ public | type_match           | table    | postgres
+ public | type_match_id_seq    | sequence | postgres
+ public | type_practice        | table    | postgres
+ public | type_practice_id_seq | sequence | postgres
+ public | users                | table    | postgres
+ public | users_id_seq         | sequence | postgres
+ public | video_tags           | table    | postgres
+ public | video_tags_id_seq    | sequence | postgres
+ public | videos               | table    | postgres
+ public | videos_id_seq        | sequence | postgres
+(18 rows)
+
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "type_match" CONSTRAINT "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# \d
+                  List of relations
+ Schema |         Name         |   Type   |  Owner
+--------+----------------------+----------+----------
+ public | clip_tags            | table    | postgres
+ public | clip_tags_id_seq     | sequence | postgres
+ public | clips                | table    | postgres
+ public | clips_id_seq         | sequence | postgres
+ public | coaches              | table    | postgres
+ public | coaches_id_seq       | sequence | postgres
+ public | players              | table    | postgres
+ public | players_id_seq       | sequence | postgres
+ public | type_match           | table    | postgres
+ public | type_match_id_seq    | sequence | postgres
+ public | type_practice        | table    | postgres
+ public | type_practice_id_seq | sequence | postgres
+ public | users                | table    | postgres
+ public | users_id_seq         | sequence | postgres
+ public | video_tags           | table    | postgres
+ public | video_tags_id_seq    | sequence | postgres
+ public | videos               | table    | postgres
+ public | videos_id_seq        | sequence | postgres
+(18 rows)
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d user
+Did not find any relation named "user".
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \d
+Did not find any relations.
+tennis=# \d
+Did not find any relations.
+tennis=# \d
+                  List of relations
+ Schema |         Name         |   Type   |  Owner
+--------+----------------------+----------+----------
+ public | clip_tags            | table    | postgres
+ public | clip_tags_id_seq     | sequence | postgres
+ public | clips                | table    | postgres
+ public | clips_id_seq         | sequence | postgres
+ public | coaches              | table    | postgres
+ public | coaches_id_seq       | sequence | postgres
+ public | players              | table    | postgres
+ public | players_id_seq       | sequence | postgres
+ public | type_match           | table    | postgres
+ public | type_match_id_seq    | sequence | postgres
+ public | type_practice        | table    | postgres
+ public | type_practice_id_seq | sequence | postgres
+ public | users                | table    | postgres
+ public | users_id_seq         | sequence | postgres
+ public | video_tags           | table    | postgres
+ public | video_tags_id_seq    | sequence | postgres
+ public | videos               | table    | postgres
+ public | videos_id_seq        | sequence | postgres
+(18 rows)
+
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d
+Did not find any relations.
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d
+                  List of relations
+ Schema |         Name         |   Type   |  Owner
+--------+----------------------+----------+----------
+ public | clip_tags            | table    | postgres
+ public | clip_tags_id_seq     | sequence | postgres
+ public | clips                | table    | postgres
+ public | clips_id_seq         | sequence | postgres
+ public | coaches              | table    | postgres
+ public | coaches_id_seq       | sequence | postgres
+ public | players              | table    | postgres
+ public | players_id_seq       | sequence | postgres
+ public | type_match           | table    | postgres
+ public | type_match_id_seq    | sequence | postgres
+ public | type_practice        | table    | postgres
+ public | type_practice_id_seq | sequence | postgres
+ public | users                | table    | postgres
+ public | users_id_seq         | sequence | postgres
+ public | video_tags           | table    | postgres
+ public | video_tags_id_seq    | sequence | postgres
+ public | videos               | table    | postgres
+ public | videos_id_seq        | sequence | postgres
+(18 rows)
+
+
+tennis=# \s users
+history is not supported by this installation
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "players" CONSTRAINT "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "type_match" CONSTRAINT "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "type_match" CONSTRAINT "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "players" CONSTRAINT "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# \d coaches
+                                       Table "public.coaches"
+   Column   |           Type           | Collation | Nullable |               Default
+------------+--------------------------+-----------+----------+-------------------------------------
+ id         | integer                  |           | not null | nextval('coaches_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ coach_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "coaches_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "type_match" CONSTRAINT "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d
+                  List of relations
+ Schema |         Name         |   Type   |  Owner
+--------+----------------------+----------+----------
+ public | clip_tags            | table    | postgres
+ public | clip_tags_id_seq     | sequence | postgres
+ public | clips                | table    | postgres
+ public | clips_id_seq         | sequence | postgres
+ public | coaches              | table    | postgres
+ public | coaches_id_seq       | sequence | postgres
+ public | players              | table    | postgres
+ public | players_id_seq       | sequence | postgres
+ public | type_match           | table    | postgres
+ public | type_match_id_seq    | sequence | postgres
+ public | type_practice        | table    | postgres
+ public | type_practice_id_seq | sequence | postgres
+ public | users                | table    | postgres
+ public | users_id_seq         | sequence | postgres
+ public | video_tags           | table    | postgres
+ public | video_tags_id_seq    | sequence | postgres
+ public | videos               | table    | postgres
+ public | videos_id_seq        | sequence | postgres
+(18 rows)
+
+
+tennis=# \d playes
+Did not find any relation named "playes".
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "type_match" CONSTRAINT "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "type_match" CONSTRAINT "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "type_match" CONSTRAINT "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "type_match" CONSTRAINT "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "type_match" CONSTRAINT "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# ]d players
+tennis-# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+Referenced by:
+    TABLE "type_match" CONSTRAINT "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis-# \d type_match
+                                       Table "public.type_match"
+   Column   |           Type           | Collation | Nullable |                Default
+------------+--------------------------+-----------+----------+----------------------------------------
+ id         | integer                  |           | not null | nextval('type_match_id_seq'::regclass)
+ tag_id     | integer                  |           |          |
+ player_id  | integer                  |           |          |
+ tournament | character varying(255)   |           |          |
+ result     | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "type_match_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis-# \d type_practice
+                                      Table "public.type_practice"
+  Column   |           Type           | Collation | Nullable |                  Default
+-----------+--------------------------+-----------+----------+-------------------------------------------
+ id        | integer                  |           | not null | nextval('type_practice_id_seq'::regclass)
+ tag_id    | integer                  |           |          |
+ player_id | integer                  |           |          |
+ createdAt | timestamp with time zone |           | not null |
+ updatedAt | timestamp with time zone |           | not null |
+Indexes:
+    "type_practice_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    "type_practice_tag_id_fkey" FOREIGN KEY (tag_id) REFERENCES video_tags(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis-# \d video_tags
+                                        Table "public.video_tags"
+    Column    |           Type           | Collation | Nullable |                Default
+--------------+--------------------------+-----------+----------+----------------------------------------
+ id           | integer                  |           | not null | nextval('video_tags_id_seq'::regclass)
+ video_id     | integer                  |           |          |
+ opponent     | character varying(255)   |           |          |
+ match_type   | character varying(255)   |           |          |
+ set          | integer                  |           |          |
+ game         | integer                  |           |          |
+ match_length | timestamp with time zone |           |          |
+ location     | character varying(255)   |           |          |
+ createdAt    | timestamp with time zone |           | not null |
+ updatedAt    | timestamp with time zone |           | not null |
+Indexes:
+    "video_tags_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_tag_id_fkey" FOREIGN KEY (tag_id) REFERENCES video_tags(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis-# \d video_tags
+                                        Table "public.video_tags"
+    Column    |           Type           | Collation | Nullable |                Default
+--------------+--------------------------+-----------+----------+----------------------------------------
+ id           | integer                  |           | not null | nextval('video_tags_id_seq'::regclass)
+ video_id     | integer                  |           |          |
+ opponent     | character varying(255)   |           |          |
+ match_type   | character varying(255)   |           |          |
+ set          | integer                  |           |          |
+ game         | integer                  |           |          |
+ match_length | timestamp with time zone |           |          |
+ location     | character varying(255)   |           |          |
+ createdAt    | timestamp with time zone |           | not null |
+ updatedAt    | timestamp with time zone |           | not null |
+Indexes:
+    "video_tags_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_tag_id_fkey" FOREIGN KEY (tag_id) REFERENCES video_tags(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis-# \d video_tags
+                                        Table "public.video_tags"
+    Column    |           Type           | Collation | Nullable |                Default
+--------------+--------------------------+-----------+----------+----------------------------------------
+ id           | integer                  |           | not null | nextval('video_tags_id_seq'::regclass)
+ video_id     | integer                  |           |          |
+ opponent     | character varying(255)   |           |          |
+ match_type   | character varying(255)   |           |          |
+ set          | integer                  |           |          |
+ game         | integer                  |           |          |
+ match_length | timestamp with time zone |           |          |
+ location     | character varying(255)   |           |          |
+ createdAt    | timestamp with time zone |           | not null |
+ updatedAt    | timestamp with time zone |           | not null |
+Indexes:
+    "video_tags_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_tag_id_fkey" FOREIGN KEY (tag_id) REFERENCES video_tags(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis-# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+ERROR:  syntax error at or near "]"
+LINE 1: ]d players
+        ^
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;\q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d video_tags
+                                        Table "public.video_tags"
+    Column    |           Type           | Collation | Nullable |                Default
+--------------+--------------------------+-----------+----------+----------------------------------------
+ id           | integer                  |           | not null | nextval('video_tags_id_seq'::regclass)
+ video_id     | integer                  |           |          |
+ opponent     | character varying(255)   |           |          |
+ match_type   | character varying(255)   |           |          |
+ set          | integer                  |           |          |
+ game         | integer                  |           |          |
+ match_length | timestamp with time zone |           |          |
+ location     | character varying(255)   |           |          |
+ createdAt    | timestamp with time zone |           | not null |
+ updatedAt    | timestamp with time zone |           | not null |
+Indexes:
+    "video_tags_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_tag_id_fkey" FOREIGN KEY (tag_id) REFERENCES video_tags(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# \d type_match
+                                       Table "public.type_match"
+   Column   |           Type           | Collation | Nullable |                Default
+------------+--------------------------+-----------+----------+----------------------------------------
+ id         | integer                  |           | not null | nextval('type_match_id_seq'::regclass)
+ tag_id     | integer                  |           |          |
+ player_id  | integer                  |           |          |
+ tournament | character varying(255)   |           |          |
+ result     | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "type_match_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+
+
+tennis=# \d suers
+Did not find any relation named "suers".
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "players" CONSTRAINT "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# \d coaches
+                                       Table "public.coaches"
+   Column   |           Type           | Collation | Nullable |               Default
+------------+--------------------------+-----------+----------+-------------------------------------
+ id         | integer                  |           | not null | nextval('coaches_id_seq'::regclass)
+ user_id    | integer                  |           |          |
+ coach_name | character varying(255)   |           |          |
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "coaches_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \d
+Did not find any relations.
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql: FATAL:  password authentication failed for user "postgres"
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d
+                  List of relations
+ Schema |         Name         |   Type   |  Owner
+--------+----------------------+----------+----------
+ public | clip_tags            | table    | postgres
+ public | clip_tags_id_seq     | sequence | postgres
+ public | clips                | table    | postgres
+ public | clips_id_seq         | sequence | postgres
+ public | coaches              | table    | postgres
+ public | coaches_id_seq       | sequence | postgres
+ public | players              | table    | postgres
+ public | players_id_seq       | sequence | postgres
+ public | type_match           | table    | postgres
+ public | type_match_id_seq    | sequence | postgres
+ public | type_practice        | table    | postgres
+ public | type_practice_id_seq | sequence | postgres
+ public | users                | table    | postgres
+ public | users_id_seq         | sequence | postgres
+ public | video_tags           | table    | postgres
+ public | video_tags_id_seq    | sequence | postgres
+ public | videos               | table    | postgres
+ public | videos_id_seq        | sequence | postgres
+(18 rows)
+
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# \d players
+                                       Table "public.players"
+   Column    |           Type           | Collation | Nullable |               Default
+-------------+--------------------------+-----------+----------+-------------------------------------
+ id          | integer                  |           | not null | nextval('players_id_seq'::regclass)
+ user_id     | integer                  |           |          |
+ player_name | character varying(255)   |           |          |
+ coach_id    | integer                  |           |          |
+ coach_name  | character varying(255)   |           |          |
+ createdAt   | timestamp with time zone |           | not null |
+ updatedAt   | timestamp with time zone |           | not null |
+Indexes:
+    "players_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "players_coach_id_fkey" FOREIGN KEY (coach_id) REFERENCES coaches(id) ON UPDATE CASCADE ON DELETE CASCADE
+Referenced by:
+    TABLE "type_match" CONSTRAINT "type_match_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    TABLE "type_practice" CONSTRAINT "type_practice_player_id_fkey" FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# \d video_tags
+                                        Table "public.video_tags"
+    Column    |           Type           | Collation | Nullable |                Default
+--------------+--------------------------+-----------+----------+----------------------------------------
+ id           | integer                  |           | not null | nextval('video_tags_id_seq'::regclass)
+ video_id     | integer                  |           |          |
+ opponent     | character varying(255)   |           |          |
+ match_type   | character varying(255)   |           |          |
+ set          | integer                  |           |          |
+ game         | integer                  |           |          |
+ match_length | timestamp with time zone |           |          |
+ location     | character varying(255)   |           |          |
+ createdAt    | timestamp with time zone |           | not null |
+ updatedAt    | timestamp with time zone |           | not null |
+Indexes:
+    "video_tags_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "type_practice" CONSTRAINT "type_practice_tag_id_fkey" FOREIGN KEY (tag_id) REFERENCES video_tags(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \d
+Did not find any relations.
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql: FATAL:  password authentication failed for user "postgres"
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d
+                  List of relations
+ Schema |         Name         |   Type   |  Owner
+--------+----------------------+----------+----------
+ public | clip_tags            | table    | postgres
+ public | clip_tags_id_seq     | sequence | postgres
+ public | clips                | table    | postgres
+ public | clips_id_seq         | sequence | postgres
+ public | coaches              | table    | postgres
+ public | coaches_id_seq       | sequence | postgres
+ public | players              | table    | postgres
+ public | players_id_seq       | sequence | postgres
+ public | type_match           | table    | postgres
+ public | type_match_id_seq    | sequence | postgres
+ public | type_practice        | table    | postgres
+ public | type_practice_id_seq | sequence | postgres
+ public | users                | table    | postgres
+ public | users_id_seq         | sequence | postgres
+ public | video_tags           | table    | postgres
+ public | video_tags_id_seq    | sequence | postgres
+ public | videos               | table    | postgres
+ public | videos_id_seq        | sequence | postgres
+(18 rows)
+
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "videos" CONSTRAINT "videos_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# d
+tennis-# \d
+Did not find any relations.
+tennis-# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;\q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d
+                  List of relations
+ Schema |         Name         |   Type   |  Owner
+--------+----------------------+----------+----------
+ public | clip_tags            | table    | postgres
+ public | clip_tags_id_seq     | sequence | postgres
+ public | clips                | table    | postgres
+ public | clips_id_seq         | sequence | postgres
+ public | coaches              | table    | postgres
+ public | coaches_id_seq       | sequence | postgres
+ public | players              | table    | postgres
+ public | players_id_seq       | sequence | postgres
+ public | type_match           | table    | postgres
+ public | type_match_id_seq    | sequence | postgres
+ public | type_practice        | table    | postgres
+ public | type_practice_id_seq | sequence | postgres
+ public | users                | table    | postgres
+ public | users_id_seq         | sequence | postgres
+ public | video_tags           | table    | postgres
+ public | video_tags_id_seq    | sequence | postgres
+ public | videos               | table    | postgres
+ public | videos_id_seq        | sequence | postgres
+(18 rows)
+
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "coaches" CONSTRAINT "coaches_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "players" CONSTRAINT "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# drop table clip_tags,clips,coaches,players,type_match,type_practice,users,video_tags,videos;
+DROP TABLE
+tennis=# \q
+
+C:\Users\Benjamin Matias>psql -h localhost -U postgres tennis
+Password for user postgres:
+psql (11.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+tennis=# \d users
+                                       Table "public.users"
+   Column   |           Type           | Collation | Nullable |              Default
+------------+--------------------------+-----------+----------+-----------------------------------
+ id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(255)   |           |          |
+ last_name  | character varying(255)   |           |          |
+ email      | character varying(255)   |           |          |
+ user_type  | character varying(255)   |           |          | 'player'::character varying
+ is_admin   | boolean                  |           |          | false
+ createdAt  | timestamp with time zone |           | not null |
+ updatedAt  | timestamp with time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "players" CONSTRAINT "players_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+tennis=# \q
+
+C:\Users\Benjamin Matias>-h
+'-h' is not recognized as an internal or external command,
+operable program or batch file.

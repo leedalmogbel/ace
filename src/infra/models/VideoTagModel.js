@@ -1,28 +1,31 @@
 
 module.exports = {
-  name: 'UserModel',
+  name: 'VideoTagModel',
   datasource: 'postgresqldb',
   definition: function(datasource, DataTypes) {
-    const UserModel = datasource.define('UserModel', {
+    const VideoTagModel = datasource.define('VideoTagModel', {
       id : {
         primaryKey: true,
         autoIncrement: true,
         type: DataTypes.INTEGER,
-      },firstName : {
+      }, 
+      videoId : {
+        type: DataTypes.INTEGER
+      },opponent : {
         type: DataTypes.STRING
-      },lastName : {
+      },matchType : {
         type: DataTypes.STRING
-      },email : {
+      },set : {
+        type: DataTypes.INTEGER
+      },game : {
+        type: DataTypes.INTEGER
+      },matchLength : {
+        type: DataTypes.DATE
+      },location : {
         type: DataTypes.STRING
-      },userType : {
-        type: DataTypes.STRING,
-        defaultValue: 'player'
-      },isAdmin : {
-        type: DataTypes.BOOLEAN,
-        defaultValue: 'f'
       },
     }, {
-      tableName: 'users',
+      tableName: 'videoTags',
       timestamps: true
     });
 
@@ -39,19 +42,20 @@ module.exports = {
      * refer to sequelize documentation https://sequelize.org/master/manual/associations.html
      */
 
-    UserModel.associate = () => {
-      UserModel.hasMany(datasource.models.CoachesModel, {
-        foreignKey: 'userId'
+    VideoTagModel.associate = () => {
+      VideoTagModel.belongsTo(datasource.models.VideoModel, {
+        foreignKey: 'videoId',
+        as: 'video'
       });
-      UserModel.hasMany(datasource.models.PlayerModel, {
-        foreignKey: 'userId'
+      VideoTagModel.hasMany(datasource.models.TypeMatchModel, {
+        foreignKey: 'tagId'
       });
-      UserModel.hasMany(datasource.models.VideoModel, {
-        foreignKey: 'userId'
+      VideoTagModel.hasMany(datasource.models.TypePracticeModel, {
+        foreignKey: 'tagId'
       });
     };
 
-    return UserModel;
+    return VideoTagModel;
   }
 };
   

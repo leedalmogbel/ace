@@ -1,28 +1,21 @@
 
 module.exports = {
-  name: 'UserModel',
+  name: 'VideoModel',
   datasource: 'postgresqldb',
   definition: function(datasource, DataTypes) {
-    const UserModel = datasource.define('UserModel', {
+    const VideoModel = datasource.define('VideoModel', {
       id : {
         primaryKey: true,
         autoIncrement: true,
         type: DataTypes.INTEGER,
-      },firstName : {
+      }, 
+      userId : {
+        type: DataTypes.INTEGER
+      },videoName : {
         type: DataTypes.STRING
-      },lastName : {
-        type: DataTypes.STRING
-      },email : {
-        type: DataTypes.STRING
-      },userType : {
-        type: DataTypes.STRING,
-        defaultValue: 'player'
-      },isAdmin : {
-        type: DataTypes.BOOLEAN,
-        defaultValue: 'f'
       },
     }, {
-      tableName: 'users',
+      tableName: 'videos',
       timestamps: true
     });
 
@@ -39,19 +32,20 @@ module.exports = {
      * refer to sequelize documentation https://sequelize.org/master/manual/associations.html
      */
 
-    UserModel.associate = () => {
-      UserModel.hasMany(datasource.models.CoachesModel, {
-        foreignKey: 'userId'
+    VideoModel.associate = () => {
+      VideoModel.belongsTo(datasource.models.UserModel, {
+        foreignKey: 'userId',
+        as: 'user'
       });
-      UserModel.hasMany(datasource.models.PlayerModel, {
-        foreignKey: 'userId'
+      VideoModel.hasMany(datasource.models.VideoTagModel, {
+        foreignKey: 'videoId'
       });
-      UserModel.hasMany(datasource.models.VideoModel, {
-        foreignKey: 'userId'
+      VideoModel.hasMany(datasource.models.ClipModel, {
+        foreignKey: 'videoId'
       });
     };
 
-    return UserModel;
+     return VideoModel;
   }
 };
   

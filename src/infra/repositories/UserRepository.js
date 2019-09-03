@@ -5,6 +5,8 @@ class UserRepository extends BaseRepository {
   constructor({ UserModel }) {
     super(UserModel);
   }
+
+  
 }
 
 module.exports = UserRepository;

@@ -1,28 +1,25 @@
 
 module.exports = {
-  name: 'UserModel',
+  name: 'TypeMatchModel',
   datasource: 'postgresqldb',
   definition: function(datasource, DataTypes) {
-    const UserModel = datasource.define('UserModel', {
+    const TypeMatchModel = datasource.define('TypeMatchModel', {
       id : {
         primaryKey: true,
         autoIncrement: true,
         type: DataTypes.INTEGER,
-      },firstName : {
+      }, 
+      tagId : {
+        type: DataTypes.INTEGER
+      },playerId : {
+        type: DataTypes.INTEGER
+      },tournament : {
         type: DataTypes.STRING
-      },lastName : {
+      },result : {
         type: DataTypes.STRING
-      },email : {
-        type: DataTypes.STRING
-      },userType : {
-        type: DataTypes.STRING,
-        defaultValue: 'player'
-      },isAdmin : {
-        type: DataTypes.BOOLEAN,
-        defaultValue: 'f'
       },
     }, {
-      tableName: 'users',
+      tableName: 'typeMatch',
       timestamps: true
     });
 
@@ -38,20 +35,19 @@ module.exports = {
      * 
      * refer to sequelize documentation https://sequelize.org/master/manual/associations.html
      */
-
-    UserModel.associate = () => {
-      UserModel.hasMany(datasource.models.CoachesModel, {
-        foreignKey: 'userId'
+    
+    TypeMatchModel.associate = () => {
+      TypeMatchModel.belongsTo(datasource.models.PlayerModel, {
+        foreignKey: 'playerId',
+        as: 'player'
       });
-      UserModel.hasMany(datasource.models.PlayerModel, {
-        foreignKey: 'userId'
-      });
-      UserModel.hasMany(datasource.models.VideoModel, {
-        foreignKey: 'userId'
+      TypeMatchModel.belongsTo(datasource.models.VideoTagModel, {
+        foreignKey: 'tagId',
+        as: 'tag'
       });
     };
 
-    return UserModel;
+    return TypeMatchModel;
   }
 };
   
