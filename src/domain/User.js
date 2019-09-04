@@ -7,8 +7,7 @@ const User = attributes({
   // createdAt: Date,
   // updatedAt: Date,
   id: Number,
-  firstName: String,
-  lastName: String,
+  name: String,
   email: {
     type: String,
     required: true
@@ -23,7 +22,7 @@ const User = attributes({
   //   return this.age >= User.MIN_LEGAL_AGE;
   // }
   isAdmin() {
-    return (this.userType === "admin") ? User.typeAdmin : User.typePlayer || User.typeCoach;
+    return this.userType === "admin" ? User.typeAdmin : User.typePlayer || User.typeCoach;
   }
 
 });

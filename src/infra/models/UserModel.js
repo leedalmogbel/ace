@@ -8,9 +8,7 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
         type: DataTypes.INTEGER,
-      },firstName : {
-        type: DataTypes.STRING
-      },lastName : {
+      },name : {
         type: DataTypes.STRING
       },email : {
         type: DataTypes.STRING

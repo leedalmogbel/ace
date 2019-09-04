@@ -10,7 +10,8 @@ module.exports = {
         type: DataTypes.INTEGER,
       }, 
       userId : {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        // allowNull: false
       },videoName : {
         type: DataTypes.STRING
       },

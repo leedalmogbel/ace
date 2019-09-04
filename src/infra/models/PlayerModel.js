@@ -13,6 +13,14 @@ module.exports = {
         type: DataTypes.INTEGER
       },playerName : {
         type: DataTypes.STRING
+      },gender : {
+        type: DataTypes.STRING
+      },height : {
+        type: DataTypes.INTEGER
+      },weight : {
+        type: DataTypes.INTEGER
+      },dominantHand : {
+        type: DataTypes.STRING
       },coachId : {
         type: DataTypes.INTEGER
       },coachName : {
