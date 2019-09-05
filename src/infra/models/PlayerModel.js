@@ -11,8 +11,8 @@ module.exports = {
       }, 
       userId : {
         type: DataTypes.INTEGER
-      },playerName : {
-        type: DataTypes.STRING
+      },coachId : {
+        type: DataTypes.INTEGER
       },gender : {
         type: DataTypes.STRING
       },height : {
@@ -21,10 +21,10 @@ module.exports = {
         type: DataTypes.INTEGER
       },dominantHand : {
         type: DataTypes.STRING
-      },coachId : {
+      },matchCounter : {
         type: DataTypes.INTEGER
-      },coachName : {
-        type: DataTypes.STRING
+      },practiceCounter : {
+        type: DataTypes.INTEGER
       }
     }, {
       tableName: 'players',

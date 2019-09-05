@@ -21,8 +21,11 @@ const User = attributes({
   // isLegal() {
   //   return this.age >= User.MIN_LEGAL_AGE;
   // }
-  isAdmin() {
-    return this.userType === "admin" ? User.typeAdmin : User.typePlayer || User.typeCoach;
+   isAdmin() {
+    const validation = this.userType === "admin" ? User.typeAdmin : User.typePlayer || User.typeCoach;
+    if (User.typeAdmin == true) {User.isAdmin = true;}
+    
+    return validation, User.isAdmin;
   }
 
 });
@@ -31,7 +34,9 @@ const User = attributes({
 // e.g.:
 //
 // User.MIN_LEGAL_AGE = 21;
+User.isAdmin = false
 User.typeAdmin = "admin"
 User.typePlayer = "player"
 User.typeCoach = "coach"
+
 module.exports = User;

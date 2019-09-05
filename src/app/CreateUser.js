@@ -2,9 +2,10 @@ const { Operation } = require('@brewery/core');
 const User = require('src/domain/User');
 
 class CreateUser extends Operation {
-  constructor({ UserRepository }) {
+  constructor({ UserRepository, CoachesRepository }) {
     super();
     this.UserRepository = UserRepository;
+    this.CoachesRepository = CoachesRepository;
   }
 
   async execute(data) {
@@ -14,7 +15,7 @@ class CreateUser extends Operation {
 
     try {
       const newUser = await this.UserRepository.add(user);
-
+      
       this.emit(SUCCESS, newUser);
     } catch(error) {
       if(error.message === 'ValidationError') {

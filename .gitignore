@@ -24,3 +24,9 @@ coverage/
 
 # IDE files
 .idea/
+
+# package directories
+jspm_packages
+
+# Serverless directories
+.serverless

@@ -27,8 +27,7 @@
   "author": "Josh Mante>",
   "license": "MIT",
   "dependencies": {
-    "@brewery/cli": "^1.0.5",
-    "@brewery/core": "^1.0.5",
+    "@brewery/core": "^1.0.6",
     "@brewery/sql-connector": "^1.0.2",
     "awilix": "^4.2.2",
     "awilix-express": "^2.1.1",
