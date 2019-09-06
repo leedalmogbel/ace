@@ -12,8 +12,8 @@
 # Happy Coding!
 
 service: tennis-trainer
-#app: your-app-name
-#tenant: your-tenant-name
+app: ace-node-backend
+org: bmatias
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -57,8 +57,11 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
+  createUser:
+    handler: src/app.
+    events:
+      - http:
+          path: api/users
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

@@ -18,6 +18,8 @@ module.exports = {
       },isAdmin : {
         type: DataTypes.BOOLEAN,
         defaultValue: 'f'
+      },googleUserId : {
+        type: DataTypes.INTEGER
       },
     }, {
       tableName: 'users',

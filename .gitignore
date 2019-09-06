@@ -1,31 +1,5 @@
-# Logs
-*.log
-
-# Node
-node_modules/
-
-# Project specific
-config/database.js
-# config/logging.js
-
-# Unit test / coverage reports
-coverage/
-.nyc_output
-
-# OS auto-generated files
-.DS_Store
-._*
-
-
-# Vim
-*~
-*.swp
-*.swo
-
-# IDE files
-.idea/
-
 # package directories
+node_modules
 jspm_packages
 
 # Serverless directories

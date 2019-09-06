@@ -17,9 +17,7 @@ const Coach = attributes({
   // isLegal() {
   //   return this.age >= User.MIN_LEGAL_AGE;
   // }
-  isCoach() {
-    return this.userType == Coach.type;
-  }
+  
 });
 
 // Add constants below

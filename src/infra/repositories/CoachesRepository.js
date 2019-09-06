@@ -6,16 +6,23 @@ class CoachesRepository extends BaseRepository {
     super(CoachesModel);
   }
   
-  async createCoach() {
-    return this.model.create({
+  async createCoach(id, res) {
+    const coach = await this.model.create({
       include: [{
-        
-      }]
+        model: UserModel,
+        where: {
+          userType: 'coach'
+        },
+        through: {attributes: []}
+      }],
+      where: {userId: id},
+      attributes: ['id', 'userId']
     })
+    return res.status(200).send(coach);
   }
 
   async findAllCoaches() {
-    return this.model.find({
+    const allCoach = await this.model.find({
       include: [{
         model: UserModel,
         where: { 
@@ -23,10 +30,11 @@ class CoachesRepository extends BaseRepository {
         }
       }]
     })
+    return res.status(200).send(allCoach);
   }
 
   async getById() {
-    return this.model.find({
+    const coachId = await this.model.getById({
       include: [{
         model: UserModel,
         where: {
@@ -34,6 +42,7 @@ class CoachesRepository extends BaseRepository {
         }
       }]
    })
+   return res.status(200).send(coachId)
   }
 }
 module.exports = CoachesRepository;

@@ -13,7 +13,8 @@ const User = attributes({
     required: true
   },
   userType: String,
-  isAdmin: Boolean
+  isAdmin: Boolean,
+  googleUserId: Number
 })(class User {
   // Add validation functions below
   // e.g.:
@@ -21,11 +22,19 @@ const User = attributes({
   // isLegal() {
   //   return this.age >= User.MIN_LEGAL_AGE;
   // }
-   isAdmin() {
-    const validation = this.userType === "admin" ? User.typeAdmin : User.typePlayer || User.typeCoach;
+  isAdmin() {
+    const validation = this.userType === "admin" ? User.typeAdmin : this.isCoach;
     if (User.typeAdmin == true) {User.isAdmin = true;}
-    
+   
     return validation, User.isAdmin;
+  }
+
+  isCoach() {
+    return type = this.userType === "coach" ? User.typeCoach : this.isPlayer;
+  }
+
+  isPlayer() {
+    return type = this.userType === "player" ? User.typePlayer : this.isAdmin;
   }
 
 });
