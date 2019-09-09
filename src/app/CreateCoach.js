@@ -10,10 +10,10 @@ class CreateCoach extends Operation {
   async execute(data) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
 
-    const user = new Coach(data);
+    const coach = new Coach(data);
 
     try {
-      const newUser = await this.CoachesRepository.add(user);
+      const newUser = await this.CoachesRepository.add(coach);
       
       this.emit(SUCCESS, newUser);
     } catch(error) {

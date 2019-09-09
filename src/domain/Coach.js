@@ -24,5 +24,4 @@ const Coach = attributes({
 // e.g.:
 //
 // User.MIN_LEGAL_AGE = 21;
-Coach.type = 'coach'
 module.exports = Coach;

@@ -22,6 +22,11 @@ class UsersController extends BaseController {
 
     return router;
   }
+
+  createCoach(req, res, next) {
+    const userId = req.params.id;
+    res.status(201);
+  }
 }
 
 module.exports = UsersController;

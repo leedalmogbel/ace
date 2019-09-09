@@ -12,6 +12,10 @@ class VideosController extends BaseController {
 
     return router;
   }
+
+  // createVideo(req, res, next) {
+  //   req.params
+  // }
 }
 
 module.exports = VideosController;

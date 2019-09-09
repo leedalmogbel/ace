@@ -6,7 +6,7 @@ class CoachesRepository extends BaseRepository {
     super(CoachesModel);
   }
   
-  async createCoach(id, res) {
+  async createCoach(userId, res) {
     const coach = await this.model.create({
       include: [{
         model: UserModel,
@@ -15,7 +15,7 @@ class CoachesRepository extends BaseRepository {
         },
         through: {attributes: []}
       }],
-      where: {userId: id},
+      where: {userId: userId},
       attributes: ['id', 'userId']
     })
     return res.status(200).send(coach);

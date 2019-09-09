@@ -22,19 +22,16 @@ const User = attributes({
   // isLegal() {
   //   return this.age >= User.MIN_LEGAL_AGE;
   // }
-  isAdmin() {
-    const validation = this.userType === "admin" ? User.typeAdmin : this.isCoach;
-    if (User.typeAdmin == true) {User.isAdmin = true;}
-   
-    return validation, User.isAdmin;
+  isAdminAuthenticate() {
+    return this.userType === User.typeAdmin ? (this.isAdmin = true) : this.isCoach;
   }
 
   isCoach() {
-    return type = this.userType === "coach" ? User.typeCoach : this.isPlayer;
+    return this.userType === User.typeCoach ? (this.isAdmin) : this.isPlayer;
   }
 
   isPlayer() {
-    return type = this.userType === "player" ? User.typePlayer : this.isAdmin;
+    return this.userType === User.typePlayer ? this.isAdmin : console.error(status(400));
   }
 
 });
@@ -43,7 +40,6 @@ const User = attributes({
 // e.g.:
 //
 // User.MIN_LEGAL_AGE = 21;
-User.isAdmin = false
 User.typeAdmin = "admin"
 User.typePlayer = "player"
 User.typeCoach = "coach"
