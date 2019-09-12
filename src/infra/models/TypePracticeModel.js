@@ -11,7 +11,7 @@ module.exports = {
       }, 
       tagId : {
         type: DataTypes.INTEGER
-      },playerId : {
+      }, playerId : {
         type: DataTypes.INTEGER
       },
     }, {

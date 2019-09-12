@@ -11,11 +11,11 @@ module.exports = {
       }, 
       tagId : {
         type: DataTypes.INTEGER
-      },playerId : {
+      }, playerId : {
         type: DataTypes.INTEGER
-      },tournament : {
+      }, tournament : {
         type: DataTypes.STRING
-      },result : {
+      }, result : {
         type: DataTypes.STRING
       },
     }, {

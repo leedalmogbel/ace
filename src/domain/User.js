@@ -22,17 +22,24 @@ const User = attributes({
   // isLegal() {
   //   return this.age >= User.MIN_LEGAL_AGE;
   // }
+
+  /**
+   * @return boolean
+   */
   isAdminAuthenticate() {
-    return this.userType === User.typeAdmin ? (this.isAdmin = true) : this.isCoach;
+    return this.userType === User.typeAdmin ?
+      (this.isAdmin = true) : (this.userType === User.typeCoach) ?
+        this.isAdmin : (this.userType === User.typePlayer) ? 
+          this.isAdmin : User.errorMessage;
   }
 
-  isCoach() {
-    return this.userType === User.typeCoach ? (this.isAdmin) : this.isPlayer;
-  }
+  // isCoach() {
+  //   return this.userType === User.typeCoach ? (this.isAdmin) : this.isPlayer;
+  // }
 
-  isPlayer() {
-    return this.userType === User.typePlayer ? this.isAdmin : console.error(status(400));
-  }
+  // isPlayer() {
+  //   return this.userType === User.typePlayer ? this.isAdmin : console.error(status(400));
+  // }
 
 });
 
@@ -40,8 +47,9 @@ const User = attributes({
 // e.g.:
 //
 // User.MIN_LEGAL_AGE = 21;
-User.typeAdmin = "admin"
-User.typePlayer = "player"
-User.typeCoach = "coach"
+User.errorMessage = 'Invalid user type';
+User.typeAdmin = 'admin';
+User.typePlayer = 'player';
+User.typeCoach = 'coach';
 
 module.exports = User;

@@ -11,19 +11,19 @@ module.exports = {
       }, 
       userId : {
         type: DataTypes.INTEGER
-      },coachId : {
+      }, coachId : {
         type: DataTypes.INTEGER
-      },gender : {
+      }, gender : {
         type: DataTypes.STRING
-      },height : {
+      }, height : {
         type: DataTypes.INTEGER
-      },weight : {
+      }, weight : {
         type: DataTypes.INTEGER
-      },dominantHand : {
+      }, dominantHand : {
         type: DataTypes.STRING
-      },matchCounter : {
+      }, matchCounter : {
         type: DataTypes.INTEGER
-      },practiceCounter : {
+      }, practiceCounter : {
         type: DataTypes.INTEGER
       }
     }, {

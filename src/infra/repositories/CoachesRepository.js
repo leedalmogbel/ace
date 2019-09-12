@@ -17,11 +17,11 @@ class CoachesRepository extends BaseRepository {
       }],
       where: {userId: userId},
       attributes: ['id', 'userId']
-    })
+    });
     return res.status(200).send(coach);
   }
 
-  async findAllCoaches() {
+  async findAllCoaches(res) {
     const allCoach = await this.model.find({
       include: [{
         model: UserModel,
@@ -29,11 +29,11 @@ class CoachesRepository extends BaseRepository {
           userType: 'coach'
         }
       }]
-    })
+    });
     return res.status(200).send(allCoach);
   }
 
-  async getById() {
+  async getById(res) {
     const coachId = await this.model.getById({
       include: [{
         model: UserModel,
@@ -41,8 +41,8 @@ class CoachesRepository extends BaseRepository {
           userType: 'coach'
         }
       }]
-   })
-   return res.status(200).send(coachId)
+    });
+    return res.status(200).send(coachId);
   }
 }
 module.exports = CoachesRepository;

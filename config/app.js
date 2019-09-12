@@ -18,6 +18,10 @@ module.exports = {
    */
   port: process.env.PORT,
   /**
+   * Boolean config to enable serverless
+   */
+  serverless: process.env.IS_SERVERLESS === 'true',
+  /**
    * Source directory of resources to be autoloaded
    */
   sources: { 
@@ -29,4 +33,5 @@ module.exports = {
     middleware: ['src/interfaces/http/middlewares'],
     router: 'src/interfaces/http/router.js'
   },
+
 };

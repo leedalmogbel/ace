@@ -11,7 +11,7 @@ module.exports = {
       }, 
       userId : {
         type: DataTypes.INTEGER
-      },coachName : {
+      }, coachName : {
         type: DataTypes.STRING
       },
     }, {
@@ -32,15 +32,15 @@ module.exports = {
      * refer to sequelize documentation https://sequelize.org/master/manual/associations.html
      */
 
-     CoachesModel.associate = () => {
-       CoachesModel.belongsTo(datasource.models.UserModel, {
-         foreignKey: 'userId',
-         as: 'user'
-       });
-       CoachesModel.hasMany(datasource.models.PlayerModel, {
+    CoachesModel.associate = () => {
+      CoachesModel.belongsTo(datasource.models.UserModel, {
+        foreignKey: 'userId',
+        as: 'user'
+      });
+      CoachesModel.hasMany(datasource.models.PlayerModel, {
         foreignKey: 'coachId'
       });
-     };
+    };
        
     return CoachesModel;
   }

@@ -11,17 +11,17 @@ module.exports = {
       }, 
       videoId : {
         type: DataTypes.INTEGER
-      },opponent : {
+      }, opponent : {
         type: DataTypes.STRING
-      },matchType : {
+      }, matchType : {
         type: DataTypes.STRING
-      },set : {
+      }, set : {
         type: DataTypes.INTEGER
-      },game : {
+      }, game : {
         type: DataTypes.INTEGER
-      },matchLength : {
+      }, matchLength : {
         type: DataTypes.DATE
-      },location : {
+      }, location : {
         type: DataTypes.STRING
       },
     }, {

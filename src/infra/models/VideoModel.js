@@ -12,9 +12,9 @@ module.exports = {
       userId : {
         type: DataTypes.INTEGER,
         // allowNull: false
-      },videoName : {
+      }, videoName : {
         type: DataTypes.STRING
-      },
+      }
     }, {
       tableName: 'videos',
       timestamps: true
@@ -46,7 +46,7 @@ module.exports = {
       });
     };
 
-     return VideoModel;
+    return VideoModel;
   }
 };
   

@@ -11,11 +11,11 @@ module.exports = {
       }, 
       video_id : {
         type: DataTypes.INTEGER
-      },clip_name : {
+      }, clip_name : {
         type: DataTypes.STRING
-      },start_time : {
+      }, start_time : {
         type: DataTypes.DATE
-      },end_time : {
+      }, end_time : {
         type: DataTypes.DATE
       },
     }, {

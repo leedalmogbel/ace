@@ -1,6 +1,6 @@
 const { Operation } = require('@brewery/core');
 const User = require('src/domain/User');
-const Coach = require('src/domain/Coach')
+// const Coach = require('src/domain/Coach');
 
 class CreateUser extends Operation {
   constructor({ UserRepository, CoachesRepository }) {
@@ -14,13 +14,14 @@ class CreateUser extends Operation {
 
     const user = new User(data);
     try {
-      if (user.isAdminAuthenticate() == user.isCoach()) {
-        console.log("It is a coach!");
-        const newUser = await this.UserRepository.add(user);
+      if (user.isAdminAuthenticate() == 0) {
+        user.isAdminAuthenticate(), 'Not an Admin!';
+        
+      } else {
+        user.isAdminAuthenticate();
       }
-      
+      const newUser = await this.UserRepository.add(user);
       this.emit(SUCCESS, newUser);
-      
     } catch(error) {
       if(error.message === 'ValidationError') {
         return this.emit(VALIDATION_ERROR, error);

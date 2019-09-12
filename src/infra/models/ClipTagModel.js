@@ -11,13 +11,15 @@ module.exports = {
       }, 
       clipId : {
         type: DataTypes.INTEGER
-      },set : {
+      }, set : {
         type: DataTypes.INTEGER
-      },game : {
+      }, game : {
         type: DataTypes.INTEGER
-      },serveIn : {
+      }, isGood : {
+        type: DataTypes.BOOLEAN 
+      }, serveIn : {
         type: DataTypes.BOOLEAN
-      },serveWon : {
+      }, serveWon : {
         type: DataTypes.BOOLEAN
       },
     }, {

@@ -8,17 +8,17 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
         type: DataTypes.INTEGER,
-      },name : {
+      }, name : {
         type: DataTypes.STRING
-      },email : {
+      }, email : {
         type: DataTypes.STRING
-      },userType : {
+      }, userType : {
         type: DataTypes.STRING,
         defaultValue: 'player'
-      },isAdmin : {
+      }, isAdmin : {
         type: DataTypes.BOOLEAN,
         defaultValue: 'f'
-      },googleUserId : {
+      }, googleUserId : {
         type: DataTypes.INTEGER
       },
     }, {
