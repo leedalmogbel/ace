@@ -11,15 +11,17 @@ module.exports = {
       }, name : {
         type: DataTypes.STRING
       }, email : {
-        type: DataTypes.STRING
-      }, userType : {
         type: DataTypes.STRING,
+        unique: true
+      }, userType : {
+        type: DataTypes.ENUM('player', 'coach', 'admin'),
         defaultValue: 'player'
       }, isAdmin : {
         type: DataTypes.BOOLEAN,
         defaultValue: 'f'
       }, googleUserId : {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        unique: true
       },
     }, {
       tableName: 'users',

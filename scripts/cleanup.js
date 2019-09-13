@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 const path = require('path');
 const replace = require('replace-in-file');
 const remove = require('del');
@@ -90,5 +91,6 @@ const tasks = new Listr([
 ]);
 
 tasks.run().catch((err) => {
+  // eslint-disable-next-line no-console
   console.error(err);
 });
