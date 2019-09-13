@@ -32,7 +32,6 @@
     "body-parser": "^1.17.1",
     "brewery-log": "^1.1.1",
     "compression": "^1.6.2",
-    "config": "^3.2.2",
     "cors": "^2.8.1",
     "cross-env": "^3.2.3",
     "del": "^2.2.2",

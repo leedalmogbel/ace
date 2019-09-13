@@ -28,9 +28,7 @@ const User = attributes({
    */
   isAdminAuthenticate() {
     return this.userType === User.typeAdmin ?
-      (this.isAdmin = true) : (this.userType === User.typeCoach) ?
-        this.isAdmin : (this.userType === User.typePlayer) ? 
-          this.isAdmin : User.errorMessage;
+      (this.isAdmin = true) : this.isAdmin;
   }
 
   // isCoach() {
@@ -49,7 +47,5 @@ const User = attributes({
 // User.MIN_LEGAL_AGE = 21;
 User.errorMessage = 'Invalid user type';
 User.typeAdmin = 'admin';
-User.typePlayer = 'player';
-User.typeCoach = 'coach';
 
 module.exports = User;
