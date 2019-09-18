@@ -1,29 +1,20 @@
 
 module.exports = {
-  name: 'ClipTagModel',
+  name: 'TestModel',
   datasource: 'postgresqldb',
   definition: function(datasource, DataTypes) {
-    const ClipTagModel = datasource.define('ClipTagModel', {
+    const TestModel = datasource.define('TestModel', {
       id : {
         primaryKey: true,
         autoIncrement: true,
         type: DataTypes.INTEGER,
       }, 
-      clipId : {
-        type: DataTypes.INTEGER
-      }, set : {
-        type: DataTypes.INTEGER
-      }, game : {
-        type: DataTypes.INTEGER
-      }, isGood : {
-        type: DataTypes.BOOLEAN 
-      }, serveIn : {
-        type: DataTypes.BOOLEAN
-      }, serveWon : {
-        type: DataTypes.BOOLEAN
+      testCol : {
+        type: DataTypes.STRING,
+        unique: true
       },
     }, {
-      tableName: 'clipTags',
+      tableName: 'tests',
       timestamps: true
     });
 
@@ -40,14 +31,7 @@ module.exports = {
      * refer to sequelize documentation https://sequelize.org/master/manual/associations.html
      */
 
-    ClipTagModel.associate = () => {
-      ClipTagModel.belongsTo(datasource.models.ClipModel, {
-        foreignKey: 'clipId',
-        as: 'clip'
-      });
-    };
-
-    return ClipTagModel;
+    return TestModel;
   }
 };
   

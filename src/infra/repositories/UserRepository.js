@@ -16,23 +16,25 @@ class UserRepository extends BaseRepository {
     return getEmail;
   }
 
-  async updateByEmail(email) {
-    const updateEmail = await this.model.update({
-      where: {
-        email: email,
-      }
-    });
+  async insertEmail (data) {
+    const newData = await this.model.upsert({
+      name: data.name,
+      email: data.email,
+      googleUserId: data.googleUserId,
+    },{
+      returning: true
+    })
 
-    return updateEmail;
+    return newData;
   }
 
   async createEmail (data) {
     const userData = this.getByEmail(data.email);
-    if (userData.id == null) {
+    if (userData.id != null) {
+      return await this.insertEmail(data);
+    } else {
       const newEmail = await this.model.create(data);
       return newEmail;
-    } else {
-      return userData;
     }
   }
 }

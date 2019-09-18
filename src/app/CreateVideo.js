@@ -8,7 +8,6 @@ class CreateVideo extends Operation {
   }
 
   async execute(data) {
-    data.push(data.id);
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
 
     const video = new Video(data);

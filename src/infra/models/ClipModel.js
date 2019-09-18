@@ -9,14 +9,24 @@ module.exports = {
         autoIncrement: true,
         type: DataTypes.INTEGER,
       }, 
-      video_id : {
+      videoId : {
         type: DataTypes.INTEGER
-      }, clip_name : {
+      }, clipName : {
         type: DataTypes.STRING
-      }, start_time : {
-        type: DataTypes.DATE
-      }, end_time : {
-        type: DataTypes.DATE
+      }, isGood : {
+        type: DataTypes.BOOLEAN 
+      }, set : {
+        type: DataTypes.INTEGER
+      }, game : {
+        type: DataTypes.INTEGER
+      }, serveIn : {
+        type: DataTypes.BOOLEAN
+      }, serveWon : {
+        type: DataTypes.BOOLEAN
+      }, startTime : {
+        type: DataTypes.STRING
+      }, endTime : {
+        type: DataTypes.STRING
       },
     }, {
       tableName: 'clips',
@@ -38,7 +48,7 @@ module.exports = {
 
     ClipModel.associate = () => {
       ClipModel.belongsTo(datasource.models.VideoModel, {
-        foreignKey: 'video_id',
+        foreignKey: 'videoId',
         as: 'video'
       });
     };

@@ -21,7 +21,6 @@ module.exports = {
         defaultValue: 'f'
       }, googleUserId : {
         type: DataTypes.INTEGER,
-        unique: true
       },
     }, {
       tableName: 'users',

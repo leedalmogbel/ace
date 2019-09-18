@@ -13,10 +13,6 @@ class UsersController extends BaseController {
     router.put('/:id', this.injector('UpdateUser'), this.update);
     router.delete('/:id', this.injector('DeleteUser'), this.delete);
     
-    // Video
-    // router.get('/:id/video', this.injector('ListVideo'), this.index);
-    // router.post('/:id/video', this.injector('CreateVideo'), this.create);
-
     //Coach
     router.get('/coach', this.injector('ListCoaches'), this.index);
 

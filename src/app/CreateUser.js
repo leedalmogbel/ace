@@ -20,7 +20,7 @@ class CreateUser extends Operation {
       } else {
         user.isAdminAuthenticate();
       }
-      const newUser = await this.UserRepository.createEmail(user);
+      const newUser = await this.UserRepository.insertEmail(user);
       this.emit(SUCCESS, newUser);
     } catch(error) {
       if(error.message === 'ValidationError') {

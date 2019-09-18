@@ -7,15 +7,11 @@ class VideosController extends BaseController {
     super();
     const router = Router();
     // Video
-    router.get('/:id/video', this.injector('ListVideo'), this.index);
-    router.post('/:id/video', this.injector('CreateVideo'), this.create);
+    router.get('/:userId/video', this.injector('ListVideo'), this.index);
+    router.post('/:userId/video', this.injector('CreateVideo'), this.create);
 
     return router;
   }
-
-  // createVideo(req, res, next) {
-  //   req.params
-  // }
 }
 
 module.exports = VideosController;

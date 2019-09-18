@@ -1,10 +1,12 @@
+org: bmatias
+app: tennis-trainer
 service: amber-framework
 
 plugins:
   - serverless-offline
 
 provider:
-  region: ap-southeast-1
+  profile: tennis-dev
   name: aws
   runtime: nodejs8.10
   memorySize: 2048
@@ -23,3 +25,11 @@ functions:
           path: /{proxy+}
           method: any
           cors: true
+
+  s3Bucket:
+    handler: src/app.s3StreamsHandler
+    events:
+      - s3:
+          bucket: ${file(env.yml):dev.AWS_S3_BUCKET}
+          event: s3:ObjectCreated:*
+          existing: true
