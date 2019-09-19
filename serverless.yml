@@ -26,10 +26,10 @@ functions:
           method: any
           cors: true
 
-  s3Bucket:
-    handler: src/app.s3StreamsHandler
-    events:
-      - s3:
-          bucket: ${file(env.yml):dev.AWS_S3_BUCKET}
-          event: s3:ObjectCreated:*
-          existing: true
+  # s3Bucket:
+  #   handler: src/app.s3StreamsHandler
+  #   events:
+  #     - s3:
+  #         bucket: ${file(env.yml):dev.AWS_S3_BUCKET}
+  #         event: s3:ObjectCreated:*
+  #         existing: true

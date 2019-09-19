@@ -18,18 +18,18 @@ if(!config.app.serverless) {
 
 module.exports.container = container;
 
-module.exports.s3StreamsHandler = (event, context, callback) => {
-  const data = event.body;
-  const handler = container.resolve('HandleFilesUseCase');
+// module.exports.s3StreamsHandler = (event, context, callback) => {
+//   const data = event.body;
+//   const handler = container.resolve('HandleFilesUseCase');
 
-  const { SUCCESS, VALIDATION_ERROR} = handler.outputs
-  handler.on(SUCCESS, (result) => {
-    callback(null, result);
-  });
-  handler.on(VALIDATION_ERROR, (result) => {
-    callback(error);
-  });
+//   const { SUCCESS, VALIDATION_ERROR} = handler.outputs
+//   handler.on(SUCCESS, (result) => {
+//     callback(null, result);
+//   });
+//   handler.on(VALIDATION_ERROR, (result) => {
+//     callback(error);
+//   });
 
-  handler.execute(data)
+//   handler.execute(data)
 
-};
+// };

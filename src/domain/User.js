@@ -28,7 +28,7 @@ const User = attributes({
    */
   isAdminAuthenticate() {
     return this.userType === User.typeAdmin ?
-      (this.isAdmin = true) : this.isAdmin;
+      (this.isAdmin = true) : User.errorMessage;
   }
 
   // isCoach() {

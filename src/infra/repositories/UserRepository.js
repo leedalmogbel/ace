@@ -20,10 +20,11 @@ class UserRepository extends BaseRepository {
     const newData = await this.model.upsert({
       name: data.name,
       email: data.email,
+      userType: data.userType,
       googleUserId: data.googleUserId,
-    },{
+    }, {
       returning: true
-    })
+    });
 
     return newData;
   }

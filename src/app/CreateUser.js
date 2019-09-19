@@ -1,5 +1,6 @@
 const { Operation } = require('@brewery/core');
 const User = require('src/domain/User');
+const Utils = require('src/interfaces/http/utils/utils.js');
 // const Coach = require('src/domain/Coach');
 
 class CreateUser extends Operation {
@@ -21,13 +22,19 @@ class CreateUser extends Operation {
         user.isAdminAuthenticate();
       }
       const newUser = await this.UserRepository.insertEmail(user);
-      this.emit(SUCCESS, newUser);
+      const data = (data) => {
+        return {
+          data: data[0],
+        };
+      };
+      this.emit(SUCCESS, data(newUser));
     } catch(error) {
+      const dataError = Utils().resError(error);
       if(error.message === 'ValidationError') {
-        return this.emit(VALIDATION_ERROR, error);
+        return this.emit(VALIDATION_ERROR, dataError, error.message);
       }
 
-      this.emit(ERROR, error);
+      this.emit(ERROR, dataError, error.message);
     }
 
     // this.CoachesRepository.createCoach({id: req.params.id}, res, next)

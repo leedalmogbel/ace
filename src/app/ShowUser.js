@@ -1,4 +1,5 @@
 const { Operation } = require('@brewery/core');
+const Utils = require('src/interfaces/http/utils/utils.js');
 
 class ShowUser extends Operation {
   constructor({ UserRepository }) {
@@ -6,12 +7,13 @@ class ShowUser extends Operation {
     this.UserRepository = UserRepository;
   }
 
-  async execute(id) {
+  async execute(userId) {
     const { SUCCESS, NOT_FOUND } = this.events;
 
     try {
-      const user = await this.UserRepository.getById(id);
-      this.emit(SUCCESS, user);
+      const user = await this.UserRepository.getById(userId);
+      const data = Utils().resSuccess(user);
+      this.emit(SUCCESS, data);
     } catch(error) {
       this.emit(NOT_FOUND, {
         type: error.message,
