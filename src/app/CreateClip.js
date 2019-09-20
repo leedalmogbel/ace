@@ -17,8 +17,9 @@ class CreateClip extends Operation {
     const clip = new Clip(data);
     
     try {
+      const message = 'Clip Created';
       const newClip = await this.ClipRepository.add(clip);
-      const data = Utils().resSuccess(newClip);
+      const data = Utils().resSuccess(newClip, message);
       this.emit(SUCCESS, data);
     } catch(error) {
       const dataError = Utils().resError(error);

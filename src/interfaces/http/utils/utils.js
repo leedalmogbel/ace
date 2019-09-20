@@ -1,7 +1,7 @@
 const Utils = () => {
-  const resSuccess = (data, message, statusCode) => {
+  const resSuccess = (data, message) => {
     return {
-      'Status Code': statusCode,
+      statusCode: 200,
       data,
       message,
     };

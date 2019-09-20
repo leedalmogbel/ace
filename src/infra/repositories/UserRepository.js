@@ -1,4 +1,4 @@
-
+const User = require('src/domain/User');
 const { BaseRepository } = require('@brewery/core');
 
 class UserRepository extends BaseRepository {
@@ -6,37 +6,20 @@ class UserRepository extends BaseRepository {
     super(UserModel);
   }
 
-  async getByEmail(email) {
-    const getEmail = await this.model.findOne({
+  async createEmail (data) {
+    const user = new User(data);
+    user.isAdminAuthenticate();
+    return await this.model.findOrCreate({
       where: {
-        email: email,
+        name: data.name,
+        email: data.email,
+        userType: data.userType,
+        googleUserId: data.googleUserId
+      },
+      defaults: {
+        isAdmin: data.isAdmin,
       }
     });
-
-    return getEmail;
-  }
-
-  async insertEmail (data) {
-    const newData = await this.model.upsert({
-      name: data.name,
-      email: data.email,
-      userType: data.userType,
-      googleUserId: data.googleUserId,
-    }, {
-      returning: true
-    });
-
-    return newData;
-  }
-
-  async createEmail (data) {
-    const userData = this.getByEmail(data.email);
-    if (userData.id != null) {
-      return await this.insertEmail(data);
-    } else {
-      const newEmail = await this.model.create(data);
-      return newEmail;
-    }
   }
 }
 

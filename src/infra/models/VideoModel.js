@@ -11,10 +11,21 @@ module.exports = {
       }, 
       userId : {
         type: DataTypes.INTEGER,
-        // allowNull: false
       }, videoName : {
         type: DataTypes.STRING
-      }
+      }, opponent : {
+        type: DataTypes.STRING
+      }, matchType : {
+        type: DataTypes.STRING
+      }, set : {
+        type: DataTypes.INTEGER
+      }, game : {
+        type: DataTypes.INTEGER
+      }, matchLength : {
+        type: DataTypes.STRING
+      }, location : {
+        type: DataTypes.STRING
+      },
     }, {
       tableName: 'videos',
       timestamps: true
@@ -38,10 +49,13 @@ module.exports = {
         foreignKey: 'userId',
         as: 'user'
       });
-      VideoModel.hasMany(datasource.models.VideoTagModel, {
+      VideoModel.hasMany(datasource.models.ClipModel, {
         foreignKey: 'videoId'
       });
-      VideoModel.hasMany(datasource.models.ClipModel, {
+      VideoModel.hasMany(datasource.models.TypeMatchModel, {
+        foreignKey: 'videoId'
+      });
+      VideoModel.hasMany(datasource.models.TypePracticeModel, {
         foreignKey: 'videoId'
       });
     };

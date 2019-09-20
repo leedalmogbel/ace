@@ -1,4 +1,5 @@
 const { Operation } = require('@brewery/core');
+const Utils = require('src/interfaces/http/utils/utils.js');
 
 class ListClips extends Operation {
   constructor({ ClipRepository }) {
@@ -6,15 +7,18 @@ class ListClips extends Operation {
     this.ClipRepository = ClipRepository;
   }
 
-  async execute() {
-    const { SUCCESS, ERROR } = this.events;
+  async execute(videoId) {
+    const { SUCCESS, NOT_FOUND } = this.events;
 
     try {
-      const clips = await this.ClipRepository.getAll({});
-
-      this.emit(SUCCESS, clips);
+      const clips = await this.ClipRepository.getAll(videoId);
+      const data = Utils().resSuccess(clips);
+      this.emit(SUCCESS, data);
     } catch(error) {
-      this.emit(ERROR, error);
+      this.emit(NOT_FOUND, {
+        type: error.message,
+        details: error.details
+      });
     }
   }
 }

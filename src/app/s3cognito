@@ -1,0 +1,6 @@
+// const aws = require('aws-sdk');
+// const request = require('request-promise');
+// const s3 = new aws.S3({ signatureVersion: 'v4' });
+
+// const bucketName = process.env.AWS_S3_BUCKET;
+// const baseURL = process.env.BUCKET_URL;

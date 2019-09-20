@@ -30,6 +30,7 @@
     "@brewery/sql-connector": "^1.0.2",
     "awilix": "^4.2.2",
     "awilix-express": "^2.1.1",
+    "aws-sdk": "^2.532.0",
     "body-parser": "^1.17.1",
     "brewery-log": "^1.1.1",
     "compression": "^1.6.2",

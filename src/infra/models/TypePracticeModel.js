@@ -33,8 +33,8 @@ module.exports = {
      */
 
     TypePracticeModel.associate = () => {
-      TypePracticeModel.belongsTo(datasource.models.VideoTagModel, {
-        foreignKey: 'tagId',
+      TypePracticeModel.belongsTo(datasource.models.VideoModel, {
+        foreignKey: 'videoId',
         as: 'tag'
       });
       TypePracticeModel.belongsTo(datasource.models.PlayerModel, {

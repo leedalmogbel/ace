@@ -41,8 +41,8 @@ module.exports = {
         foreignKey: 'playerId',
         as: 'player'
       });
-      TypeMatchModel.belongsTo(datasource.models.VideoTagModel, {
-        foreignKey: 'tagId',
+      TypeMatchModel.belongsTo(datasource.models.VideoModel, {
+        foreignKey: 'videoId',
         as: 'tag'
       });
     };

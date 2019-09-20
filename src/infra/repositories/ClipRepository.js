@@ -10,6 +10,16 @@ class ClipRepository extends BaseRepository {
     const clipData = await this.model.create(data);
     return clipData;
   }
+
+  async getClips(id) {
+    const getVideoId = await this.model.findAll({
+      where: {
+        'videoId': id
+      }
+    });
+
+    return getVideoId;
+  }
 }
 
 module.exports = ClipRepository;

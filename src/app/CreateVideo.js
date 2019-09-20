@@ -16,7 +16,7 @@ class CreateVideo extends Operation {
     try {
       const message = 'Video Uploaded';
       const newVideo = await this.VideoRepository.add(video);
-      const data = Utils().resSuccess(newVideo, message, this.eventNames());
+      const data = Utils().resSuccess(newVideo, message);
       this.emit(SUCCESS, data);
     } catch(error) {
       const dataError = Utils().resError(error);

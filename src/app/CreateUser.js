@@ -14,20 +14,18 @@ class CreateUser extends Operation {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
 
     const user = new User(data);
+    user.isAdminAuthenticate();
     try {
-      if (user.isAdminAuthenticate() == 0) {
-        user.isAdminAuthenticate(), 'Not an Admin!';
-        
-      } else {
-        user.isAdminAuthenticate();
-      }
-      const newUser = await this.UserRepository.insertEmail(user);
-      const data = (data) => {
+      const message = 'Successful Signin';
+      const newUser = await this.UserRepository.createEmail(user);
+      const data = (data, message) => {
         return {
+          statusCode: 200,
           data: data[0],
+          message
         };
-      };
-      this.emit(SUCCESS, data(newUser));
+      };  
+      this.emit(SUCCESS, data(newUser, message));
     } catch(error) {
       const dataError = Utils().resError(error);
       if(error.message === 'ValidationError') {
