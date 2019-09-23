@@ -14,8 +14,19 @@ class ClipRepository extends BaseRepository {
   async getClips(id) {
     const getVideoId = await this.model.findAll({
       where: {
-        'videoId': id
-      }
+        videoId: id
+      },
+      attributes: [
+        'videoId',
+        'clipName',
+        'isGood',
+        'set',
+        'game',
+        'serveIn',
+        'serveWon',
+        'startTime',
+        'endTime'
+      ]
     });
 
     return getVideoId;

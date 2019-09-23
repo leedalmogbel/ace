@@ -18,6 +18,8 @@ if(!config.app.serverless) {
 
 module.exports.container = container;
 
+// module.exports.awsservice = 
+
 // module.exports.s3StreamsHandler = (event, context, callback) => {
 //   const data = event.body;
 //   const handler = container.resolve('HandleFilesUseCase');

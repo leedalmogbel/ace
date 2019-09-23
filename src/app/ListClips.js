@@ -11,7 +11,7 @@ class ListClips extends Operation {
     const { SUCCESS, NOT_FOUND } = this.events;
 
     try {
-      const clips = await this.ClipRepository.getAll(videoId);
+      const clips = await this.ClipRepository.getClips(videoId);
       const data = Utils().resSuccess(clips);
       this.emit(SUCCESS, data);
     } catch(error) {

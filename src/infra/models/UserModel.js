@@ -13,14 +13,8 @@ module.exports = {
       }, email : {
         type: DataTypes.STRING,
         unique: true
-      }, userType : {
-        type: DataTypes.ENUM('player', 'coach', 'admin'),
-        defaultValue: 'player'
-      }, isAdmin : {
-        type: DataTypes.BOOLEAN,
-        defaultValue: 'f'
       }, googleUserId : {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
     }, {
       tableName: 'users',

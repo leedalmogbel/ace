@@ -12,7 +12,7 @@ class CoachesRepository extends BaseRepository {
       include: [{
         model: UserModel,
         where: {
-          userType: 'coach'
+          email: UserModel.email
         },
         through: {attributes: []}
       }],

@@ -4,17 +4,15 @@ const Utils = require('src/interfaces/http/utils/utils.js');
 // const Coach = require('src/domain/Coach');
 
 class CreateUser extends Operation {
-  constructor({ UserRepository, CoachesRepository }) {
+  constructor({ UserRepository }) {
     super();
     this.UserRepository = UserRepository;
-    this.CoachesRepository = CoachesRepository;
   }
 
   async execute(data) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
 
     const user = new User(data);
-    user.isAdminAuthenticate();
     try {
       const message = 'Successful Signin';
       const newUser = await this.UserRepository.createEmail(user);
