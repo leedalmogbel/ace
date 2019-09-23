@@ -13,6 +13,12 @@ provider:
   versionFunctions: false
   environment: ${file(env.yml):${self:custom.stage}}
   timeout: 30
+  vpc:
+      securityGroupIds:
+        - ${file(env.yml):${self:custom.stage}.VPC_SECURITY_GROUP}
+      subnetIds:
+        - ${file(env.yml):${self:custom.stage}.VPC_SUBNET_1}
+        - ${file(env.yml):${self:custom.stage}.VPC_SUBNET_2}
 
 custom:
   stage: ${opt:stage, self:provider.stage}
@@ -27,35 +33,20 @@ functions:
           cors: true
 
 resources:
-  COPYResources:
-  AttachmentsBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      # Set the CORS policy
-      CorsConfiguration:
-        CorsRules:
-          -
-            AllowedOrigins:
-              - '*'
-            AllowedHeaders:
-              - '*'
-            AllowedMethods:
+  Resources:
+    tennisTrainerS3Bucket:
+        Type: AWS::S3::Bucket
+        Properties:
+          BucketName: ${file(env.yml):${self:custom.stage}.AWS_S3_BUCKET}
+          AccessControl: BucketOwnerFullControl
+          CorsConfiguration:
+            CorsRules:
+            - AllowedMethods:
               - GET
               - PUT
               - POST
-              - DELETE
               - HEAD
-            MaxAge: 2048
-
-# Print out the name of the bucket that is created
-Outputs:
-  AttachmentsBucketName:
-    Value:
-      Ref: AWS_S3_BUCKET
-  # s3Bucket:
-  #   handler: src/app.s3StreamsHandler
-  #   events:
-  #     - s3:
-  #         bucket: ${file(env.yml):dev.AWS_S3_BUCKET}
-  #         event: s3:ObjectCreated:*
-  #         existing: true
+              AllowedOrigins:
+              - "*"
+              AllowedHeaders:
+              - "*"
