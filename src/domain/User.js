@@ -8,6 +8,7 @@ const User = attributes({
     type: String,
     required: true
   },
+  userType: String,
   googleUserId: String
 })(class User {
 

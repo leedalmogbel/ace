@@ -14,7 +14,6 @@ class CreateUser extends Operation {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
 
     const user = new User(data);
-    user.isAdminAuthenticate();
     try {
       const message = 'Successful Signin';
       const newUser = await this.UserRepository.createEmail(user);

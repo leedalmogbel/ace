@@ -12,6 +12,7 @@ class UserRepository extends BaseRepository {
       },
       defaults: {
         name: data.name,
+        userType: data.userType,
         googleUserId: data.googleUserId
       }
     });

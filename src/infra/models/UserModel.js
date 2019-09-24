@@ -13,6 +13,8 @@ module.exports = {
       }, email : {
         type: DataTypes.STRING,
         unique: true
+      }, userType : {
+        type: DataTypes.STRING
       }, googleUserId : {
         type: DataTypes.STRING,
       },
