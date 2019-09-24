@@ -11,7 +11,7 @@ class ShowUser extends Operation {
     const { SUCCESS, NOT_FOUND } = this.events;
 
     try {
-      const user = await this.UserRepository.find(userId);
+      const user = await this.UserRepository.getById(userId);
       const data = Utils().resSuccess(user);
       this.emit(SUCCESS, data);
     } catch(error) {
