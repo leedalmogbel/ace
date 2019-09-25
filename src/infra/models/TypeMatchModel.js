@@ -1,7 +1,8 @@
 
 module.exports = {
   name: 'TypeMatchModel',
-  datasource: 'postgresqldb',
+  // datasource: 'postgresqldb',
+  datasource: 'tennis-trainer-db',
   definition: function(datasource, DataTypes) {
     const TypeMatchModel = datasource.define('TypeMatchModel', {
       id : {

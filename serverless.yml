@@ -13,6 +13,7 @@ provider:
   versionFunctions: false
   environment: ${file(env.yml):${self:custom.stage}}
   timeout: 30
+  region: ap-southeast-1
   vpc:
       securityGroupIds:
         - ${file(env.yml):${self:custom.stage}.VPC_SECURITY_GROUP}
@@ -27,26 +28,36 @@ functions:
   app:
     handler: src/app.serverless
     events:
+      - s3:
+        bucket: tennis-trainer-s3-bucket
+        event: s3:ObjectCreated:*
+        rules:
+          - prefix: uploads/
+        existing: true
       - http:
           path: /{proxy+}
           method: any
           cors: true
-
-resources:
-  Resources:
-    tennisTrainerS3Bucket:
-        Type: AWS::S3::Bucket
-        Properties:
-          BucketName: ${file(env.yml):${self:custom.stage}.AWS_S3_BUCKET}
-          AccessControl: BucketOwnerFullControl
-          CorsConfiguration:
-            CorsRules:
-            - AllowedMethods:
-              - GET
-              - PUT
-              - POST
-              - HEAD
-              AllowedOrigins:
-              - "*"
-              AllowedHeaders:
-              - "*"
+          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/us-east-1_zmiG3QHTn
+      - http:
+          path: /api/users
+          method: GET
+          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/us-east-1_zmiG3QHTn
+# resources:
+#   Resources:
+#     tennisTrainerS3Bucket:
+#         Type: AWS::S3::Bucket
+#         Properties:
+#           BucketName: ${file(env.yml):${self:custom.stage}.AWS_S3_BUCKET}
+#           AccessControl: BucketOwnerFullControl
+#           CorsConfiguration:
+#             CorsRules:
+#             - AllowedMethods:
+#               - GET
+#               - PUT
+#               - POST
+#               - HEAD
+#               AllowedOrigins:
+#               - "*"
+#               AllowedHeaders:
+#               - "*"

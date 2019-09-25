@@ -1,7 +1,8 @@
 
 module.exports = {
   name: 'VideoModel',
-  datasource: 'postgresqldb',
+  // datasource: 'postgresqldb',
+  datasource: 'tennis-trainer-db',
   definition: function(datasource, DataTypes) {
     const VideoModel = datasource.define('VideoModel', {
       id : {

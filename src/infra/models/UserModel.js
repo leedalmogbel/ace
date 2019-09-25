@@ -1,7 +1,8 @@
 
 module.exports = {
   name: 'UserModel',
-  datasource: 'postgresqldb',
+  // datasource: 'postgresqldb',
+  datasource: 'tennis-trainer-db',
   definition: function(datasource, DataTypes) {
     const UserModel = datasource.define('UserModel', {
       id : {
