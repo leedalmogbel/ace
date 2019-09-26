@@ -15,11 +15,12 @@ provider:
   timeout: 30
   region: ap-southeast-1
   vpc:
-      securityGroupIds:
-        - ${file(env.yml):${self:custom.stage}.VPC_SECURITY_GROUP}
-      subnetIds:
-        - ${file(env.yml):${self:custom.stage}.VPC_SUBNET_1}
-        - ${file(env.yml):${self:custom.stage}.VPC_SUBNET_2}
+    securityGroupIds:
+      - ${file(env.yml):${self:custom.stage}.VPC_SECURITY_GROUP}
+    subnetIds:
+      - ${file(env.yml):${self:custom.stage}.VPC_SUBNET_1}
+      - ${file(env.yml):${self:custom.stage}.VPC_SUBNET_2}
+
 
 custom:
   stage: ${opt:stage, self:provider.stage}
@@ -38,11 +39,11 @@ functions:
           path: /{proxy+}
           method: any
           cors: true
-          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/us-east-1_zmiG3QHTn
+          # authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/us-east-1_zmiG3QHTn
       - http:
           path: /api/users
           method: GET
-          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/us-east-1_zmiG3QHTn
+          # authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/us-east-1_zmiG3QHTn
 # resources:
 #   Resources:
 #     tennisTrainerS3Bucket:

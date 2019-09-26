@@ -15,7 +15,8 @@ module.exports = {
         type: DataTypes.STRING,
         unique: true
       }, userType : {
-        type: DataTypes.STRING
+        type: DataTypes.ENUM('player', 'coach', 'admin'),
+        defaultValue: 'player'
       }, googleUserId : {
         type: DataTypes.STRING,
       },
