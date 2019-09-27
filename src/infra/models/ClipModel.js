@@ -1,7 +1,6 @@
 
 module.exports = {
   name: 'ClipModel',
-  // datasource: 'postgresqldb',
   datasource: 'tennis-trainer-db',
   definition: function(datasource, DataTypes) {
     const ClipModel = datasource.define('ClipModel', {

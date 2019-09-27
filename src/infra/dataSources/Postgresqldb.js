@@ -1,7 +1,7 @@
 
 const config = {
   local: {
-    name: 'postgresqldb',
+    name: 'tennis-trainer-db',
     connector : 'sql',
     config: {
       host: '127.0.0.1',

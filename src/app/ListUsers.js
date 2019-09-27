@@ -1,4 +1,5 @@
 const { Operation } = require('@brewery/core');
+const Utils = require('src/infra/services/utils.js');
 
 class ListUsers extends Operation {
   constructor({ UserRepository }) {
@@ -11,10 +12,11 @@ class ListUsers extends Operation {
 
     try {
       const users = await this.UserRepository.getAll({});
-
-      this.emit(SUCCESS, users);
+      const data = Utils().resSuccess(users);
+      this.emit(SUCCESS, data);
     } catch(error) {
-      this.emit(ERROR, error);
+      const dataError = Utils().resError(error);
+      this.emit(ERROR, dataError);
     }
   }
 }

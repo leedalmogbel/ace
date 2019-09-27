@@ -1,5 +1,5 @@
 const { Operation } = require('@brewery/core');
-const Utils = require('src/interfaces/http/utils/utils.js');
+const Utils = require('src/infra/services/utils.js');
 
 class ListClips extends Operation {
   constructor({ ClipRepository }) {

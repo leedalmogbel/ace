@@ -39,11 +39,35 @@ functions:
           path: /{proxy+}
           method: any
           cors: true
-          # authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/us-east-1_zmiG3QHTn
+          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.COGNITO_POOL_ID}
       - http:
           path: /api/users
           method: GET
-          # authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/us-east-1_zmiG3QHTn
+          # authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.COGNITO_POOL_ID}
+      - http:
+          path: /users/{id}
+          method: GET
+          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.COGNITO_POOL_ID}
+      - http:
+          path: /api/users
+          method: POST
+          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.COGNITO_POOL_ID}
+      # - http:
+      #     path: /{userId}/video
+      #     method: GET
+      #     authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.COGNITO_POOL_ID}
+      # - http:
+      #     path: /{userId}/video
+      #     method: POST
+      #     authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.COGNITO_POOL_ID}
+      - http:
+          path: /video/{videoId}/clip
+          method: GET
+          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.COGNITO_POOL_ID}
+      - http:
+          path: /video/{videoId}/clip
+          method: POST
+          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.COGNITO_POOL_ID}
 # resources:
 #   Resources:
 #     tennisTrainerS3Bucket:
