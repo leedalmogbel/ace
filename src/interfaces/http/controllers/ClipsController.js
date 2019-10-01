@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { BaseController } = require('@brewery/core');
+const { BaseController } = require('@amberjs/core');
 
 class ClipsController extends BaseController {
   

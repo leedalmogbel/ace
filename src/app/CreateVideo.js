@@ -1,4 +1,4 @@
-const { Operation } = require('@brewery/core');
+const { Operation } = require('@amberjs/core');
 const Video = require('src/domain/Video');
 const Utils = require('src/infra/services/utils.js');
 

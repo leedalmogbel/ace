@@ -1,37 +1,15 @@
 require('module').Module._initPaths();
-const { brew } = require('@brewery/core');
+const { brew } = require('@amberjs/core');
 const config = require('config');
-const serverless = require('serverless-http');
 
-const { server, container } = brew(config);
+brew(config, (err, brewed) => {
+  if (err) throw err;
 
-if(!config.app.serverless) {
-  server
-    .start()
-    .catch((error) => {
-      server.logger.error(error.stack);
-      process.exit();
-    });
-} else {
-  module.exports.serverless = serverless(server.express);
-}
+  const app = brewed.getServer();
+  app.start().catch(error => {
+    app.logger.error(error.stack);
+    process.exit();
+  });
+});
 
-module.exports.container = container;
 
-// module.exports.awsservice = 
-
-// module.exports.s3StreamsHandler = (event, context, callback) => {
-//   const data = event.body;
-//   const handler = container.resolve('HandleFilesUseCase');
-
-//   const { SUCCESS, VALIDATION_ERROR} = handler.outputs
-//   handler.on(SUCCESS, (result) => {
-//     callback(null, result);
-//   });
-//   handler.on(VALIDATION_ERROR, (result) => {
-//     callback(error);
-//   });
-
-//   handler.execute(data)
-
-// };

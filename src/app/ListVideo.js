@@ -1,4 +1,4 @@
-const { Operation } = require('@brewery/core');
+const { Operation } = require('@amberjs/core');
 
 class ListVideo extends Operation {
   constructor({ VideoRepository }) {

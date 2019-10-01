@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-const { BaseRepository } = require('@brewery/core');
+const { BaseRepository } = require('@amberjs/core');
 
 class PlayerRepository extends BaseRepository {
   constructor({ PlayerModel }) {

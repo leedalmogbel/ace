@@ -1,5 +1,5 @@
-const { Operation } = require('@brewery/core');
-const Utils = require('src/interfaces/http/utils/utils.js');
+const { Operation } = require('@amberjs/core');
+// const Utils = require('src/interfaces/http/utils/utils.js');
 
 class ShowUser extends Operation {
   constructor({ UserRepository }) {

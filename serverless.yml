@@ -27,7 +27,7 @@ custom:
 
 functions:
   app:
-    handler: src/app.serverless
+    handler: src/app-serverless.handler
     events:
       - s3:
         bucket: tennis-trainer-s3-bucket

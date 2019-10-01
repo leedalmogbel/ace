@@ -1,4 +1,4 @@
-const { BaseRepository } = require('@brewery/core');
+const { BaseRepository } = require('@amberjs/core');
 
 class UserRepository extends BaseRepository {
   constructor({ UserModel }) {

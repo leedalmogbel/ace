@@ -1,5 +1,5 @@
 
-const { BaseRepository } = require('@brewery/core');
+const { BaseRepository } = require('@amberjs/core');
 
 class VideoRepository extends BaseRepository {
   constructor({ VideoModel }) {
