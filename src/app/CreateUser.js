@@ -1,6 +1,7 @@
 const { Operation } = require('@amberjs/core');
 const User = require('src/domain/User');
 const Utils = require('src/infra/services/utils.js');
+const register = require('src/infra/services/authToken');
 // const Coach = require('src/domain/Coach');
 
 class CreateUser extends Operation {
@@ -14,8 +15,9 @@ class CreateUser extends Operation {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
 
     const user = new User(data);
+    const token = register(user.email, user.name);
+
     try {
-      const message = 'Successful Signin';
       const newUser = await this.UserRepository.createEmail(user);
       const data = (data, message) => {
         return {
@@ -23,6 +25,10 @@ class CreateUser extends Operation {
           data: data[0],
           message
         };
+      };
+      const message = {
+        status: 'Successful Signin',
+        token: token
       };
       this.emit(SUCCESS, data(newUser, message));
     } catch(error) {

@@ -14,7 +14,7 @@ function putObject(bitmap, key, params) {
     method: 'PUT',
     body: bitmap,
     headers: {
-      'Content-Type': 'image/png',
+      'Content-Type': 'video/mp4',
       'Content-Length': Buffer.byteLength(bitmap, 'utf8'),
       // 'x-amz-acl': 'public-read',
     },
@@ -45,7 +45,7 @@ function putObject(bitmap, key, params) {
     return resp;
   });
 }
-export default function fileUpload(userId, encodedFile) {
+module.exports.fileUpload = (userId, encodedFile) => {
   const key = 'videos/' + process.env.NODE_ENV + '/' + new Date().toISOString().substr(0, 10) +
     '/' + userId + '/' + String(Date.now()) + '.png';
   console.log(key);
@@ -73,4 +73,4 @@ export default function fileUpload(userId, encodedFile) {
   return putObject(bitmap, key, params).then(response => {
     return response;
   });
-}
+};

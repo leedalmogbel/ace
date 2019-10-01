@@ -1,5 +1,5 @@
 const { Operation } = require('@amberjs/core');
-// const Utils = require('src/interfaces/http/utils/utils.js');
+const Utils = require('src/infra/services/utils.js');
 
 class ShowUser extends Operation {
   constructor({ UserRepository }) {
