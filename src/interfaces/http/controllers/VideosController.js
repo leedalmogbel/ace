@@ -10,8 +10,12 @@ class VideosController extends BaseController {
     router.get('/:userId/video', this.injector('ListVideo'), this.index);
     router.post('/:userId/video', this.injector('CreateVideo'), this.create);
 
+    router.post('/getSignedURL', this.injector('GetSignedURL'), this.create);
+
     return router;
   }
+
+  
 }
 
 module.exports = VideosController;

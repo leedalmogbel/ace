@@ -15,10 +15,16 @@ class CreateVideo extends Operation {
     const video = new Video(data);
 
     try {
-      videoUpload(data.userId, data.fileName);
+      const upload = videoUpload(data.userId, data.fileName);
       const message = 'Video Uploaded';
       const newVideo = await this.VideoRepository.add(video);
-      const data = Utils().resSuccess(newVideo, message);
+      const signed = (upload, database) => {
+        return {
+          upload: upload,
+          database: database
+        };
+      };
+      const data = Utils().resSuccess(signed(upload, newVideo), message);
       this.emit(SUCCESS, data);
     } catch(error) {
       const dataError = Utils().resError(error);

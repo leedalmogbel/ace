@@ -22,7 +22,7 @@ const config = {
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       dialect: process.env.DB_DIALECT,
-      isSync: 'true'
+      isSync: 'true',
     }
   }
 };
