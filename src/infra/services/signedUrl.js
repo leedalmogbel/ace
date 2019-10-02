@@ -9,17 +9,19 @@ const bucketName = process.env.AWS_S3_BUCKET;
 
 module.exports.fileUpload = (userId) => {
   const key = 'videos/' + process.env.NODE_ENV + '/' + new Date().toISOString().substr(0, 10) +
-    '/' + userId + '/' + String(Date.now()) + '.png';
+    '/' + userId + '/' + String(Date.now()) + '.mov';
   console.log(key);
-  const signedUrl = s3.getSignedUrl('putObject', params);
 
   const params = {
     Bucket: bucketName,
     Key: key,
-    ContentType: 'video/mp4',
+    ContentType: 'video/mov',
     ACL: 'public-read',
-    Expires: 90,
+    Expires: 604800,
   };
+
+  console.log(params);
+  const signedUrl = s3.getSignedUrl('putObject', params);
 
   return  {
     signedUrl
