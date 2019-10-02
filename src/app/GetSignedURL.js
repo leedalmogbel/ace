@@ -10,7 +10,7 @@ class GetSignedURL extends Operation {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
     
     try {
-      const signed = signURL.fileUpload(data.userId, data);
+      const signed = signURL.fileUpload(data.userId);
     
       this.emit(SUCCESS, signed);
     } catch(error) {

@@ -52,20 +52,20 @@ functions:
           path: /api/users
           method: POST
           authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
-      # - http:
-      #     path: /{userId}/video
-      #     method: GET
-      #     authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.COGNITO_POOL_ID}
-      # - http:
-      #     path: /{userId}/video
-      #     method: POST
-      #     authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.REGION}:${file(env.yml):${self:custom.stage}.AWS_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.COGNITO_POOL_ID}
       - http:
-          path: /video/{videoId}/clip
+          path: /api/videos/{userId}/video
           method: GET
           authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
       - http:
-          path: /video/{videoId}/clip
+          path: /api/videos/{userId}/video
+          method: POST
+          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
+      - http:
+          path: /api/clips/{videoId}/clip
+          method: GET
+          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
+      - http:
+          path: /api/clips/{videoId}/clip
           method: POST
           authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
 # resources:
