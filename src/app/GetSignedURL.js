@@ -1,5 +1,6 @@
 const { Operation } = require('@amberjs/core');
 const signURL = require('../infra/services/signedUrl');
+const saveVideo = require('./CreateVideo');
 
 class GetSignedURL extends Operation {
   constructor() {
@@ -11,7 +12,8 @@ class GetSignedURL extends Operation {
     
     try {
       const signed = signURL.fileUpload(data.userId);
-    
+      // const videoData
+      // const saveVideo
       this.emit(SUCCESS, signed);
     } catch(error) {
       if(error.message === 'ValidationError') {
