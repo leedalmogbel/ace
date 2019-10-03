@@ -13,6 +13,11 @@ module.exports = {
         type: DataTypes.INTEGER,
       }, videoName : {
         type: DataTypes.STRING
+      }, path : {
+        type: DataTypes.STRING
+      }, status : {
+        type: DataTypes.ENUM('PENDING', 'UPLOADED'),
+        defaultValue: 'PENDING'
       }, opponent : {
         type: DataTypes.STRING
       }, matchType : {

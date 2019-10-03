@@ -1,7 +1,6 @@
 const { Operation } = require('@amberjs/core');
 const Video = require('src/domain/Video');
 const Utils = require('src/infra/services/utils.js');
-const videoUpload = require('../infra/services/signedUrl');
 
 class CreateVideo extends Operation {
   constructor({ VideoRepository }) {

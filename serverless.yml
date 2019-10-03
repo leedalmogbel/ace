@@ -29,27 +29,27 @@ functions:
   app:
     handler: src/app-serverless.handler
     events:
-      - s3:
-        bucket: tennis-trainer-s3-bucket
-        event: s3:ObjectCreated:*
-        rules:
-          - prefix: uploads/
-        existing: true
+      # - s3:
+      #   bucket: tennis-trainer-s3-bucket
+      #   event: s3:ObjectCreated:*
+      #   rules:
+      #     - prefix: uploads/
+      #   existing: true
       - http:
           path: /{proxy+}
           method: any
           cors: true
-          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
+          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
       - http:
-          path: /api/users
+          path: /api/users/list
           method: GET
-          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
+          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
       - http:
           path: /users/{id}
           method: GET
-          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
+          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
       - http:
-          path: /api/users
+          path: /api/users/signin
           method: POST
           authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
       - http:
@@ -72,21 +72,21 @@ functions:
           path: /api/clips/{videoId}/clip
           method: POST
           authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
-# resources:
-#   Resources:
-#     tennisTrainerS3Bucket:
-#         Type: AWS::S3::Bucket
-#         Properties:
-#           BucketName: ${file(env.yml):${self:custom.stage}.AWS_S3_BUCKET}
-#           AccessControl: BucketOwnerFullControl
-#           CorsConfiguration:
-#             CorsRules:
-#             - AllowedMethods:
-#               - GET
-#               - PUT
-#               - POST
-#               - HEAD
-#               AllowedOrigins:
-#               - "*"
-#               AllowedHeaders:
-#               - "*"
+resources:
+  Resources:
+    tennisTrainerS3Bucket:
+        Type: AWS::S3::Bucket
+        Properties:
+          BucketName: ${file(env.yml):${self:custom.stage}.AWS_S3_BUCKET}
+          AccessControl: BucketOwnerFullControl
+          CorsConfiguration:
+            CorsRules:
+            - AllowedMethods:
+              - GET
+              - PUT
+              - POST
+              - HEAD
+              AllowedOrigins:
+              - "*"
+              AllowedHeaders:
+              - "*"

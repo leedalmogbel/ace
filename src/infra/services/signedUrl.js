@@ -1,30 +1,30 @@
 const aws = require('aws-sdk');
 // const request = require('request-promise');
 const s3 = new aws.S3(
-  { signatureVersion: 'v4' }
+  { signatureVersion: 'v4', region: 'ap-southeast-1'}
 );
 const bucketName = process.env.AWS_S3_BUCKET;
 // const baseURL = process.env.BUCKET_URL;
 
 
 module.exports.fileUpload = (userId) => {
-  const key = 'videos/' + process.env.NODE_ENV + '/' + new Date().toISOString().substr(0, 10) +
-    '/' + userId + '/' + String(Date.now()) + '.mov';
+  const key = `videos/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${userId}/${String(Date.now())}.mov`;
   console.log(key);
 
   const params = {
     Bucket: bucketName,
     Key: key,
-    ContentType: 'video/mov',
-    ACL: 'public-read',
+    ContentType: 'video/mp4',
+    ACL: 'public-read-write',
     Expires: 604800,
   };
 
   console.log(params);
   const signedUrl = s3.getSignedUrl('putObject', params);
-
   return  {
-    signedUrl
+    signedUrl,
+    key,
+    bucketName
   };
 };
 

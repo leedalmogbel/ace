@@ -10,6 +10,7 @@ const config = {
       database: 'tennis',
       dialect: 'postgres',
       isSync: 'true',
+      logging: false
     }
   },
 
@@ -23,6 +24,7 @@ const config = {
       database: process.env.DB_NAME,
       dialect: process.env.DB_DIALECT,
       isSync: 'true',
+      logging: false
     }
   }
 };

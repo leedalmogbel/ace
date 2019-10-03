@@ -7,8 +7,8 @@ class UsersController extends BaseController {
     super();
     const router = Router();
     // User
-    router.get('/', this.injector('ListUsers'), this.index);
-    router.post('/', this.injector('CreateUser'), this.create);
+    router.get('/list', this.injector('ListUsers'), this.index);
+    router.post('/signin', this.injector('CreateUser'), this.create);
     router.get('/:id', this.injector('ShowUser'), this.show);
     router.put('/:id', this.injector('UpdateUser'), this.update);
     router.delete('/:id', this.injector('DeleteUser'), this.delete);
