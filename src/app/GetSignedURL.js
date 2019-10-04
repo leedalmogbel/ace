@@ -1,6 +1,6 @@
 const { Operation } = require('@amberjs/core');
 const signURL = require('../infra/services/signedUrl');
-// const Video = require('src/domain/Video');
+const Video = require('src/domain/Video');
 
 class GetSignedURL extends Operation {
   constructor({ VideoRepository }) {
@@ -11,15 +11,31 @@ class GetSignedURL extends Operation {
   async execute(data) {     
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
     console.log(data);
-    // const video = new Video(data);
 
+    const signed = signURL.fileUpload(data.userId);
+    const pathURL = `https://${signed.bucketName}.s3.ap-southeast-1.amazonaws.com/${signed.key}`;
+    const dataRDS = {
+      userId: data.userId,
+      path: pathURL,
+      status: 'PENDING'
+    };
+
+    const video = new Video(dataRDS);
     try {
-      const signed = signURL.fileUpload(data.userId);
       // const message = 'Video Uploading';
-      // const newVideo = await this.VideoRepository.add(video);
-      // const videoData
+      console.log(signed.key);
+      console.log(dataRDS);
+      const signedUrl = signed.signedUrl;
+      console.log(signedUrl);
+      const newVideo = await this.VideoRepository.add(video);
+      const videoData = [{userId:newVideo.userId, path:newVideo.path, status:newVideo.status}];
+      const created = {
+        signedUrl,
+        videoData
+      };
+      console.log(created);
       // const saveVideo
-      this.emit(SUCCESS, signed);
+      this.emit(SUCCESS, created);
     } catch(error) {
       if(error.message === 'ValidationError') {
         return this.emit(VALIDATION_ERROR, error);

@@ -5,6 +5,8 @@ const Video = attributes({
   id: Number,
   userId: Number,
   videoName: String,
+  path: String,
+  status: String,
   createdAt: Date,
   updatedAt: Date,
   opponent: String,

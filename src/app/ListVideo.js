@@ -1,20 +1,22 @@
 const { Operation } = require('@amberjs/core');
-
+const Utils = require('../infra/services/utils');
 class ListVideo extends Operation {
   constructor({ VideoRepository }) {
     super();
     this.VideoRepository = VideoRepository;
   }
 
-  async execute() {
-    const { SUCCESS, ERROR } = this.events;
+  async execute(userId) {
+    const { SUCCESS, NOT_FOUND } = this.events;
 
     try {
-      const video = await this.VideoRepository.getAll({});
-
-      this.emit(SUCCESS, video);
+      console.log(userId);
+      const video = await this.VideoRepository.getVideoById(userId);
+      console.log(video);
+      const data = Utils().resSuccess(video);
+      this.emit(SUCCESS, data);
     } catch(error) {
-      this.emit(ERROR, error);
+      this.emit(NOT_FOUND, error);
     }
   }
 }

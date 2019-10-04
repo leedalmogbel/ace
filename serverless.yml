@@ -29,12 +29,6 @@ functions:
   app:
     handler: src/app-serverless.handler
     events:
-      # - s3:
-      #   bucket: tennis-trainer-s3-bucket
-      #   event: s3:ObjectCreated:*
-      #   rules:
-      #     - prefix: uploads/
-      #   existing: true
       - http:
           path: /{proxy+}
           method: any
@@ -56,6 +50,13 @@ functions:
           path: /api/videos/getSignedURL
           method: POST
           authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
+          s3:
+            bucket: tennis-trainer-dev-media
+            event: s3:ObjectCreated:*
+            rules:
+              - prefix: videos/
+              - suffix: .mov
+            existing: true
       - http:
           path: /api/videos/{userId}/video
           method: GET
@@ -64,6 +65,13 @@ functions:
           path: /api/videos/{userId}/video
           method: POST
           authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
+      - s3:
+        bucket: tennis-trainer-dev-media
+        event: s3:ObjectCreated:*
+        rules:
+          - prefix: videos/
+          - suffix: .mov
+        existing: true
       - http:
           path: /api/clips/{videoId}/clip
           method: GET
