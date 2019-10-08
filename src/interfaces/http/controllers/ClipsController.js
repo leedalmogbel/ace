@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { BaseController } = require('@amberjs/core');
+const Status = require('http-status');
 
 class ClipsController extends BaseController {
   
@@ -7,10 +8,35 @@ class ClipsController extends BaseController {
     super();
     const router = Router();
     // Clip
-    router.get('/video/:videoId/clip', this.injector('ListClips'), this.show);
-    router.post('/video/:videoId/clip', this.injector('CreateClip'), this.create);
+    router.get('/', this.injector('ListClips'), this.showList);
+    router.post('/:videoId/clip', this.injector('CreateClip'), this.create);
+
+    router.get('/keypoint', this.injector('GetKeypoint'), this.showList);
+    router.post('/keypoint', this.injector('KeypointSignedURL'), this.create);
 
     return router;
+  }
+
+  showList(req, res, next) {
+    const { operation } = req;
+
+    const { SUCCESS, ERROR, NOT_FOUND } = operation.events;
+
+    operation
+      .on(SUCCESS, (result) => {
+        res
+          .status(Status.OK)
+          .json(result);
+      })
+      .on(NOT_FOUND, (error) => {
+        res.status(Status.NOT_FOUND).json({
+          type: 'NotFoundError',
+          details: error.details
+        });
+      })
+      .on(ERROR, next);
+
+    operation.execute(Number(req.query.clipId)||Number(req.query.videoId), req.body);
   }
 }
 

@@ -1,38 +1,36 @@
 const { Operation } = require('@amberjs/core');
 const signURL = require('../infra/services/signedUrl');
-const Video = require('src/domain/Video');
+const Keypoint = require('src/domain/Keypoint');
 
-class GetSignedURL extends Operation {
-  constructor({ VideoRepository }) {
+class KeypointSignedURL extends Operation {
+  constructor({ KeypointRepository }) {
     super();
-    this.VideoRepository = VideoRepository;
+    this.KeypointRepository = KeypointRepository;
   }
 
-  async execute(data) {     
+  async execute(data) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
     console.log(data);
 
-    const signed = signURL.fileUpload(data.userId, data.fileType);
+    const signed = signURL.keypointsUpload(data.clipId);
     const pathURL = `https://${signed.bucketName}.s3.ap-southeast-1.amazonaws.com/${signed.key}`;
+    console.log(pathURL);
     const dataRDS = {
-      userId: data.userId,
-      videoName: data.videoName,
-      path: pathURL,
-      status: 'PENDING'
+      clipId: data.clipId,
+      clipPath: pathURL,
     };
 
-    const video = new Video(dataRDS);
+    const keypoint = new Keypoint(dataRDS);
     try {
-      // const message = 'Video Uploading';
       console.log(signed.key);
       console.log(dataRDS);
       const signedUrl = signed.signedUrl;
       console.log(signedUrl);
-      const newVideo = await this.VideoRepository.add(video);
-      const videoData = [{videoId:newVideo.id, userId:newVideo.userId, videoName:newVideo.videoName, path:newVideo.path, status:newVideo.status}];
+      const newKeypoint = await this.KeypointRepository.add(keypoint);
+      const moveData = [{keypointId:newKeypoint.id, clipId:newKeypoint.clipId, path:newKeypoint.clipPath}];
       const created = {
         signedUrl,
-        videoData
+        moveData
       };
       console.log(created);
       // const saveVideo
@@ -46,6 +44,6 @@ class GetSignedURL extends Operation {
   }
 }
 
-GetSignedURL.setEvents(['SUCCESS', 'ERROR', 'VALIDATION_ERROR', 'NOT_FOUND']);
+KeypointSignedURL.setEvents(['SUCCESS', 'ERROR', 'VALIDATION_ERROR', 'NOT_FOUND']);
 
-module.exports = GetSignedURL;
+module.exports = KeypointSignedURL;

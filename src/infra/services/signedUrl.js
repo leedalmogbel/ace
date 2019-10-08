@@ -7,14 +7,35 @@ const bucketName = process.env.AWS_S3_BUCKET;
 // const baseURL = process.env.BUCKET_URL;
 
 
-module.exports.fileUpload = (userId) => {
-  const key = `videos/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${userId}/${String(Date.now())}.mov`;
+module.exports.fileUpload = (userId, fileType) => {
+  const key = `videos/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${userId}/${String(Date.now())}.${fileType}`;
   console.log(key);
 
   const params = {
     Bucket: bucketName,
     Key: key,
     ContentType: 'video/mp4',
+    ACL: 'public-read-write',
+    Expires: 604800,
+  };
+
+  console.log(params);
+  const signedUrl = s3.getSignedUrl('putObject', params);
+  return  {
+    signedUrl,
+    key,
+    bucketName
+  };
+};
+
+module.exports.keypointsUpload = (clipId) => {
+  const key = `keypoints/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${clipId}/${String(Date.now())}.json`;
+  console.log(key);
+
+  const params = {
+    Bucket: bucketName,
+    Key: key,
+    ContentType: 'application/json',
     ACL: 'public-read-write',
     Expires: 604800,
   };

@@ -12,7 +12,7 @@ class ClipRepository extends BaseRepository {
   }
 
   async getClips(id) {
-    const getVideoId = await this.model.findAll({
+    return await this.model.findAll({
       where: {
         videoId: id
       },
@@ -28,8 +28,6 @@ class ClipRepository extends BaseRepository {
         'endTime'
       ]
     });
-
-    return getVideoId;
   }
 }
 

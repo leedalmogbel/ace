@@ -14,6 +14,7 @@ class ListVideo extends Operation {
       const video = await this.VideoRepository.getVideoById(userId);
       console.log(video);
       const data = Utils().resSuccess(video);
+      console.log(data);
       this.emit(SUCCESS, data);
     } catch(error) {
       this.emit(NOT_FOUND, error);

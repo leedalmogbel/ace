@@ -10,9 +10,11 @@ module.exports = {
         type: DataTypes.INTEGER,
       }, 
       videoId : {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: false
       }, clipName : {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false
       }, isGood : {
         type: DataTypes.BOOLEAN 
       }, set : {
@@ -24,9 +26,11 @@ module.exports = {
       }, serveWon : {
         type: DataTypes.BOOLEAN
       }, startTime : {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false
       }, endTime : {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false
       },
     }, {
       tableName: 'clips',

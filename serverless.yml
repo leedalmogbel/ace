@@ -50,13 +50,13 @@ functions:
           path: /api/videos/getSignedURL
           method: POST
           authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
-          s3:
-            bucket: tennis-trainer-dev-media
-            event: s3:ObjectCreated:*
-            rules:
-              - prefix: videos/
-              - suffix: .mov
-            existing: true
+          # s3:
+          #   bucket: tennis-trainer-dev-media
+          #   event: s3:ObjectCreated:*
+          #   rules:
+          #     - prefix: videos/
+          #     - suffix: .mov
+          #   existing: true
       - http:
           path: /api/videos/{userId}/video
           method: GET
@@ -65,21 +65,29 @@ functions:
           path: /api/videos/{userId}/video
           method: POST
           authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
-      - s3:
-        bucket: tennis-trainer-dev-media
-        event: s3:ObjectCreated:*
-        rules:
-          - prefix: videos/
-          - suffix: .mov
-        existing: true
+      # - s3:
+      #   bucket: tennis-trainer-dev-media
+      #   event: s3:ObjectCreated:*
+      #   rules:
+      #     - prefix: videos/
+      #     - suffix: .mov
+      #   existing: true
       - http:
-          path: /api/clips/{videoId}/clip
+          path: /api/clips/
           method: GET
           authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
       - http:
           path: /api/clips/{videoId}/clip
           method: POST
           authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
+      - http:
+          path: /api/clips/keypoint
+          method: GET
+          # authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
+      - http:
+          path: /api/clips/keypoint
+          method: POST
+          # authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
 resources:
   Resources:
     tennisTrainerS3Bucket:

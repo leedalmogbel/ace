@@ -11,7 +11,9 @@ class VideoRepository extends BaseRepository {
         userId: id
       },
       attributes: [
-        'path'
+        'id',
+        'videoName',
+        'path',
       ]
     });
   }
