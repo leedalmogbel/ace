@@ -19,9 +19,14 @@ const Utils = () => {
     };
   };
 
+  const formatTime = seconds => {
+    return new Date(1000 * seconds).toISOString().substr(11, 8);
+  };
+
   return {
     resSuccess,
-    resError
+    resError,
+    formatTime
   };
 };
 

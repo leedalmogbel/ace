@@ -10,7 +10,10 @@ class ClipsController extends BaseController {
     // Clip
     router.get('/', this.injector('ListClips'), this.showList);
     router.post('/:videoId/clip', this.injector('CreateClip'), this.create);
+    router.put('/update/:id', this.injector('UpdateClip'), this.update);
+    router.delete('/delete/:id', this.injector('DeleteClip'), this.delete);
 
+    router.get('/keypoint/list', this.injector('ListKeypoints'), this.index);
     router.get('/keypoint', this.injector('GetKeypoint'), this.showList);
     router.post('/keypoint', this.injector('KeypointSignedURL'), this.create);
 

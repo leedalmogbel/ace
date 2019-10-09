@@ -13,7 +13,10 @@ class CreateClip extends Operation {
     // Implement service/usecase logic here. eg:
       
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
-     
+    
+    data.startTime = Utils().formatTime(data.startTime);
+    data.endTime = Utils().formatTime(data.endTime);
+    
     const clip = new Clip(data);
     
     try {

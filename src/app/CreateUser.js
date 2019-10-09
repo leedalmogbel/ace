@@ -1,7 +1,7 @@
 const { Operation } = require('@amberjs/core');
 const User = require('src/domain/User');
 const Utils = require('../infra/services/utils.js');
-// const Coach = require('src/domain/Coach');
+const Coach = require('src/domain/Coach');
 
 class CreateUser extends Operation {
   constructor({ UserRepository, CoachesRepository }) {
@@ -15,9 +15,20 @@ class CreateUser extends Operation {
 
     const user = new User(data);
 
+    console.log(data.userType);
+
     try {
       const newUser = await this.UserRepository.createEmail(user);
-      const data = (data, message) => {
+      const coachData = {
+        userId: newUser[0].id,
+        coachName: newUser[0].name
+      };
+      console.log(coachData);
+      if (data.userType === 'coach') {
+        const coach = new Coach(coachData);
+        await this.CoachesRepository.createCoach(coach);
+      }
+      const newData = (data, message) => {
         return {
           statusCode: 200,
           data: data[0],
@@ -27,7 +38,7 @@ class CreateUser extends Operation {
       const message = {
         status: 'Successful Signin',
       };
-      this.emit(SUCCESS, data(newUser, message));
+      this.emit(SUCCESS, newData(newUser, message));
     } catch(error) {
       const dataError = Utils().resError(error);
       if(error.message === 'ValidationError') {

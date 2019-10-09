@@ -8,6 +8,7 @@ const Coach = attributes({
   // updatedAt: Date,
   id: Number,
   userId: Number,
+  coachName: String,
   createdAt: Date,
   updatedAt: Date
 })(class Coach {

@@ -7,19 +7,15 @@ class CoachesRepository extends BaseRepository {
     super(CoachesModel);
   }
   
-  async createCoach(userId, res) {
-    const coach = await this.model.create({
-      include: [{
-        model: UserModel,
-        where: {
-          email: UserModel.email
-        },
-        through: {attributes: []}
-      }],
-      where: {userId: userId},
-      attributes: ['id', 'userId']
+  async createCoach (data) {
+    return await this.model.findOrCreate({
+      where: {
+        userId: data.userId,
+      },
+      defaults: {
+        coachName: data.coachName
+      }
     });
-    return res.status(200).send(coach);
   }
 
   async findAllCoaches(res) {
