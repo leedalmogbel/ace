@@ -9,9 +9,7 @@ module.exports = {
         autoIncrement: true,
         type: DataTypes.INTEGER,
       }, 
-      tagId : {
-        type: DataTypes.INTEGER
-      }, playerId : {
+      videoId : {
         type: DataTypes.INTEGER
       }, tournament : {
         type: DataTypes.STRING
@@ -37,10 +35,6 @@ module.exports = {
      */
     
     TypeMatchModel.associate = () => {
-      TypeMatchModel.belongsTo(datasource.models.PlayerModel, {
-        foreignKey: 'playerId',
-        as: 'player'
-      });
       TypeMatchModel.belongsTo(datasource.models.VideoModel, {
         foreignKey: 'videoId',
         as: 'tag'

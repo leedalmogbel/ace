@@ -1,40 +1,73 @@
 const { Operation } = require('@amberjs/core');
 const signURL = require('../infra/services/signedUrl');
 const Video = require('src/domain/Video');
+const Match = require('src/domain/Match');
 
 class GetSignedURL extends Operation {
-  constructor({ VideoRepository }) {
+  constructor({ VideoRepository, MatchRepository }) {
     super();
     this.VideoRepository = VideoRepository;
+    this.MatchRepository = MatchRepository;
   }
 
   async execute(data) {     
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
-    console.log(data);
+    // console.log(data);
 
-    const signed = signURL.fileUpload(data.userId, data.fileType);
+    const videoName = `${data.location}_${data.date}_${data.time}`;
+    const signed = signURL.fileUpload(data.userId, data.fileType, videoName);
     const pathURL = `https://${signed.bucketName}.s3.ap-southeast-1.amazonaws.com/${signed.key}`;
     const dataRDS = {
       userId: data.userId,
-      videoName: data.videoName,
+      videoName: videoName,
       path: pathURL,
-      status: 'PENDING'
+      status: 'PENDING',
+      opponent: data.opponent,
+      matchType: data.matchType,
+      location: data.location,
+      date: data.date,
+      time: data.time,
     };
 
     const video = new Video(dataRDS);
     try {
       // const message = 'Video Uploading';
-      console.log(signed.key);
-      console.log(dataRDS);
+      // console.log(signed.key);
+      // console.log(dataRDS);
       const signedUrl = signed.signedUrl;
       console.log(signedUrl);
       const newVideo = await this.VideoRepository.add(video);
-      const videoData = [{videoId:newVideo.id, userId:newVideo.userId, videoName:newVideo.videoName, path:newVideo.path, status:newVideo.status}];
+      if (data.matchType === 'match') {
+        const dataMatch = {
+          videoId: newVideo.id,
+          type: data.type,
+          tournament: data.tournament,
+          result: data.matchResult,
+        };
+        const match = new Match(dataMatch);
+        const newMatch = await this.MatchRepository.add(match);
+        console.log(newMatch.videoId);
+      }
+      const videoData = [{
+        videoId:newVideo.id,
+        userId:newVideo.userId,
+        videoName:newVideo.videoName,
+        path:newVideo.path,
+        opponent: newVideo.opponent,
+        matchType: newVideo.matchType,
+        type: data.type,
+        tournament: data.tournament,
+        result: data.matchResult,
+        location: newVideo.location,
+        date: newVideo.date,
+        time: newVideo.time,
+      }];
+
       const created = {
         signedUrl,
         videoData
       };
-      console.log(created);
+      console.table(created);
       // const saveVideo
       this.emit(SUCCESS, created);
     } catch(error) {

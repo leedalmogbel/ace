@@ -15,8 +15,6 @@ module.exports = {
       }, clipName : {
         type: DataTypes.STRING,
         allowNull: false
-      }, isGood : {
-        type: DataTypes.BOOLEAN 
       }, set : {
         type: DataTypes.INTEGER
       }, game : {
@@ -31,7 +29,23 @@ module.exports = {
       }, endTime : {
         type: DataTypes.STRING,
         allowNull: false
-      },
+      }, shotType : {
+        type: DataTypes.STRING
+      }, moveDirection : {
+        type: DataTypes.STRING
+      }, hitSpot : {
+        type: DataTypes.STRING
+      }, shotResult : {
+        type: DataTypes.STRING
+      }, errorType : {
+        type: DataTypes.STRING
+      }, spin : {
+        type: DataTypes.STRING
+      }, shotDirection : {
+        type: DataTypes.STRING
+      }, speed : {
+        type: DataTypes.STRING
+      }
     }, {
       tableName: 'clips',
       timestamps: true

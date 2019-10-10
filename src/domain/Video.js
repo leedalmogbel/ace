@@ -7,14 +7,13 @@ const Video = attributes({
   videoName: String,
   path: String,
   status: String,
-  createdAt: Date,
-  updatedAt: Date,
   opponent: String,
   matchType: String,
-  set: Number,
-  game: Number,
-  matchLength: String,
   location: String,
+  date: String,
+  time: String,
+  createdAt: Date,
+  updatedAt: Date,
 
 })(class Video {
   // Add validation functions below

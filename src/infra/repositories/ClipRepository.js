@@ -11,6 +11,25 @@ class ClipRepository extends BaseRepository {
     return clipData;
   }
 
+  async getClipAnalytics(id, set) {
+    return await this.model.findAll({
+      where: {
+        videoId: id,
+        set: set
+      },
+      attributes: [
+        'set',
+        'shotType',
+        'hitSpot',
+        'shotResult',
+        'errorType',
+        'spin',
+        'shotDirection',
+        'speed'
+      ]
+    });
+  }
+
   async getClips(id) {
     return await this.model.findAll({
       where: {
@@ -19,13 +38,20 @@ class ClipRepository extends BaseRepository {
       attributes: [
         'videoId',
         'clipName',
-        'isGood',
         'set',
         'game',
         'serveIn',
         'serveWon',
         'startTime',
-        'endTime'
+        'endTime',
+        'shotType',
+        'moveDirection',
+        'hitSpot',
+        'shotResult',
+        'errorType',
+        'spin',
+        'shotDirection',
+        'speed'
       ]
     });
   }

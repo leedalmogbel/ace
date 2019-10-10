@@ -11,6 +11,8 @@ class VideosController extends BaseController {
     router.get('/:userId/video', this.injector('ListVideo'), this.showList);
     router.post('/:userId/video', this.injector('CreateVideo'), this.create);
 
+    router.get('/analytics', this.injector('ListAnalytics'), this.showList);
+
     router.post('/getSignedURL', this.injector('GetSignedURL'), this.create);
 
     return router;
@@ -35,8 +37,8 @@ class VideosController extends BaseController {
       })
       .on(ERROR, next);
 
-    operation.execute(Number(req.params.userId), req.body);
-  }  
+    operation.execute(Number(req.params.userId)||Number(req.query.videoId), Number(req.query.set), req.body);
+  }
 }
 
 module.exports = VideosController;

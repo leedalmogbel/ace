@@ -22,15 +22,13 @@ module.exports = {
         type: DataTypes.STRING
       }, matchType : {
         type: DataTypes.STRING
-      }, set : {
-        type: DataTypes.INTEGER
-      }, game : {
-        type: DataTypes.INTEGER
-      }, matchLength : {
-        type: DataTypes.STRING
       }, location : {
         type: DataTypes.STRING
-      },
+      }, date : {
+        type: DataTypes.STRING
+      }, time : {
+        type: DataTypes.STRING
+      }
     }, {
       tableName: 'videos',
       timestamps: true

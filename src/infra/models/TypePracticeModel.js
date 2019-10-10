@@ -37,10 +37,6 @@ module.exports = {
         foreignKey: 'videoId',
         as: 'tag'
       });
-      TypePracticeModel.belongsTo(datasource.models.PlayerModel, {
-        foreignKey: 'playerId',
-        as: 'player'
-      });
     };
 
     return TypePracticeModel;

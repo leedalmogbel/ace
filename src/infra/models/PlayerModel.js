@@ -53,12 +53,6 @@ module.exports = {
         foreignKey: 'coachId',
         as: 'coach'
       });
-      PlayerModel.hasMany(datasource.models.TypeMatchModel, {
-        foreignKey: 'playerId'
-      });
-      PlayerModel.hasMany(datasource.models.TypePracticeModel, {
-        foreignKey: 'playerId'
-      });
     };
 
     return PlayerModel;

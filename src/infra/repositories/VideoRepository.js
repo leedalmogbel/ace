@@ -17,6 +17,17 @@ class VideoRepository extends BaseRepository {
       ]
     });
   }
+
+  async getVideoName(id) {
+    return await this.model.findAll({
+      where: {
+        id: id
+      },
+      attributes: [
+        'videoName',
+      ]
+    });
+  }
 }
 
 module.exports = VideoRepository;

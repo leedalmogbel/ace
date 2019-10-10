@@ -7,8 +7,9 @@ const bucketName = process.env.AWS_S3_BUCKET;
 // const baseURL = process.env.BUCKET_URL;
 
 
-module.exports.fileUpload = (userId, fileType) => {
-  const key = `videos/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${userId}/${String(Date.now())}.${fileType}`;
+module.exports.fileUpload = (userId, fileType, videoName) => {
+  // name before = String(Date.now())
+  const key = `videos/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${userId}/${videoName}.${fileType}`;
   console.log(key);
 
   const params = {
