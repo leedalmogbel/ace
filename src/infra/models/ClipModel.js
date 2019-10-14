@@ -29,6 +29,10 @@ module.exports = {
       }, endTime : {
         type: DataTypes.STRING,
         allowNull: false
+      }, currentSetScore : {
+        type: DataTypes.STRING,
+      }, currentGameScore : {
+        type: DataTypes.STRING,
       }, shotType : {
         type: DataTypes.STRING
       }, moveDirection : {
@@ -38,13 +42,17 @@ module.exports = {
       }, shotResult : {
         type: DataTypes.STRING
       }, errorType : {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'NA'
       }, spin : {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'NA'
       }, shotDirection : {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'NA'
       }, speed : {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: 'NA'
       }
     }, {
       tableName: 'clips',

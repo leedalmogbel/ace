@@ -20,12 +20,6 @@ class ClipRepository extends BaseRepository {
       attributes: [
         'set',
         'game',
-        'serveIn',
-        'serveWon',
-        'startTime',
-        'endTime',
-        'currentSetScore',
-        'currentGameScore',
         'shotType',
         'hitSpot',
         'shotResult',

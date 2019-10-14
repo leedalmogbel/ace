@@ -17,6 +17,9 @@ class ClipsController extends BaseController {
     router.get('/keypoint', this.injector('GetKeypoint'), this.showList);
     router.post('/keypoint', this.injector('KeypointSignedURL'), this.create);
 
+    //Filter
+    router.get('/details/filter', this.injector('GetFilter'), this.showFilter);
+
     return router;
   }
 
@@ -39,7 +42,29 @@ class ClipsController extends BaseController {
       })
       .on(ERROR, next);
 
-    operation.execute(Number(req.query.clipId)||Number(req.query.videoId), req.body);
+    operation.execute(Number(req.query.clipId)||Number(req.query.videoId)||req.query, req.body);
+  }
+
+  showFilter(req, res, next) {
+    const { operation } = req;
+
+    const { SUCCESS, ERROR, NOT_FOUND } = operation.events;
+
+    operation
+      .on(SUCCESS, (result) => {
+        res
+          .status(Status.OK)
+          .json(result);
+      })
+      .on(NOT_FOUND, (error) => {
+        res.status(Status.NOT_FOUND).json({
+          type: 'NotFoundError',
+          details: error.details
+        });
+      })
+      .on(ERROR, next);
+
+    operation.execute(req.query, req.body);
   }
 }
 

@@ -11,6 +11,8 @@ const Clip = attributes({
   serveWon: Boolean,
   startTime: String,
   endTime: String,
+  currentSetScore: String,
+  currentGameScore: String,
   shotType: String,
   moveDirection: String,
   hitSpot: String,

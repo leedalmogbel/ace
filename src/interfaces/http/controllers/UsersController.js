@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { BaseController } = require('@amberjs/core');
+const Status = require('http-status');
 
 class UsersController extends BaseController {
   
@@ -14,9 +15,34 @@ class UsersController extends BaseController {
     router.delete('/:id', this.injector('DeleteUser'), this.delete);
     
     //Coach
-    router.get('/coach', this.injector('ListCoaches'), this.index);
+    router.get('/coach/list', this.injector('ListCoaches'), this.index);
 
+    //Filter
+    router.get('/details/filter', this.injector('GetFilter'), this.showList);
+    
     return router;
+  }
+
+  showList(req, res, next) {
+    const { operation } = req;
+
+    const { SUCCESS, ERROR, NOT_FOUND } = operation.events;
+
+    operation
+      .on(SUCCESS, (result) => {
+        res
+          .status(Status.OK)
+          .json(result);
+      })
+      .on(NOT_FOUND, (error) => {
+        res.status(Status.NOT_FOUND).json({
+          type: 'NotFoundError',
+          details: error.details
+        });
+      })
+      .on(ERROR, next);
+
+    operation.execute(req.query, req.body);
   }
 }
 

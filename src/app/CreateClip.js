@@ -3,9 +3,10 @@ const Clip = require('src/domain/Clip');
 const Utils = require('src/infra/services/utils.js');
 
 class CreateClip extends Operation {
-  constructor({ ClipRepository}) {
+  constructor({ ClipRepository, VideoRepository }) {
     super();
     this.ClipRepository = ClipRepository;
+    this.VideoRepository = VideoRepository;
   }
 
   async execute(data) {
@@ -16,6 +17,12 @@ class CreateClip extends Operation {
     
     data.startTime = Utils().formatTime(data.startTime);
     data.endTime = Utils().formatTime(data.endTime);
+    console.log(data.videoId);
+
+
+    const video = await this.VideoRepository.getVideoName(data.videoId);
+    data.clipName = `${video[0].videoName}-from:${data.startTime}_to:${data.endTime}`;
+    console.log(data.clipName);
     
     const clip = new Clip(data);
     
