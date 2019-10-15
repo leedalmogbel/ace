@@ -3,7 +3,8 @@ const { BaseRepository } = require('@amberjs/core');
 
 class FilterRepository extends BaseRepository {
   constructor({ VideoModel, ClipModel }) {
-    super(VideoModel);
+    super();
+    this.VideoModel = VideoModel;
     this.ClipModel = ClipModel;
   }
 
@@ -39,7 +40,7 @@ class FilterRepository extends BaseRepository {
     if (data.shotDirection) {
       whereStatement.shotDirection = data.shotDirection;
     }
-    return this.model.findOne({
+    return this.VideoModel.findOne({
       include: [{
         model: this.ClipModel,
         AS: 'Clips',

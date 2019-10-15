@@ -36,14 +36,14 @@ class CreateUser extends Operation {
       const message = {
         status: 'Successful Signin',
       };
-      this.emit(SUCCESS, newData(newUser, message));
+      return this.emit(SUCCESS, newData(newUser, message));
     } catch(error) {
       const dataError = Utils().resError(error);
       if(error.message === 'ValidationError') {
         return this.emit(VALIDATION_ERROR, dataError, error.message);
       }
 
-      this.emit(ERROR, dataError, error.message);
+      return this.emit(ERROR, dataError, error.message);
     }    
   }
 }

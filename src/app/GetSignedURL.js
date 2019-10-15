@@ -62,12 +62,12 @@ class GetSignedURL extends Operation {
         signedUrl,
         videoData
       };
-      this.emit(SUCCESS, created);
+      return this.emit(SUCCESS, created);
     } catch(error) {
       if(error.message === 'ValidationError') {
         return this.emit(VALIDATION_ERROR, error);
       }
-      this.emit(ERROR, error);
+      return this.emit(ERROR, error);
     }
   }
 }

@@ -13,10 +13,10 @@ class ListKeypoints extends Operation {
     try {
       const keypoints = await this.KeypointRepository.getAll();
       const data = Utils().resSuccess(keypoints);
-      this.emit(SUCCESS, data);
+      return this.emit(SUCCESS, data);
     } catch(error) {
       const dataError = Utils().resError(error);
-      this.emit(ERROR, dataError);
+      return this.emit(ERROR, dataError);
     }
   }
 }

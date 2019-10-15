@@ -17,14 +17,14 @@ class CreateVideo extends Operation {
       const message = 'Video Uploaded';
       const newVideo = await this.VideoRepository.add(video);
       const data = Utils().resSuccess(newVideo, message);
-      this.emit(SUCCESS, data);
+      return this.emit(SUCCESS, data);
     } catch(error) {
       const dataError = Utils().resError(error);
       if(error.message === 'ValidationError') {
         return this.emit(VALIDATION_ERROR, dataError);
       }
 
-      this.emit(ERROR, dataError);
+      return this.emit(ERROR, dataError);
     }
   }
 }

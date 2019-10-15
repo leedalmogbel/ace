@@ -20,20 +20,41 @@ class CreateClip extends Operation {
 
     const video = await this.VideoRepository.getVideoName(data.videoId);
     data.clipName = `${video[0].videoName}-from:${data.startTime}_to:${data.endTime}`;
+
+    const newData = {
+      videoId: data.videoId,
+      clipName: data.clipName,
+      set: data.set,
+      game: data.game,
+      serveIn: data.serveIn,
+      serveWon: data.serveWon,
+      startTime: data.startTime,
+      endTime: data.endTime,
+      currentSetScore: data.currentSetScore,
+      currentGameScore: data.currentGameScore,
+      shotType: data.shotType,
+      moveDirection: data.moveDirection,
+      hitSpot: data.hitSpot,
+      shotResult: data.shotResult,
+      errorType: data.errorType,
+      spin: data.spin,
+      shotDirection: data.shotDirection,
+      speed: data.speed
+    };
     
-    const clip = new Clip(data);
+    const clip = new Clip(newData);
     
     try {
       const message = 'Clip Created';
       const newClip = await this.ClipRepository.add(clip);
       const data = Utils().resSuccess(newClip, message);
-      this.emit(SUCCESS, data);
+      return this.emit(SUCCESS, data);
     } catch(error) {
       const dataError = Utils().resError(error);
       if(error.message === 'ValidationError') {
         return this.emit(VALIDATION_ERROR, dataError);
       }
-      this.emit(ERROR, dataError);
+      return this.emit(ERROR, dataError);
     }
   }
 }

@@ -21,10 +21,10 @@ class ListAnalytics extends Operation {
       };
 
       const data = Utils().resSuccess(analytics);
-      this.emit(SUCCESS, data);
+      return this.emit(SUCCESS, data);
     } catch(error) {
       const dataError = Utils().resError(error);
-      this.emit(ERROR, dataError);
+      return this.emit(ERROR, dataError);
     }
   }
 }

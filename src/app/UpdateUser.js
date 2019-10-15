@@ -13,7 +13,7 @@ class UpdateUser extends Operation {
 
     try {
       const user = await this.UserRepository.update(id, data);
-      this.emit(SUCCESS, user);
+      return this.emit(SUCCESS, user);
     } catch(error) {
       switch(error.message) {
       case 'ValidationError':
@@ -21,7 +21,7 @@ class UpdateUser extends Operation {
       case 'NotFoundError':
         return this.emit(NOT_FOUND, error);
       default:
-        this.emit(ERROR, error);
+        return this.emit(ERROR, error);
       }
     }
   }

@@ -14,13 +14,13 @@ class DeleteVideo extends Operation {
       const message = {
         message: 'Clip DELETED'
       };
-      this.emit(SUCCESS, message);
+      return this.emit(SUCCESS, message);
     } catch(error) {
       if(error.message === 'NotFoundError') {
         return this.emit(NOT_FOUND, error);
       }
 
-      this.emit(ERROR, error);
+      return this.emit(ERROR, error);
     }
   }
 }

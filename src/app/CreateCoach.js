@@ -15,13 +15,13 @@ class CreateCoach extends Operation {
     try {
       const newUser = await this.CoachesRepository.add(coach);
       
-      this.emit(SUCCESS, newUser);
+      return this.emit(SUCCESS, newUser);
     } catch(error) {
       if(error.message === 'ValidationError') {
         return this.emit(VALIDATION_ERROR, error);
       }
 
-      this.emit(ERROR, error);
+      return this.emit(ERROR, error);
     }
   }
 }

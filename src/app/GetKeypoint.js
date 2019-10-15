@@ -13,9 +13,9 @@ class GetKeypoint extends Operation {
     try {
       const keypoints = await this.KeypointRepository.getKeypoints(clipId);
       const data = Utils().resSuccess(keypoints);
-      this.emit(SUCCESS, data);
+      return this.emit(SUCCESS, data);
     } catch(error) {
-      this.emit(NOT_FOUND, {
+      return this.emit(NOT_FOUND, {
         type: error.message,
         details: error.details
       });

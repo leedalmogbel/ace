@@ -13,9 +13,9 @@ class GetFilter extends Operation {
     try {
       const filtered = await this.FilterRepository.getByFilter(data);
       const newData = Utils().resSuccess(filtered);
-      this.emit(SUCCESS, newData);
+      return this.emit(SUCCESS, newData);
     } catch(error) {
-      this.emit(NOT_FOUND, {
+      return this.emit(NOT_FOUND, {
         type: error.message,
         details: error.details
       });

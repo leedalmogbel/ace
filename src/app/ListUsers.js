@@ -13,10 +13,10 @@ class ListUsers extends Operation {
     try {
       const users = await this.UserRepository.getAll({});
       const data = Utils().resSuccess(users);
-      this.emit(SUCCESS, data);
+      return this.emit(SUCCESS, data);
     } catch(error) {
       const dataError = Utils().resError(error);
-      this.emit(ERROR, dataError);
+      return this.emit(ERROR, dataError);
     }
   }
 }

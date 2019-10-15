@@ -33,6 +33,7 @@ class ClipsController extends BaseController {
         res
           .status(Status.OK)
           .json(result);
+
       })
       .on(NOT_FOUND, (error) => {
         res.status(Status.NOT_FOUND).json({
@@ -64,7 +65,7 @@ class ClipsController extends BaseController {
       })
       .on(ERROR, next);
 
-    operation.execute(req.query, req.body);
+    operation.execute(req.query);
   }
 }
 

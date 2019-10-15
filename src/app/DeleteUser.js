@@ -11,13 +11,13 @@ class DeleteUser extends Operation {
 
     try {
       await this.UserRepository.remove(id);
-      this.emit(SUCCESS);
+      return this.emit(SUCCESS);
     } catch(error) {
       if(error.message === 'NotFoundError') {
         return this.emit(NOT_FOUND, error);
       }
 
-      this.emit(ERROR, error);
+      return this.emit(ERROR, error);
     }
   }
 }
