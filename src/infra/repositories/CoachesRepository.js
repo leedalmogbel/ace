@@ -8,7 +8,7 @@ class CoachesRepository extends BaseRepository {
   }
   
   async createCoach (data) {
-    return await this.model.findOrCreate({
+    return this.model.findOrCreate({
       where: {
         userId: data.userId,
       },
@@ -19,7 +19,7 @@ class CoachesRepository extends BaseRepository {
   }
 
   async findAllCoaches(res) {
-    const allCoach = await this.model.find({
+    const allCoach = this.model.find({
       include: [{
         model: UserModel,
         where: { 
@@ -31,7 +31,7 @@ class CoachesRepository extends BaseRepository {
   }
 
   async getById(res) {
-    const coachId = await this.model.getById({
+    const coachId = this.model.getById({
       include: [{
         model: UserModel,
         where: {

@@ -10,14 +10,11 @@ class ListVideo extends Operation {
     const { SUCCESS, NOT_FOUND } = this.events;
 
     try {
-      console.log(userId);
       const video = await this.VideoRepository.getVideoById(userId);
-      console.log(video);
       const data = Utils().resSuccess(video);
-      console.log(data);
-      this.emit(SUCCESS, data);
+      return this.emit(SUCCESS, data);
     } catch(error) {
-      this.emit(NOT_FOUND, error);
+      return this.emit(NOT_FOUND, error);
     }
   }
 }

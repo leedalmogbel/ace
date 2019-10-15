@@ -8,7 +8,7 @@ class UserRepository extends BaseRepository {
   async createEmail (data) {
     const year = new Date().getFullYear();
     const userId = parseInt(`${year}${Math.floor(Math.random()* 999999) + 100000}`);
-    return await this.model.findOrCreate({
+    return this.model.findOrCreate({
       where: {
         email: data.email,
       },

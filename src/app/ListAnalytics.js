@@ -11,12 +11,10 @@ class ListAnalytics extends Operation {
 
   async execute(videoId, set) {
     const { SUCCESS, ERROR } = this.events;
-    console.log(videoId, set);
     try {
       const video = await this.VideoRepository.getVideoName(videoId);
       const clips = await this.ClipRepository.getClipAnalytics(videoId, set);
       const match = await this.MatchRepository.getAll();
-      console.log(video[0].videoName);
       const analytics = {
         videoName: video[0].videoName,
         clips

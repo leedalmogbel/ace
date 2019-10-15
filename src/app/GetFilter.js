@@ -9,15 +9,9 @@ class GetFilter extends Operation {
 
   async execute(data) {
     const { SUCCESS, NOT_FOUND } = this.events;
-    console.log(data.videoId);
-    console.log(data.shotType);
-    // const data = {
-    //   id: videoId
-    // };
 
     try {
       const filtered = await this.FilterRepository.getByFilter(data);
-      console.log(filtered);
       const newData = Utils().resSuccess(filtered);
       this.emit(SUCCESS, newData);
     } catch(error) {

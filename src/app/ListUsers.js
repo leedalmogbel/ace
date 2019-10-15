@@ -9,7 +9,6 @@ class ListUsers extends Operation {
 
   async execute() {
     const { SUCCESS, ERROR } = this.events;
-    console.log('test logging');
 
     try {
       const users = await this.UserRepository.getAll({});

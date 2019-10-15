@@ -15,15 +15,13 @@ class CreateUser extends Operation {
 
     const user = new User(data);
 
-    console.log(data.userType);
-
     try {
       const newUser = await this.UserRepository.createEmail(user);
       const coachData = {
         userId: newUser[0].id,
         coachName: newUser[0].name
       };
-      console.log(coachData);
+      
       if (data.userType === 'coach') {
         const coach = new Coach(coachData);
         await this.CoachesRepository.createCoach(coach);
@@ -46,23 +44,7 @@ class CreateUser extends Operation {
       }
 
       this.emit(ERROR, dataError, error.message);
-    }
-
-    // this.CoachesRepository.createCoach({id: req.params.id}, res, next)
-    //   const coach = new Coach(id, res);
-    //   try {
-    //     coach.isAdminAuthenticate();
-    //     const newCoach = await this.CoachesRepository.add(coach);
-        
-    //     this.emit(SUCCESS, newCoach);
-    //   } catch(error) {
-    //     if(error.message === 'ValidationError') {
-    //       return this.emit(VALIDATION_ERROR, error);
-    //     }
-  
-    //     this.emit(ERROR, error);
-    //   }
-    
+    }    
   }
 }
 

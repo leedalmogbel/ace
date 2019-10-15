@@ -39,7 +39,7 @@ class FilterRepository extends BaseRepository {
     if (data.shotDirection) {
       whereStatement.shotDirection = data.shotDirection;
     }
-    return await this.model.findOne({
+    return this.model.findOne({
       include: [{
         model: this.ClipModel,
         AS: 'Clips',

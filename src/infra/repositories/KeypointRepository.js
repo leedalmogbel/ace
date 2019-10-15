@@ -6,12 +6,12 @@ class KeypointRepository extends BaseRepository {
     super(MoveKeypointModel);
   }
   async createKeypoint(data) {
-    const keypointData = await this.model.create(data);
+    const keypointData = this.model.create(data);
     return keypointData;
   }
 
   async getKeypoints(id) {
-    return await this.model.findAll({
+    return this.model.findAll({
       where: {
         clipId: id
       },

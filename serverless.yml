@@ -70,16 +70,9 @@ functions:
           method: GET
           authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
       - http:
-          path: /api/clips/details/filter
+          path: /api/clips/video/details/filter
           method: GET
           authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
-      # - s3:
-      #   bucket: tennis-trainer-dev-media
-      #   event: s3:ObjectCreated:*
-      #   rules:
-      #     - prefix: videos/
-      #     - suffix: .mov
-      #   existing: true
       - http:
           path: /api/clips/
           method: GET

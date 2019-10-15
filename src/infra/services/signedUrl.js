@@ -10,7 +10,6 @@ const bucketName = process.env.AWS_S3_BUCKET;
 module.exports.fileUpload = (userId, fileType, videoName) => {
   // name before = String(Date.now())
   const key = `videos/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${userId}/${videoName}.${fileType}`;
-  console.log(key);
 
   const params = {
     Bucket: bucketName,
@@ -20,7 +19,6 @@ module.exports.fileUpload = (userId, fileType, videoName) => {
     Expires: 604800,
   };
 
-  console.log(params);
   const signedUrl = s3.getSignedUrl('putObject', params);
   return  {
     signedUrl,
@@ -31,7 +29,6 @@ module.exports.fileUpload = (userId, fileType, videoName) => {
 
 module.exports.keypointsUpload = (clipId) => {
   const key = `keypoints/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${clipId}/${String(Date.now())}.json`;
-  console.log(key);
 
   const params = {
     Bucket: bucketName,
@@ -41,7 +38,6 @@ module.exports.keypointsUpload = (clipId) => {
     Expires: 604800,
   };
 
-  console.log(params);
   const signedUrl = s3.getSignedUrl('putObject', params);
   return  {
     signedUrl,

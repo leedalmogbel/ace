@@ -12,7 +12,6 @@ class GetSignedURL extends Operation {
 
   async execute(data) {     
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
-    // console.log(data);
 
     const videoName = `${data.location}_${data.date}_${data.time}`;
     const signed = signURL.fileUpload(data.userId, data.fileType, videoName);
@@ -31,11 +30,7 @@ class GetSignedURL extends Operation {
 
     const video = new Video(dataRDS);
     try {
-      // const message = 'Video Uploading';
-      // console.log(signed.key);
-      // console.log(dataRDS);
       const signedUrl = signed.signedUrl;
-      console.log(signedUrl);
       const newVideo = await this.VideoRepository.add(video);
       if (data.matchType === 'match') {
         const dataMatch = {
@@ -67,8 +62,6 @@ class GetSignedURL extends Operation {
         signedUrl,
         videoData
       };
-      console.table(created);
-      // const saveVideo
       this.emit(SUCCESS, created);
     } catch(error) {
       if(error.message === 'ValidationError') {

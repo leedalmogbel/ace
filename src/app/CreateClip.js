@@ -17,12 +17,9 @@ class CreateClip extends Operation {
     
     data.startTime = Utils().formatTime(data.startTime);
     data.endTime = Utils().formatTime(data.endTime);
-    console.log(data.videoId);
-
 
     const video = await this.VideoRepository.getVideoName(data.videoId);
     data.clipName = `${video[0].videoName}-from:${data.startTime}_to:${data.endTime}`;
-    console.log(data.clipName);
     
     const clip = new Clip(data);
     

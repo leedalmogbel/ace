@@ -10,7 +10,12 @@ const config = {
       database: 'tennis',
       dialect: 'postgres',
       isSync: 'true',
-      logging: false
+      logging: false,
+      pool: {
+        max: 50,
+        min: 0,
+        idle: 10
+      }
     }
   },
 
@@ -24,7 +29,12 @@ const config = {
       database: process.env.DB_NAME,
       dialect: process.env.DB_DIALECT,
       isSync: 'true',
-      logging: false
+      logging: false,
+      pool: {
+        max: 50,
+        min: 0,
+        idle: 10
+      }
     }
   }
 };

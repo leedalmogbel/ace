@@ -18,7 +18,7 @@ class ClipsController extends BaseController {
     router.post('/keypoint', this.injector('KeypointSignedURL'), this.create);
 
     //Filter
-    router.get('/details/filter', this.injector('GetFilter'), this.showFilter);
+    router.get('/video/details/filter', this.injector('GetFilter'), this.showFilter);
 
     return router;
   }

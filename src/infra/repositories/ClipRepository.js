@@ -7,12 +7,12 @@ class ClipRepository extends BaseRepository {
   }
 
   async createClip(data) {
-    const clipData = await this.model.create(data);
+    const clipData = this.model.create(data);
     return clipData;
   }
 
   async getClipAnalytics(id, set) {
-    return await this.model.findAll({
+    return this.model.findAll({
       where: {
         videoId: id,
         set: set
@@ -32,7 +32,7 @@ class ClipRepository extends BaseRepository {
   }
 
   async getClips(id) {
-    return await this.model.findAll({
+    return this.model.findAll({
       where: {
         videoId: id
       },

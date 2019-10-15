@@ -6,7 +6,7 @@ class VideoRepository extends BaseRepository {
     super(VideoModel);
   }
   async getVideoById(id) {
-    return await this.model.findAll({
+    return this.model.findAll({
       where: {
         userId: id
       },
@@ -19,7 +19,7 @@ class VideoRepository extends BaseRepository {
   }
 
   async getVideoName(id) {
-    return await this.model.findAll({
+    return this.model.findAll({
       where: {
         id: id
       },

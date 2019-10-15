@@ -9,11 +9,9 @@ class ListCoaches extends Operation {
 
   async execute() {
     const { SUCCESS, ERROR } = this.events;
-    console.log('test logging');
 
     try {
       const coaches = await this.CoachesRepository.getAll({});
-      console.log(coaches);
       const data = Utils().resSuccess(coaches);
       this.emit(SUCCESS, data);
     } catch(error) {
