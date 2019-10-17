@@ -2,12 +2,14 @@ const { Operation } = require('@amberjs/core');
 const User = require('src/domain/User');
 const Utils = require('../infra/services/utils.js');
 const Coach = require('src/domain/Coach');
+const Player = require('src/domain/Player');
 
 class CreateUser extends Operation {
-  constructor({ UserRepository, CoachesRepository }) {
+  constructor({ UserRepository, CoachesRepository, PlayerRepository }) {
     super();
     this.UserRepository = UserRepository;
     this.CoachesRepository = CoachesRepository;
+    this.PlayerRepository = PlayerRepository;
   }
 
   async execute(data) {
@@ -17,10 +19,16 @@ class CreateUser extends Operation {
 
     try {
       const newUser = await this.UserRepository.createEmail(user);
+
       const coachData = {
         userId: newUser[0].id,
         coachName: newUser[0].name
       };
+
+      const playerData = {
+        userId: newUser[0].id,
+      };
+      await this.PlayerRepository.add(playerData);
       
       if (data.userType === 'coach') {
         const coach = new Coach(coachData);

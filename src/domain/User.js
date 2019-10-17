@@ -9,7 +9,8 @@ const User = attributes({
     required: true
   },
   userType: String,
-  googleUserId: String
+  googleUserId: String,
+  subscribed: Boolean
 })(class User {
 
 });

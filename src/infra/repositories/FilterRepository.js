@@ -19,12 +19,6 @@ class FilterRepository extends BaseRepository {
     if (data.game) {
       whereStatement.game = data.game;
     }
-    if (data.serveIn) {
-      whereStatement.serveIn = data.serveIn;
-    }
-    if (data.serveWon) {
-      whereStatement.serveWon = data.serveWon;
-    }
     if (data.shotType) {
       whereStatement.shotType = data.shotType;
     }
@@ -49,8 +43,6 @@ class FilterRepository extends BaseRepository {
           'clipName',
           'set',
           'game',
-          'serveIn',
-          'serveWon',
           'startTime',
           'endTime',
           'currentSetScore',

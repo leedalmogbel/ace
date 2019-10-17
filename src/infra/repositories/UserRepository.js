@@ -16,7 +16,8 @@ class UserRepository extends BaseRepository {
         id: userId,
         name: data.name,
         userType: data.userType,
-        googleUserId: data.googleUserId
+        googleUserId: data.googleUserId,
+        subscribed: data.subscribed
       }
     });
   }
