@@ -9,9 +9,10 @@ class ListClips extends Operation {
 
   async execute(videoId) {
     const { SUCCESS, NOT_FOUND } = this.events;
-
+    console.log(videoId);
     try {
       const clips = await this.ClipRepository.getClips(videoId);
+      console.log('line 15 test list', clips);
       const data = Utils().resSuccess(clips);
       return this.emit(SUCCESS, data);
     } catch(error) {

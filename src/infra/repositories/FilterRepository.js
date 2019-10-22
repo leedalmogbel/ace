@@ -39,23 +39,12 @@ class FilterRepository extends BaseRepository {
         model: this.ClipModel,
         AS: 'Clips',
         where: whereStatement,
-        attributes: [
-          'clipName',
-          'set',
-          'game',
-          'startTime',
-          'endTime',
-          'currentSetScore',
-          'currentGameScore',
-          'shotType',
-          'moveDirection',
-          'hitSpot',
-          'shotResult',
-          'errorType',
-          'spin',
-          'shotDirection',
-          'speed',
-        ]
+        attributes: {
+          exclude: [
+            'createdAt',
+            'updatedAt'
+          ]
+        }
       }],
       where: {
         id: data.videoId

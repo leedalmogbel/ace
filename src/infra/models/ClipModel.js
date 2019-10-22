@@ -19,10 +19,6 @@ module.exports = {
         type: DataTypes.INTEGER
       }, game : {
         type: DataTypes.INTEGER
-      }, serveIn : {
-        type: DataTypes.BOOLEAN
-      }, serveWon : {
-        type: DataTypes.BOOLEAN
       }, startTime : {
         type: DataTypes.STRING,
         allowNull: false
@@ -41,6 +37,12 @@ module.exports = {
         type: DataTypes.STRING
       }, shotResult : {
         type: DataTypes.STRING
+      }, smartPattern : {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      }, extra : {
+        type: DataTypes.STRING,
+        defaultValue: 'none'
       }, errorType : {
         type: DataTypes.STRING,
         defaultValue: 'NA'

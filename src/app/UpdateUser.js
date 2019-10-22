@@ -1,4 +1,5 @@
 const { Operation } = require('@amberjs/core');
+const Utils = require('../infra/services/utils');
 
 class UpdateUser extends Operation {
   constructor({ UserRepository }) {
@@ -10,10 +11,12 @@ class UpdateUser extends Operation {
     const {
       SUCCESS, NOT_FOUND, VALIDATION_ERROR, ERROR
     } = this.events;
+    console.log(id, data);
 
     try {
-      const user = await this.UserRepository.update(id, data);
-      return this.emit(SUCCESS, user);
+      const user = await this.UserRepository.subscribed(id, data);
+      const subscription = Utils().resSuccess(user[0]);
+      return this.emit(SUCCESS, subscription);
     } catch(error) {
       switch(error.message) {
       case 'ValidationError':

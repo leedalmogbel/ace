@@ -21,6 +21,16 @@ class UserRepository extends BaseRepository {
       }
     });
   }
+
+  async subscribed(id, data) {
+    return this.model.upsert({
+      id: id,
+      subscribed: data.subscribed
+    },
+    {
+      returning: true
+    });
+  } 
 }
 
 module.exports = UserRepository;

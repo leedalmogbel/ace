@@ -23,6 +23,8 @@ class ClipRepository extends BaseRepository {
         'shotType',
         'hitSpot',
         'shotResult',
+        'smartPattern',
+        'extra',
         'errorType',
         'spin',
         'shotDirection',
@@ -36,24 +38,12 @@ class ClipRepository extends BaseRepository {
       where: {
         videoId: id
       },
-      attributes: [
-        'videoId',
-        'clipName',
-        'set',
-        'game',
-        'serveIn',
-        'serveWon',
-        'startTime',
-        'endTime',
-        'shotType',
-        'moveDirection',
-        'hitSpot',
-        'shotResult',
-        'errorType',
-        'spin',
-        'shotDirection',
-        'speed'
-      ]
+      attributes: {
+        exclude: [
+          'createdAt',
+          'updatedAt'
+        ]
+      }
     });
   }
 }

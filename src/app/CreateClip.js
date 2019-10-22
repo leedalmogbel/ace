@@ -15,19 +15,17 @@ class CreateClip extends Operation {
       
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
     
-    data.startTime = Utils().formatTime(data.startTime);
-    data.endTime = Utils().formatTime(data.endTime);
+    const nameStartTime = Utils().formatTime(data.startTime);
+    const nameEndTime = Utils().formatTime(data.endTime);
 
     const video = await this.VideoRepository.getVideoName(data.videoId);
-    data.clipName = `${video[0].videoName}-from:${data.startTime}_to:${data.endTime}`;
+    data.clipName = `${video[0].videoName}-from:${nameStartTime}_to:${nameEndTime}`;
 
     const newData = {
       videoId: data.videoId,
       clipName: data.clipName,
       set: data.set,
       game: data.game,
-      serveIn: data.serveIn,
-      serveWon: data.serveWon,
       startTime: data.startTime,
       endTime: data.endTime,
       currentSetScore: data.currentSetScore,
@@ -36,6 +34,8 @@ class CreateClip extends Operation {
       moveDirection: data.moveDirection,
       hitSpot: data.hitSpot,
       shotResult: data.shotResult,
+      smartPattern: data.smartPattern,
+      extra: data.extra,
       errorType: data.errorType,
       spin: data.spin,
       shotDirection: data.shotDirection,
