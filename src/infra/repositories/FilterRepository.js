@@ -1,5 +1,6 @@
 
 const { BaseRepository } = require('@amberjs/core');
+const sequelize = require('sequelize');
 
 class FilterRepository extends BaseRepository {
   constructor({ VideoModel, ClipModel }) {
@@ -34,7 +35,7 @@ class FilterRepository extends BaseRepository {
     if (data.shotDirection) {
       whereStatement.shotDirection = data.shotDirection;
     }
-    return this.VideoModel.findOne({
+    return this.VideoModel.findAll({
       include: [{
         model: this.ClipModel,
         AS: 'Clips',
@@ -43,7 +44,7 @@ class FilterRepository extends BaseRepository {
           exclude: [
             'createdAt',
             'updatedAt'
-          ]
+          ],
         }
       }],
       where: {

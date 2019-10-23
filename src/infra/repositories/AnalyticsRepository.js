@@ -1,6 +1,6 @@
 
 const { BaseRepository } = require('@amberjs/core');
-const sequelize = require('sequelize')
+const sequelize = require('sequelize');
 
 class AnalyticsRepository extends BaseRepository {
   constructor({ ClipModel, PlayerModel, VideoModel, TypeMatchModel }) {
@@ -10,12 +10,16 @@ class AnalyticsRepository extends BaseRepository {
     this.VideoModel = VideoModel;
     this.TypeMatchModel = TypeMatchModel;
   }
-
-  async testCount(id) {
+  async testCount(data) {
+    var whereFilterStatement = {};
+    if (data.videoId) {
+      whereFilterStatement.videoId = data.videoId;
+    }
+    if (data.set) {
+      whereFilterStatement.set = data.set;
+    }
     return this.ClipModel.findAll({
-      where: {
-        videoId: id,
-      },
+      where: whereFilterStatement,
       attributes: [
           [sequelize.fn('sum', sequelize.cast({"shotType":"forehand"}, "integer")), 'forehand'],
           [sequelize.fn('sum', sequelize.cast({"shotType":"backhand"}, "integer")), 'backhand'],

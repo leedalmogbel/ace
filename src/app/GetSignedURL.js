@@ -23,6 +23,7 @@ class GetSignedURL extends Operation {
       status: 'PENDING',
       opponent: data.opponent,
       matchType: data.matchType,
+      type: data.type,
       location: data.location,
       date: data.date,
       time: data.time,

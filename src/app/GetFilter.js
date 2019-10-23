@@ -9,7 +9,7 @@ class GetFilter extends Operation {
 
   async execute(data) {
     const { SUCCESS, NOT_FOUND } = this.events;
-
+    console.log(data);
     try {
       const filtered = await this.FilterRepository.getByFilter(data);
       const newData = Utils().resSuccess(filtered);

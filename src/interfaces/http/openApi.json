@@ -1,19 +1,72 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Node API boilerplate",
+    "title": "Tennis Trainer API Endpoints",
     "version": "v1"
   },
   "servers": [
     {
+      "description": "Dev server",
+      "url": "/dev/api"
+    },
+    {
       "description": "Local server",
       "url": "/api"
+    },
+    {
+      "summary": "Auth Token",
+      "description": "Auth Server",
+      "url": "https://t6q9vl4ui9.execute-api.us-east-1.amazonaws.com/dev"
     }
   ],
   "paths": {
-    "/users": {
+    "/auth/accesstoken": {
       "get": {
-        "operationId": "listUsers",
+        "summary": "Auth Token",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "sendVerificationCode",
+        "tags": [
+          {
+            "name": "Auth",
+            "description": " -- Don't forget to change the server URL at the top"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "query",
+            "value": "d793af55-e569-41ea-a82f-8313026e7526",
+            "description": " client id for access token",
+            "required": true
+          },
+          {
+            "name": "clientSecret",
+            "in": "query",
+            "value": "YpkoqVXw/6zd7YKE1M9/nmwtzG7SquRDwKOxkU8pIW8=",
+            "description": "client secret for access token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verification code successfully sent"
+          }
+        }
+      }
+    },
+    "/users/list": {
+      "get": {
+        "summary": "List all Users",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ListUsers",
         "tags": [ "Users" ],
         "responses": {
           "200": {
@@ -31,12 +84,9 @@
           }
         }
       },
-      "post": {
-        "operationId": "createUser",
-        "tags": [ "Users" ],
-        "requestBody": {
-          "description": "User data",
-          "required": true,
+      "responses": {
+        "201": {
+          "description": "User created successfully",
           "content": {
             "application/json": {
               "schema": {
@@ -45,24 +95,102 @@
             }
           }
         },
-        "responses": {
-          "201": {
-            "description": "User created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
+        "400": {
+          "description": "User not created because of validation error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/defaultResponses/ValidationError"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/signin": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "CreateUser",
+        "tags": [ "Users" ],
+        "requestBody": {
+          "description": "Update Subscription",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "varchar"
+                  },
+                  "userType": {
+                    "type": "string"
+                  },
+                  "googleUserId": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "subscribed": {
+                    "type": "boolean"
+                  }
                 }
               }
             }
-          },
-          "400": {
-            "description": "User not created because of validation error",
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sign in",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/defaultResponses/ValidationError"
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "varchar"
+                    },
+                    "userType": {
+                      "type": "string"
+                    },
+                    "googleUserId": {
+                      "type": "integer"
+                    },
+                    "subscribed": {
+                      "type": "boolean",
+                      "defaultValue": false
+                    }
+                  }
                 }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "Successful Signin",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "User not created because of validation error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/defaultResponses/ValidationError"
               }
             }
           }
@@ -71,7 +199,12 @@
     },
     "/users/{id}": {
       "get": {
-        "operationId": "showUser",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ShowUser",
         "tags": [ "Users" ],
         "parameters": [
           {
@@ -107,25 +240,34 @@
         }
       },
       "put": {
-        "operationId": "updateUser",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "UpdateUser",
         "tags": [ "Users" ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id of user to update",
+            "description": "id of the user to update subscription",
             "required": true,
             "type": "integer",
             "format": "int64"
           }
         ],
         "requestBody": {
-          "description": "User new data",
+          "description": "Update Subscription",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "properties": {
+                  "subscribed": {
+                    "type": "boolean"
+                  }
+                }
               }
             }
           }
@@ -136,7 +278,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "subscribed": {
+                    "type": "boolean"
+                  }
                 }
               }
             }
@@ -154,7 +298,12 @@
         }
       },
       "delete": {
-        "operationId": "deleteUser",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "DeleteUser",
         "tags": [ "Users" ],
         "parameters": [
           {
@@ -183,13 +332,28 @@
         }
       }
     },
-    "/projects": {
+    "/videos/{userId}/video": {
       "get": {
-        "operationId": "listProjects",
-        "tags": [ "Projects" ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ListVideo",
+        "tags": [ "Videos" ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "id of the user to show video from",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "List of all projects",
+            "description": "List of all videos of specific userId",
             "content": {
               "application/json": {
                 "schema": {
@@ -204,10 +368,15 @@
         }
       },
       "post": {
-        "operationId": "createProject",
-        "tags": [ "Projects" ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "CreateVideo",
+        "tags": [ "Videos" ],
         "requestBody": {
-          "description": "Project data",
+          "description": "Video data",
           "required": true,
           "content": {
             "application/json": {
@@ -235,6 +404,162 @@
                 "schema": {
                   "$ref": "#/defaultResponses/ValidationError"
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/videos/analytics": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ListAnalytics",
+        "tags": [ "Videos" ],
+        "parameters": [
+          {
+            "name": "videoId",
+            "in": "query",
+            "description": "id of the video to search",
+            "required": true
+          },
+          {
+            "name": "set",
+            "in": "query",
+            "description": "set of the match",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all clips",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "User created successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "User not created because of validation error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/defaultResponses/ValidationError"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/videos/getSignedURL": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "GetSignedURL",
+        "tags": [ "Videos" ],
+        "requestBody": {
+          "description": "Generate Signed URL",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "userId": {
+                    "type": "integer",
+                    "required": true
+                  },
+                  "fileType": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "opponent": {
+                    "type": "string"
+                  },
+                  "matchType": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "tournament": {
+                    "type": "string"
+                  },
+                  "matchResult": {
+                    "type": "string"
+                  },
+                  "date": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "time": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of all clips",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "User created successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "User not created because of validation error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/defaultResponses/ValidationError"
               }
             }
           }
@@ -395,6 +720,15 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "in": "header",
+        "description": "idToken from login"
+      }
+    },
     "schemas": {
       "User": {
         "properties": {
