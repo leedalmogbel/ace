@@ -74,33 +74,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
+                  "example": {
+                    "statusCode": 200,
+                    "data": [
+                      {
+                        "id": 2019131640,
+                        "name": "Benjamin Matias",
+                        "email": "bmatias@stratpoint.com",
+                        "userType": "admin",
+                        "googleUserId": "20190917",
+                        "fbUserId": "20191024",
+                        "subscribed": true,
+                        "createdAt": "2019-10-18T01:53:12.970Z",
+                        "updatedAt": "2019-10-24T09:06:35.680Z"
+                      }
+                    ]
                   }
                 }
-              }
-            }
-          }
-        }
-      },
-      "responses": {
-        "201": {
-          "description": "User created successfully",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "400": {
-          "description": "User not created because of validation error",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/defaultResponses/ValidationError"
               }
             }
           }
@@ -108,7 +98,7 @@
       }
     },
     "/users/signin": {
-      "get": {
+      "post": {
         "security": [
           {
             "bearerAuth": []
@@ -117,7 +107,7 @@
         "operationId": "CreateUser",
         "tags": [ "Users" ],
         "requestBody": {
-          "description": "Update Subscription",
+          "description": "Sign in",
           "required": true,
           "content": {
             "application/json": {
@@ -127,12 +117,16 @@
                     "type": "string"
                   },
                   "email": {
-                    "type": "varchar"
+                    "type": "string"
                   },
                   "userType": {
                     "type": "string"
                   },
                   "googleUserId": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "fbUserId": {
                     "type": "integer",
                     "format": "int64"
                   },
@@ -529,6 +523,33 @@
         },
         "responses": {
           "200": {
+            "description": "Signed URL",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clips": {
+      "get": {
+        "summary": "List all clips per videoId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ListClips",
+        "tags": [ "Clips" ],
+        "responses": {
+          "200": {
             "description": "List of all clips",
             "content": {
               "application/json": {
@@ -566,114 +587,351 @@
         }
       }
     },
-    "/projects/{id}": {
-      "get": {
-        "operationId": "showProject",
-        "tags": [ "Projects" ],
-        "parameters": [
+    "/clips/{videoId}/clip": {
+      "post": {
+        "summary": "Create Clip",
+        "security": [
           {
-            "name": "id",
-            "in": "path",
-            "description": "Id of project to show",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
+            "bearerAuth": []
           }
         ],
+        "operationId": "CreateClip",
+        "tags": [ "Clips" ],
         "responses": {
           "200": {
-            "description": "Return project with given id",
+            "description": "Clip created",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Project"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Project not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/defaultResponses/NotFoundError"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
                 }
               }
             }
           }
         }
       },
-      "put": {
-        "operationId": "updateProject",
-        "tags": [ "Projects" ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Id of project to update",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "requestBody": {
-          "description": "Project new data",
-          "required": true,
+      "responses": {
+        "201": {
+          "description": "User created successfully",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Project"
+                "$ref": "#/components/schemas/User"
               }
             }
           }
         },
-        "responses": {
-          "202": {
-            "description": "Project updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Project"
-                }
+        "400": {
+          "description": "User not created because of validation error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/defaultResponses/ValidationError"
               }
             }
-          },
-          "404": {
-            "description": "Project not found",
+          }
+        }
+      }
+    },
+    "/clips/update/{id}": {
+      "put": {
+        "summary": "Update data of a clip",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "UpdateClip",
+        "tags": [ "Clips" ],
+        "responses": {
+          "200": {
+            "description": "Clip updated",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/defaultResponses/NotFoundError"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
                 }
               }
             }
           }
         }
       },
-      "delete": {
-        "operationId": "deleteProject",
-        "tags": [ "Projects" ],
-        "parameters": [
+      "responses": {
+        "201": {
+          "description": "Updated successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "User not created because of validation error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/defaultResponses/ValidationError"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clips/delete/{id}": {
+      "get": {
+        "summary": "Delete a clip",
+        "security": [
           {
-            "name": "id",
-            "in": "path",
-            "description": "Id of project to delete",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
+            "bearerAuth": []
           }
         ],
+        "operationId": "DeleteClip",
+        "tags": [ "Clips" ],
         "responses": {
-          "202": {
-            "description": "Project deleted successfully"
-          },
-          "404": {
-            "description": "Project not found",
+          "200": {
+            "description": "Clip Deleted",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/defaultResponses/NotFoundError"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
                 }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "User created successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "User not created because of validation error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/defaultResponses/ValidationError"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clips/video/details/filter": {
+      "get": {
+        "summary": "Filter clips",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "GetFilter",
+        "tags": [ "Clips" ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "User created successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "User not created because of validation error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/defaultResponses/ValidationError"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clips/countfilter": {
+      "get": {
+        "summary": "Filter clips and count value occurences and percentage",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ListFilteredClips",
+        "tags": [ "Clips" ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "User created successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "User not created because of validation error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/defaultResponses/ValidationError"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clips/keypoint/list": {
+      "get": {
+        "summary": "List all keypoints",
+        "operationId": "ListKeypoints",
+        "tags": [ "Keypoints" ],
+        "responses": {
+          "200": {
+            "description": "List all keypoints",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "User created successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "User not created because of validation error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/defaultResponses/ValidationError"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clips/keypoint": {
+      "get": {
+        "summary": "Get path where keypoint is uploaded",
+        "operationId": "GetKeypoint",
+        "tags": [ "Keypoints" ],
+        "responses": {
+          "200": {
+            "description": "Retrieve successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Generate signed URL for keypoints",
+        "operationId": "KeypointSignedURL",
+        "tags": [ "Keypoints" ],
+        "responses": {
+          "200": {
+            "description": "Retrieve successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "User created successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "User not created because of validation error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/defaultResponses/ValidationError"
               }
             }
           }

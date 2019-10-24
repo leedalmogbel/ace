@@ -21,6 +21,7 @@ const Clip = attributes({
   spin: String,
   shotDirection: String,
   speed: String,
+  comments: String,
   createdAt: Date,
   updatedAt: Date,
 })(class Clip {

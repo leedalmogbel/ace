@@ -16,35 +16,40 @@ class CreateUser extends Operation {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
 
     const user = new User(data);
-
     try {
-      const newUser = await this.UserRepository.createEmail(user);
+      const newUser = await this.UserRepository.findCreateUpdate(user);
 
-      const coachData = {
-        userId: newUser[0].id,
-        coachName: newUser[0].name
-      };
-
-      const playerData = {
-        userId: newUser[0].id,
-      };
-      await this.PlayerRepository.add(playerData);
-      
-      if (data.userType === 'coach') {
-        const coach = new Coach(coachData);
-        await this.CoachesRepository.createCoach(coach);
-      }
       const newData = (data, message) => {
         return {
           statusCode: 200,
-          data: data[0],
+          data: data,
           message
         };
       };
       const message = {
         status: 'Successful Signin',
       };
-      return this.emit(SUCCESS, newData(newUser, message));
+
+      if (newUser[0] != 1) {
+        const playerData = {
+          userId: newUser.id,
+        };
+        await this.PlayerRepository.add(playerData);
+        
+        const coachData = {
+          userId: newUser.id,
+          coachName: newUser.name
+        };
+
+        if (data.userType === 'coach') {
+          const coach = new Coach(coachData);
+          await this.CoachesRepository.createCoach(coach);
+        }
+        return this.emit(SUCCESS, newData(newUser, message));
+      } else {
+        const [,usern ] = newUser;
+        return this.emit(SUCCESS, newData(usern[0], message));
+      }
     } catch(error) {
       const dataError = Utils().resError(error);
       if(error.message === 'ValidationError') {

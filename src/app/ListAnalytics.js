@@ -17,7 +17,7 @@ class ListAnalytics extends Operation {
       const match = await this.MatchRepository.getAll();
       const analytics = {
         videoName: video[0].videoName,
-        clips
+        clips,
       };
 
       const data = Utils().resSuccess(analytics);

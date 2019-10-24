@@ -10,6 +10,7 @@ const User = attributes({
   },
   userType: String,
   googleUserId: String,
+  fbUserId: String,
   subscribed: Boolean
 })(class User {
 

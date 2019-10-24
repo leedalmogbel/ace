@@ -55,6 +55,8 @@ module.exports = {
       }, speed : {
         type: DataTypes.STRING,
         defaultValue: 'NA'
+      }, comments : {
+        type: DataTypes.STRING,
       }
     }, {
       tableName: 'clips',

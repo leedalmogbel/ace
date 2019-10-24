@@ -18,6 +18,8 @@ module.exports = {
         defaultValue: 'player'
       }, googleUserId : {
         type: DataTypes.STRING,
+      }, fbUserId : {
+        type: DataTypes.STRING,
       }, subscribed : {
         type: DataTypes.BOOLEAN,
         defaultValue: false
