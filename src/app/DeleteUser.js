@@ -11,7 +11,10 @@ class DeleteUser extends Operation {
 
     try {
       await this.UserRepository.remove(id);
-      return this.emit(SUCCESS);
+      const message = {
+        message: 'User DELETED'
+      };
+      return this.emit(SUCCESS, message);
     } catch(error) {
       if(error.message === 'NotFoundError') {
         return this.emit(NOT_FOUND, error);

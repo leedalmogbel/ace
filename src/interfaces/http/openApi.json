@@ -99,6 +99,7 @@
     },
     "/users/signin": {
       "post": {
+        "summary": "Sign in users",
         "security": [
           {
             "bearerAuth": []
@@ -108,16 +109,17 @@
         "tags": [ "Users" ],
         "requestBody": {
           "description": "Sign in",
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "properties": {
                   "name": {
-                    "type": "string"
+                    "type": "string",
+                    "required": true
                   },
                   "email": {
-                    "type": "string"
+                    "type": "string",
+                    "required": true
                   },
                   "userType": {
                     "type": "string"
@@ -133,13 +135,20 @@
                   "subscribed": {
                     "type": "boolean"
                   }
+                },
+                "example": {
+                  "name": "Benjamin Matias",
+                  "email": "bmatias@stratpoint.com",
+                  "userType": "admin /** Can be omitted if account exists **/",
+                  "googleUserId": "0123456789 /** Can be omitted if account exists **/",
+                  "fbUserId": "0123456789 /** Can be omitted if account exists **/"
                 }
               }
             }
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Sign in",
             "content": {
               "application/json": {
@@ -149,7 +158,7 @@
                       "type": "string"
                     },
                     "email": {
-                      "type": "varchar"
+                      "type": "string"
                     },
                     "userType": {
                       "type": "string"
@@ -161,30 +170,35 @@
                       "type": "boolean",
                       "defaultValue": false
                     }
+                  },
+                  "example": {
+                    "statusCode": 200,
+                    "data": {
+                      "id": 2019131640,
+                      "name": "Benjamin Matias",
+                      "email": "bmatias@stratpoint.com",
+                      "userType": "admin",
+                      "googleUserId": "20190917",
+                      "subscribed": true,
+                      "createdAt": "2019-10-18T01:53:12.970Z",
+                      "updatedAt": "2019-10-25T01:12:20.956Z",
+                      "fbUserId": "20191024"
+                    },
+                    "message": {
+                      "status": "Successful Signin"
+                    }
                   }
                 }
               }
             }
-          }
-        }
-      },
-      "responses": {
-        "201": {
-          "description": "Successful Signin",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "400": {
-          "description": "User not created because of validation error",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/defaultResponses/ValidationError"
+          },
+          "400": {
+            "description": "User not created because of validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/defaultResponses/ValidationError"
+                }
               }
             }
           }
@@ -193,6 +207,7 @@
     },
     "/users/{id}": {
       "get": {
+        "summary": "Show profile of a User",
         "security": [
           {
             "bearerAuth": []
@@ -216,7 +231,20 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "example": {
+                    "statusCode": 200,
+                      "data": {
+                        "id": 2019131640,
+                        "name": "Benjamin Matias",
+                        "email": "bmatias@stratpoint.com",
+                        "userType": "admin",
+                        "googleUserId": "20190917",
+                        "fbUserId": "20191024",
+                        "subscribed": true,
+                        "createdAt": "2019-10-18T01:53:12.970Z",
+                        "updatedAt": "2019-10-25T01:25:07.237Z"
+                      }
+                  }
                 }
               }
             }
@@ -234,6 +262,7 @@
         }
       },
       "put": {
+        "summary": "Update subscription of the user",
         "security": [
           {
             "bearerAuth": []
@@ -268,12 +297,27 @@
         },
         "responses": {
           "202": {
-            "description": "User updated successfully",
+            "description": "Update subscription",
             "content": {
               "application/json": {
                 "schema": {
                   "subscribed": {
                     "type": "boolean"
+                  },
+                  "example": {
+                    "statusCode": 200,
+                    "data": {
+                      "id": 2019131640,
+                      "name": "Benjamin Matias",
+                      "email": "bmatias@stratpoint.com",
+                      "userType": "admin",
+                      "googleUserId": "20190917",
+                      "fbUserId": "20191024",
+                      "subscribed": true,
+                      "createdAt": "2019-10-18T01:53:12.970Z",
+                      "updatedAt": "2019-10-25T01:35:59.322Z"
+                    },
+                    "message": "Subscription Updated"
                   }
                 }
               }
@@ -292,6 +336,7 @@
         }
       },
       "delete": {
+        "summary":"Delete user account",
         "security": [
           {
             "bearerAuth": []
@@ -311,7 +356,7 @@
         ],
         "responses": {
           "202": {
-            "description": "User deleted successfully"
+            "description": "Delete user"
           },
           "404": {
             "description": "User not found",
@@ -328,6 +373,7 @@
     },
     "/videos/{userId}/video": {
       "get": {
+        "summary": "List all videos per userId",
         "security": [
           {
             "bearerAuth": []
@@ -351,9 +397,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Project"
+                  "example": {
+                    "statusCode": 200,
+                    "data": [
+                      {
+                        "id": 1,
+                        "videoName": "Danville_10172019_17:54",
+                        "path": "https://tennis-trainer-dev-media.s3.ap-southeast-1.amazonaws.com/videos/local/2019-10-18/2019629601/Danville_10172019_17:54.mp4"
+                      }
+                    ]
                   }
                 }
               }
@@ -362,6 +414,7 @@
         }
       },
       "post": {
+        "summary": "NOT IN USE",
         "security": [
           {
             "bearerAuth": []
@@ -406,6 +459,7 @@
     },
     "/videos/analytics": {
       "get": {
+        "summary": "Filter clips, accepts video id and set only",
         "security": [
           {
             "bearerAuth": []
@@ -433,33 +487,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
+                  "example": {
+                    "statusCode": 200,
+                    "data": {
+                      "videoName": "Danville_10172019_17:54",
+                      "clips": [
+                        {
+                          "set": 3,
+                          "game": 2,
+                          "shotType": "forehand",
+                          "hitSpot": "behind baseline",
+                          "shotResult": "winner",
+                          "smartPattern": true,
+                          "extra": "hit ball early",
+                          "errorType": "NA",
+                          "spin": "NA",
+                          "shotDirection": "NA",
+                          "speed": "NA"
+                        }
+                      ]
+                    }
                   }
                 }
-              }
-            }
-          }
-        }
-      },
-      "responses": {
-        "201": {
-          "description": "User created successfully",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "400": {
-          "description": "User not created because of validation error",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/defaultResponses/ValidationError"
               }
             }
           }
@@ -468,6 +517,7 @@
     },
     "/videos/getSignedURL": {
       "get": {
+        "summary": "Signed URL for uploading videos in S3",
         "security": [
           {
             "bearerAuth": []
@@ -516,6 +566,18 @@
                     "type": "string",
                     "required": true
                   }
+                },
+                "example": {
+                  "userId": 2019131640,
+                  "fileType":"mp4",
+                  "opponent": "Opponent 1",
+                  "matchType": "match",
+                  "location": "Manila",
+                  "type": "best of 3",
+                  "tournament": "French Open",
+                  "matchResult": "won",
+                  "date": "10172019",
+                  "time": "17:54"
                 }
               }
             }
@@ -527,9 +589,24 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
+                  "example": {
+                    "signedUrl": "https://tennis-trainer-dev-media.s3.ap-southeast-1.amazonaws.com/videos/local/2019-10-25/2019131640/Manila_10172019_17%3A54.mp4?Content-Type=video%2Fmp4&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA23UKCIVOYDB2PXO6%2F20191025%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20191025T041357Z&X-Amz-Expires=604800&X-Amz-Signature=c6aa4ff6be6153e15b07ee6c1e15dc385793818b049dc4a2c880e5f87e210f61&X-Amz-SignedHeaders=host%3Bx-amz-acl&x-amz-acl=public-read-write",
+                    "videoData": [
+                        {
+                            "videoId": 8,
+                            "userId": 2019131640,
+                            "videoName": "Manila_10172019_17:54",
+                            "path": "https://tennis-trainer-dev-media.s3.ap-southeast-1.amazonaws.com/videos/local/2019-10-25/2019131640/Manila_10172019_17:54.mp4",
+                            "opponent": "Opponent 1",
+                            "matchType": "match",
+                            "type": "best of 3",
+                            "tournament": "French Open",
+                            "result": "won",
+                            "location": "Manila",
+                            "date": "10172019",
+                            "time": "17:54"
+                        }
+                    ]
                   }
                 }
               }
@@ -547,7 +624,16 @@
           }
         ],
         "operationId": "ListClips",
-        "tags": [ "Clips" ],
+        "tags": [ "Clips" ],"parameters": [
+          {
+            "name": "videoId",
+            "in": "query",
+            "description": "Id of video to filter",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
         "responses": {
           "200": {
             "description": "List of all clips",
@@ -744,14 +830,111 @@
         ],
         "operationId": "GetFilter",
         "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "videoId",
+            "in": "query",
+            "description": "Id of video to filter",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "set",
+            "in": "query",
+            "description": "set number of the match",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "game",
+            "in": "query",
+            "description": "game number of the set",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "shotType",
+            "in": "query",
+            "description": "shot type of the player",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "forehand",
+              "backhand",
+              "volley",
+              "overhead"
+            ]
+          },
+          {
+            "name": "hitSpot",
+            "in": "query",
+            "description": "hitting spot of the player",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "shotResult",
+            "in": "query",
+            "description": "point result of the player",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "errorType",
+            "in": "query",
+            "description": "error type of the shot",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "shotDirection",
+            "in": "query",
+            "description": "direction of the shot",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
+                  "example": {
+                    "statusCode": 200,
+                    "data": [
+                      {
+                        "videoName": "Danville_10172019_17:54",
+                        "matchType": "match",
+                        "location": "Danville",
+                        "ClipModels": [
+                          {
+                            "id": 3,
+                            "videoId": 1,
+                            "clipName": "Danville_10172019_17:54-from:00:01:34_to:00:01:42",
+                            "set": 3,
+                            "game": 2,
+                            "startTime": "94",
+                            "endTime": "102",
+                            "currentSetScore": "5-4",
+                            "currentGameScore": "40-15",
+                            "shotType": "forehand",
+                            "moveDirection": "body shot",
+                            "hitSpot": "behind baseline",
+                            "shotResult": "winner",
+                            "smartPattern": true,
+                            "extra": "hit ball early",
+                            "errorType": "NA",
+                            "spin": "NA",
+                            "shotDirection": "NA",
+                            "speed": "NA",
+                            "comments": null
+                          }
+                        ]
+                      }
+                    ]
                   }
                 }
               }
@@ -792,6 +975,24 @@
         ],
         "operationId": "ListFilteredClips",
         "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "videoId",
+            "in": "query",
+            "description": "Id of video to filter",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "set",
+            "in": "query",
+            "description": "set number of the match",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -841,33 +1042,19 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
+                  "example": {
+                    "statusCode": 200,
+                    "data": [
+                      {
+                        "id": 1,
+                        "clipId": 3,
+                        "clipPath": "https://tennis-trainer-dev-media.s3.ap-southeast-1.amazonaws.com/keypoints/dev/2019-10-08/3/1570505591485.json",
+                        "createdAt": "2019-10-08T03:33:11.507Z",
+                        "updatedAt": "2019-10-08T03:33:11.507Z"
+                      }
+                    ]
                   }
                 }
-              }
-            }
-          }
-        }
-      },
-      "responses": {
-        "201": {
-          "description": "User created successfully",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "400": {
-          "description": "User not created because of validation error",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/defaultResponses/ValidationError"
               }
             }
           }
@@ -879,6 +1066,16 @@
         "summary": "Get path where keypoint is uploaded",
         "operationId": "GetKeypoint",
         "tags": [ "Keypoints" ],
+        "parameters": [
+          {
+            "name": "clipId",
+            "in": "query",
+            "description": "Id of clip to filter",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Retrieve successfully",
@@ -899,39 +1096,42 @@
         "summary": "Generate signed URL for keypoints",
         "operationId": "KeypointSignedURL",
         "tags": [ "Keypoints" ],
-        "responses": {
-          "200": {
-            "description": "Retrieve successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
+        "requestBody": {
+          "description": "Generate Signed URL",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "clipId": {
+                    "type": "integer",
+                    "required": true
                   }
+                },
+                "example": {
+                  "clipId": 2
                 }
               }
             }
           }
-        }
-      },
-      "responses": {
-        "201": {
-          "description": "User created successfully",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
+        },
+        "responses": {
+          "201": {
+            "description": "Signed URl created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
               }
             }
-          }
-        },
-        "400": {
-          "description": "User not created because of validation error",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/defaultResponses/ValidationError"
+          },
+          "400": {
+            "description": "User not created because of validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/defaultResponses/ValidationError"
+                }
               }
             }
           }

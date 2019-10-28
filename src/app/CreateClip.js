@@ -39,7 +39,8 @@ class CreateClip extends Operation {
       errorType: data.errorType,
       spin: data.spin,
       shotDirection: data.shotDirection,
-      speed: data.speed
+      speed: data.speed,
+      comments: data.comments
     };
     
     const clip = new Clip(newData);

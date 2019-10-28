@@ -15,7 +15,8 @@ class UpdateUser extends Operation {
 
     try {
       const user = await this.UserRepository.subscribed(id, data);
-      const subscription = Utils().resSuccess(user[0]);
+      const message = "Subscription Updated"
+      const subscription = Utils().resSuccess(user[0], message);
       return this.emit(SUCCESS, subscription);
     } catch(error) {
       switch(error.message) {
