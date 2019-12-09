@@ -5,8 +5,8 @@ const config = {
     connector : 'sql',
     config: {
       host: '127.0.0.1',
-      username: 'kristineboquiren',
-      password: '',
+      username: 'postgres',
+      password: 'stratpoint',
       database: 'tennis',
       dialect: 'postgres',
       isSync: 'true',
