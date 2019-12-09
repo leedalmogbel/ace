@@ -13,14 +13,13 @@ class SetGoldStandard extends Operation {
     } = this.events;
 
     if(data.goldStandard === ''){
-        return this.emit(VALIDATION_ERROR, 'Set gold Standard value.');
+      return this.emit(VALIDATION_ERROR, 'Set gold Standard value.');
     }
 
     try {
       const user = await this.ClipRepository.update(id, data);
       const message = 'Updated Successfully!';
-        const updatedClip = Utils().resSuccess(user, message);
-        console.log('DATA :' , user);
+      const updatedClip = Utils().resSuccess(user, message);
       return this.emit(SUCCESS, updatedClip);
     } catch(error) {
       switch(error.message) {
