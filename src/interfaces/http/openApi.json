@@ -1031,6 +1031,33 @@
         }
       }
     },
+    "/clips/setStandard/{id}": {
+      "get": {
+        "summary": "Set clip as gold standard",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "SetGoldStandard",
+        "tags": [ "Clips" ],
+        "responses": {
+          "200": {
+            "description": "Successfully Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/clips/keypoint/list": {
       "get": {
         "summary": "List all keypoints",

@@ -40,6 +40,9 @@ module.exports = {
       }, smartPattern : {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+      }, goldStandard : {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
       }, extra : {
         type: DataTypes.STRING,
         defaultValue: 'none'
