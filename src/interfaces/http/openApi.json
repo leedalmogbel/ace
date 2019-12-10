@@ -1032,7 +1032,7 @@
       }
     },
     "/clips/setStandard/{id}": {
-      "get": {
+      "put": {
         "summary": "Set clip as gold standard",
         "security": [
           {
@@ -1041,6 +1041,34 @@
         ],
         "operationId": "SetGoldStandard",
         "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of selected clip",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "requestBody": {
+          "description": "Set clip as gold standard",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "goldStandard": {
+                    "type": "boolean",
+                    "required": true
+                  }
+                },
+                "example": {
+                  "goldStandard": true
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Successfully Updated",

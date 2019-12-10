@@ -16,6 +16,7 @@ class ListClips extends Operation {
       const data = Utils().resSuccess(clips);
       return this.emit(SUCCESS, data);
     } catch(error) {
+      console.log('Line 15 ERROR : ', error);
       return this.emit(NOT_FOUND, {
         type: error.message,
         details: error.details

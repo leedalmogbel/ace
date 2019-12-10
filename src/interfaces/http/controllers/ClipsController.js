@@ -22,7 +22,7 @@ class ClipsController extends BaseController {
     router.get('/countfilter', this.injector('ListFilteredClips'), this.showFilter);
 
     //Set Gold Standard
-    router.get('/setStandard/:id', this.injector('SetGoldStandard'), this.update);
+    router.put('/setStandard/:id', this.injector('SetGoldStandard'), this.update);
 
     return router;
   }
