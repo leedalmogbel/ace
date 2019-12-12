@@ -22,7 +22,11 @@ class ClipsController extends BaseController {
     router.get('/countfilter', this.injector('ListFilteredClips'), this.showFilter);
 
     //Set Gold Standard
-    router.put('/setStandard/:id', this.injector('SetGoldStandard'), this.update);
+    router.put('/:id/setStandard', this.injector('SetGoldStandard'), this.update);
+
+    // Get List of Detected Persons
+    router.get('/:id/detectedPerson', this.injector('ListDetectedPersons'), this.show);
+    router.post('/:id/detectedPerson', this.injector('CreateDetectedPersons'), this.createPerson);
 
     return router;
   }
@@ -70,6 +74,27 @@ class ClipsController extends BaseController {
       .on(ERROR, next);
 
     operation.execute(req.query);
+  }
+
+  createPerson(req, res, next) {
+    const { operation } = req;
+    const { SUCCESS, ERROR, VALIDATION_ERROR } = operation.events;
+
+    operation
+      .on(SUCCESS, (result) => {
+        res
+          .status(Status.CREATED)
+          .json(result);
+      })
+      .on(VALIDATION_ERROR, (error) => {
+        res.status(Status.BAD_REQUEST).json({
+          type: 'ValidationError',
+          details: error.details
+        });
+      })
+      .on(ERROR, next);
+
+    operation.execute(Number(req.params.id), req.body);
   }
 }
 
