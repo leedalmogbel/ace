@@ -1,5 +1,5 @@
 const { Operation } = require('@amberjs/core');
-const Clip = require('src/domain/Clip');
+const {Clip} = require('src/domain/Clip');
 const Utils = require('src/infra/services/utils.js');
 
 class CreateClip extends Operation {
@@ -21,29 +21,8 @@ class CreateClip extends Operation {
     const video = await this.VideoRepository.getVideoName(data.videoId);
     data.clipName = `${video[0].videoName}-from:${nameStartTime}_to:${nameEndTime}`;
 
-    const newData = {
-      videoId: data.videoId,
-      clipName: data.clipName,
-      set: data.set,
-      game: data.game,
-      startTime: data.startTime,
-      endTime: data.endTime,
-      currentSetScore: data.currentSetScore,
-      currentGameScore: data.currentGameScore,
-      shotType: data.shotType,
-      moveDirection: data.moveDirection,
-      hitSpot: data.hitSpot,
-      shotResult: data.shotResult,
-      smartPattern: data.smartPattern,
-      extra: data.extra,
-      errorType: data.errorType,
-      spin: data.spin,
-      shotDirection: data.shotDirection,
-      speed: data.speed,
-      comments: data.comments
-    };
-    
-    const clip = new Clip(newData);
+   
+    const clip = new Clip(data);
     
     try {
       const message = 'Clip Created';
