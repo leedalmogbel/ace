@@ -10,6 +10,7 @@ const config = {
       database: process.env.DB_NAME,
       dialect: process.env.DB_DIALECT,
       isSync: 'true',
+      //alter: false,
       logging: false,
       pool: {
         max: 50,
