@@ -683,6 +683,51 @@
         ],
         "operationId": "CreateClip",
         "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "videoId",
+            "in": "path",
+            "description": "Id of selected video",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "requestBody": {
+          "description": "Create clip from selected video",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                 
+                },
+                "example": {
+                  "videoId": 3,
+                  "clipName": "Clip Test name",
+                  "set": 3,
+                  "game": 2,
+                  "startTime": "94",
+                  "endTime": "102",
+                  "currentSetScore": "5-4",
+                  "currentGameScore": "40-15",
+                  "shotType": "backhand",
+                  "moveDirection": "body shot",
+                  "hitSpot": "behind baseline",
+                  "shotResult": "winner",
+                  "smartPattern": "true",
+                  "extra": "hit ball early",
+                  "errorType": "NA",
+                  "spin": "NA",
+                  "shotDirection": "NA",
+                  "speed": "NA",
+                  "goldStandard" : true,
+                  "standardShotType": "",
+                  "standardMovement": ""
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Clip created",
@@ -1031,7 +1076,7 @@
         }
       }
     },
-    "/clips/setStandard/{id}": {
+    "/clips/{id}/setStandard": {
       "put": {
         "summary": "Set clip as gold standard",
         "security": [
@@ -1060,10 +1105,20 @@
                   "goldStandard": {
                     "type": "boolean",
                     "required": true
+                  },
+                  "standardMovement": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "standardShotType": {
+                    "type": "string",
+                    "required": true
                   }
                 },
                 "example": {
-                  "goldStandard": true
+                  "goldStandard" : true,
+                  "standardMovement" : "body shot",
+                  "standardShotType" : "backhand"
                 }
               }
             }
@@ -1072,6 +1127,102 @@
         "responses": {
           "200": {
             "description": "Successfully Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clips/{id}/detectedPerson": {
+      "post": {
+        "summary": "Save detected person images from AI",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "CreateDetectedPerson",
+        "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of selected clip",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "requestBody": {
+          "description": "Save multiple detected persons from AI",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "personImages": {
+                    "type": "array",
+                    "required": true
+                  }
+                },
+                "example": {
+                  "personImages": [
+                    {
+                      "clipId": 1,
+                      "image": "image binary base64",
+                      "centroid": "(0.3434, 0.4324)"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Return array of persons image",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List of detected person images from AI",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ListDetectedPerson",
+        "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of selected clip",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return array of persons image",
             "content": {
               "application/json": {
                 "schema": {
