@@ -1,9 +1,21 @@
 
 const { BaseRepository } = require('@amberjs/core');
 
+const reformatForKeypoints = clips => {
+  console.log('CLIPS DATA ', clips); 
+  const newObj = {
+    clip_id: clips.id,
+    start: clips.startTime,
+    video_path: clips.video.path
+  };
+
+  return newObj;
+};
+
 class ClipRepository extends BaseRepository {
-  constructor({ ClipModel }) {
+  constructor({ ClipModel, VideoModel }) {
     super(ClipModel);
+    this.VideoModel = VideoModel;
   }
 
   async createClip(data) {
@@ -45,6 +57,26 @@ class ClipRepository extends BaseRepository {
         ]
       }
     });
+  }
+
+  async getDataWithRelation(id){
+    const clips = await this._getById(id, {
+      include: [
+        {
+          model: this.VideoModel,
+          attributes: ['path'],
+          as: 'video'
+        },
+      ]
+    });
+
+    return reformatForKeypoints(clips);
+  }
+
+  async updateStatus(id, data){
+    const clips = await this._getById(id);
+    await clips.update(data); 
+    return this.getDataWithRelation(id);
   }
 }
 

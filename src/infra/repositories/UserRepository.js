@@ -32,30 +32,30 @@ class UserRepository extends BaseRepository {
         email: data.email,
       }
     })
-    .then( (foundUser) => {
-      if (!foundUser) {
-        return this.model.create({
-          id: userId,
+      .then( (foundUser) => {
+        if (!foundUser) {
+          return this.model.create({
+            id: userId,
+            name: data.name,
+            email: data.email,
+            userType: data.userType,
+            googleUserId: data.googleUserId,
+            fbUserId: data.fbUserId,
+            subscribed: data.subscribed,
+          });
+        }
+        return this.model.update({
           name: data.name,
-          email: data.email,
           userType: data.userType,
           googleUserId: data.googleUserId,
           fbUserId: data.fbUserId,
           subscribed: data.subscribed,
-        })
-      }
-      return this.model.update({
-        name: data.name,
-        userType: data.userType,
-        googleUserId: data.googleUserId,
-        fbUserId: data.fbUserId,
-        subscribed: data.subscribed,
-      }, {
-        where: { email: data.email },
-        returning: true,
+        }, {
+          where: { email: data.email },
+          returning: true,
         // plain: true,
-      })
-    });
+        })
+      });
   }
 
   async subscribed(id, data) {
