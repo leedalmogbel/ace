@@ -28,6 +28,8 @@ class ClipsController extends BaseController {
     router.get('/:id/detectedPerson', this.injector('ListDetectedPersons'), this.show);
     router.post('/:id/detectedPerson', this.injector('CreateDetectedPersons'), this.createPerson);
 
+    router.post('/:clipId/detectedPerson/:id', this.injector('SetKeypoints'), this.update);
+
     return router;
   }
 
@@ -93,7 +95,6 @@ class ClipsController extends BaseController {
         });
       })
       .on(ERROR, next);
-
     operation.execute(Number(req.params.id), req.body);
   }
 }
