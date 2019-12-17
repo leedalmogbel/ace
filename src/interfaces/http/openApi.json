@@ -1237,6 +1237,52 @@
         }
       }
     },
+    "/clips/{clipId}/detectedPerson/{id}/setKeypoints": {
+      "put": {
+        "summary": "Select detected person for keypoints and mp4 generation.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "SetDetectedPersonKeypoints",
+        "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of selected person",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "clipId",
+            "in": "path",
+            "description": "Id of selected clip",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/clips/keypoint/list": {
       "get": {
         "summary": "List all keypoints",

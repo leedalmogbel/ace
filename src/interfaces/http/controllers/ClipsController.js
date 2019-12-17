@@ -28,7 +28,7 @@ class ClipsController extends BaseController {
     router.get('/:id/detectedPerson', this.injector('ListDetectedPersons'), this.show);
     router.post('/:id/detectedPerson', this.injector('CreateDetectedPersons'), this.createPerson);
 
-    router.post('/:clipId/detectedPerson/:id', this.injector('SetKeypoints'), this.update);
+    router.put('/:clipId/detectedPerson/:id/setKeypoints', this.injector('SetDetectedPersonKeypoints'), this.update);
 
     return router;
   }
