@@ -2,7 +2,7 @@ const { Operation } = require('@amberjs/core');
 const User = require('src/domain/User');
 const Utils = require('src/infra/services/utils.js');
 const Coach = require('src/domain/Coach');
-const Player = require('src/domain/Player');
+//const Player = require('src/domain/Player');
 
 class CreateUser extends Operation {
   constructor({ UserRepository, CoachesRepository, PlayerRepository }) {
