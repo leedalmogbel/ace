@@ -5,8 +5,8 @@ const reformatForKeypoints = clips => {
   console.log('CLIPS DATA ', clips); 
   const newObj = {
     clip_id: clips.id,
-    start: clips.startTime,
-    video_path: clips.video.path
+    start: 5,
+    video_path: 'https://tennis-trainer-dev-media.s3.ap-southeast-1.amazonaws.com/videos/dev/2019-12-06/2019663293/Mandaluyong City_12062019_14:24.mp4'
   };
 
   return newObj;
@@ -56,6 +56,19 @@ class ClipRepository extends BaseRepository {
           'updatedAt'
         ]
       }
+    });
+  }
+
+
+  async getClipParent(id) {
+    return await this._getById(id, {
+      include: [
+        {
+          model: this.VideoModel,
+          attributes: ['userId', 'videoName'],
+          as: 'video'
+        },
+      ]
     });
   }
 
