@@ -2,9 +2,10 @@ const { Operation } = require('@amberjs/core');
 const Utils = require('src/infra/services/utils');
 
 class UpdateClip extends Operation {
-  constructor({ ClipRepository }) {
+  constructor({ ClipRepository, ThirdPartyApis }) {
     super();
     this.ClipRepository = ClipRepository;
+    this.ThirdPartyApis = ThirdPartyApis;
   }
 
   async execute(id, data) {
@@ -16,6 +17,10 @@ class UpdateClip extends Operation {
       const user = await this.ClipRepository.update(id, data);
       const message = 'Updated Successfully!';
       const updatedClip = Utils().resSuccess(user, message);
+      if(user.goldStandard){
+        let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(id);
+        this.ThirdPartyApis.callAiAsyncApi(dataForPersonDetection); 
+      }
       return this.emit(SUCCESS, updatedClip);
     } catch(error) {
       switch(error.message) {

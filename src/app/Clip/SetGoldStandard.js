@@ -28,10 +28,11 @@ class SetGoldStandard extends Operation {
 
     try {
       const clip = await this.ClipRepository.updateStatus(id, data);
+      console.log('CLIP: ', clip);
       const message = 'Updated Successfully!';
       const updatedClip = Utils().resSuccess(clip, message);
-      const callAiApis = this.ThirdPartyApis.callAiAsyncApi(process.env.AI_ENGINE_LINK, clip); // check if on queue
-      return this.emit(SUCCESS, message);
+      this.ThirdPartyApis.callAiAsyncApi(clip); // 
+       this.emit(SUCCESS, message);
     } catch(error) {
       switch(error.message) {
       case 'ValidationError':

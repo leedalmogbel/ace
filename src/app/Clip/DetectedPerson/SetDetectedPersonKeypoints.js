@@ -17,7 +17,7 @@ class SetDetectedPersonKeypoints extends Operation {
       data.status = 'forKeypointsGeneration';
       const detectedPerson = await this.ClipPersonRepository.updateStatus(id, data);
       const message = 'Successfully selected for keypoints generation.';
-      //this.ThirdPartyApis.callAiAsyncApi(process.env.AI_LINK, detectedPerson); // enable after discussion with AI
+      //this.ThirdPartyApis.callKeypointsGeneration(detectedPerson); // enable after discussion with AI
       return this.emit(SUCCESS, message);
     } catch(error) {
       switch(error.message) {

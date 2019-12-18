@@ -3,10 +3,11 @@ const {Clip} = require('src/domain/Clip');
 const Utils = require('src/infra/services/utils.js');
 
 class CreateClip extends Operation {
-  constructor({ ClipRepository, VideoRepository }) {
+  constructor({ ClipRepository, VideoRepository, ThirdPartyApis }) {
     super();
     this.ClipRepository = ClipRepository;
     this.VideoRepository = VideoRepository;
+    this.ThirdPartyApis = ThirdPartyApis;
   }
 
   async execute(data) {
@@ -27,6 +28,12 @@ class CreateClip extends Operation {
     try {
       const message = 'Clip Created';
       const newClip = await this.ClipRepository.add(clip);
+      //check if goldStandard is true
+      if(clip.goldStandard){
+        // check if data exist in detectedPersonData
+        let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(newClip.id);
+        this.ThirdPartyApis.callAiAsyncApi(dataForPersonDetection); 
+      }
       const data = Utils().resSuccess(newClip, message);
       return this.emit(SUCCESS, data);
     } catch(error) {
