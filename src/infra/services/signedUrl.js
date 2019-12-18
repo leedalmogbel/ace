@@ -1,13 +1,56 @@
 const aws = require('aws-sdk');
 // const request = require('request-promise');
 const s3 = new aws.S3(
-  { signatureVersion: 'v4', region: 'ap-southeast-1'}
+  { signatureVersion: 'v4', region: process.env.AWS_S3_REGION}
 );
 const bucketName = process.env.AWS_S3_BUCKET;
+const s3Region = process.env.AWS_S3_REGION;
 // const baseURL = process.env.BUCKET_URL;
+ 
+
+function generateSignedUrlForKeypoints(key){
+  const params = {
+    Bucket: bucketName,
+    Key: key,
+    ContentType: 'application/json',
+    ACL: 'public-read-write',
+    Expires: 604800,
+  };
+
+  const signedUrl = generateSignedUrl(params);
+  const pathURL = `https://${bucketName}.s3.${s3Region}.amazonaws.com/${key}`;
+  return  {
+    signedUrl,
+    pathURL
+  };
+}
+
+function generateSignedUrlForVideo(key){
+  const params = {
+    Bucket: bucketName,
+    Key: key,
+    ContentType: 'video/mp4',
+    ACL: 'public-read-write',
+    Expires: 604800,
+  };
+
+  const signedUrl = generateSignedUrl(params);
+  const pathURL = `https://${bucketName}.s3.${s3Region}.amazonaws.com/${key}`;
+  return  {
+    signedUrl,
+    pathURL
+  };
+}
 
 
-module.exports.fileUpload = (userId, fileType, videoName) => {
+
+function generateSignedUrl(params){
+  const signedUrl = s3.getSignedUrl('putObject', params);
+  console.log('SIGNED URL', signedUrl);
+  return signedUrl;
+}
+
+function fileUpload(userId, fileType, videoName){
   // name before = String(Date.now())
   const key = `videos/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${userId}/${videoName}.${fileType}`;
 
@@ -25,15 +68,13 @@ module.exports.fileUpload = (userId, fileType, videoName) => {
     key,
     bucketName
   };
-};
+}
 
-module.exports.keypointsUpload = (clipId) => {
-  const key = `keypoints/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${clipId}/${String(Date.now())}.json`;
-
+function generateVideoSignedUrl(key){
   const params = {
     Bucket: bucketName,
     Key: key,
-    ContentType: 'application/json',
+    ContentType: 'video/mp4',
     ACL: 'public-read-write',
     Expires: 604800,
   };
@@ -44,6 +85,51 @@ module.exports.keypointsUpload = (clipId) => {
     key,
     bucketName
   };
+}
+
+function keypointsUpload(clipId){
+  const key = `keypoints/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${clipId}/${String(Date.now())}.json`;
+
+  const params = {
+    Bucket: bucketName,
+    Key: key,
+    ContentType: 'application/json',
+    ACL: 'public-read-write',
+    Expires: 604800,
+  };
+
+  const signedUrl = generateSignedUrl(params);
+  return  {
+    signedUrl,
+    key,
+    bucketName
+  };
+}
+
+function generateKeypointsSignedUrl(clipId, detectPersonId){
+  const key = `keypoints/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${clipId}/${detectPersonId}/${String(Date.now())}.json`;
+
+  const params = {
+    Bucket: bucketName,
+    Key: key,
+    ContentType: 'application/json',
+    ACL: 'public-read-write',
+    Expires: 604800,
+  };
+
+  const signedUrl = generateSignedUrl(params);
+  return  {
+    signedUrl,
+    key,
+    bucketName
+  };
+}
+
+module.exports = {
+  keypointsUpload,
+  fileUpload,
+  generateKeypointsSignedUrl,
+  generateSignedUrlForVideo
 };
 
 // function putObject(bitmap, key, params) {
