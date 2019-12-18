@@ -720,7 +720,7 @@
                   "spin": "NA",
                   "shotDirection": "NA",
                   "speed": "NA",
-                  "goldStandard" : true,
+                  "goldStandard" : false,
                   "standardShotType": "",
                   "standardMovement": ""
                 }
@@ -1246,6 +1246,98 @@
           }
         ],
         "operationId": "SetDetectedPersonKeypoints",
+        "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of selected person",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "clipId",
+            "in": "path",
+            "description": "Id of selected clip",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clips/{clipId}/detectedPerson/{id}/generateKeypointsSignedUrl": {
+      "get": {
+        "summary": "Generate signedURL for selected Persons generated keypoints.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "GenerateKeypointsSignedUrl",
+        "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of selected person",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "clipId",
+            "in": "path",
+            "description": "Id of selected clip",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clips/{clipId}/detectedPerson/{id}/generateVideoSignedUrl": {
+      "get": {
+        "summary": "Generate signedURL for selected Persons generated skeleton mp4.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "GenerateVideoSignedUrl",
         "tags": [ "Clips" ],
         "parameters": [
           {
