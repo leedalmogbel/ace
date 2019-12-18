@@ -30,6 +30,10 @@ class ClipsController extends BaseController {
 
     router.put('/:clipId/detectedPerson/:id/setKeypoints', this.injector('SetDetectedPersonKeypoints'), this.update);
 
+    // signedURL for detectedPerson
+    router.get('/:clipId/detectedPerson/:id/generateKeypointsSignedUrl', this.injector('GenerateKeypointsSignedUrl'), this.showSignedUrl);
+    router.get('/:clipId/detectedPerson/:id/generateVideoSignedUrl', this.injector('GenerateVideoSignedUrl'), this.showSignedUrl);
+    
     return router;
   }
 
@@ -96,6 +100,28 @@ class ClipsController extends BaseController {
       })
       .on(ERROR, next);
     operation.execute(Number(req.params.id), req.body);
+  }
+
+  showSignedUrl(req, res, next) {
+    const { operation } = req;
+
+    const { SUCCESS, ERROR, NOT_FOUND } = operation.events;
+
+    operation
+      .on(SUCCESS, (result) => {
+        res
+          .status(Status.OK)
+          .json(result);
+
+      })
+      .on(NOT_FOUND, (error) => {
+        res.status(Status.NOT_FOUND).json({
+          type: 'NotFoundError',
+          details: error.details
+        });
+      })
+      .on(ERROR, next);
+    operation.execute(Number(req.params.clipId), Number(req.params.id));
   }
 }
 
