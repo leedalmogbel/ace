@@ -11,7 +11,13 @@ class ListDetectedPersons extends Operation {
     const { SUCCESS, NOT_FOUND } = this.events;
     try {
       const detectedPersons = await this.ClipPersonRepository.getAllWithParams({'clipId': id});
-      const data = Utils().resSuccess(detectedPersons);
+      let data = {
+        'statusCode' : 200,
+        'message' : 'Processing'
+      }
+      if(detectedPersons.length){
+        data = Utils().resSuccess(detectedPersons);
+      }
       return this.emit(SUCCESS, data);
     } catch(error) {
       console.log('PERSON ERROR : ', error);
