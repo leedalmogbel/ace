@@ -31,8 +31,10 @@ class SetGoldStandard extends Operation {
       console.log('CLIP: ', clip);
       const message = 'Updated Successfully!';
       const updatedClip = Utils().resSuccess(clip, message);
-      this.ThirdPartyApis.callAiAsyncApi(clip); // 
-       this.emit(SUCCESS, message);
+      this.emit(SUCCESS, message);
+
+      let response = await this.ThirdPartyApis.callPersonDetection(clip); // 
+       return;
     } catch(error) {
       switch(error.message) {
       case 'ValidationError':

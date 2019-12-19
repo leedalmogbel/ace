@@ -29,14 +29,17 @@ class CreateClip extends Operation {
       const message = 'Clip Created';
       const newClip = await this.ClipRepository.add(clip);
       //check if goldStandard is true
+      const data = Utils().resSuccess(newClip, message);
+      this.emit(SUCCESS, data);
+
       if(clip.goldStandard){
         // check if data exist in detectedPersonData
         let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(newClip.id);
-        this.ThirdPartyApis.callAiAsyncApi(dataForPersonDetection); 
+        let response = await this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
       }
-      const data = Utils().resSuccess(newClip, message);
-      return this.emit(SUCCESS, data);
+      return;
     } catch(error) {
+      console.log('CreateClip Error :', error);
       const dataError = Utils().resError(error);
       if(error.message === 'ValidationError') {
         return this.emit(VALIDATION_ERROR, dataError);

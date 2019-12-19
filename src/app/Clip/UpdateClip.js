@@ -17,11 +17,14 @@ class UpdateClip extends Operation {
       const user = await this.ClipRepository.update(id, data);
       const message = 'Updated Successfully!';
       const updatedClip = Utils().resSuccess(user, message);
+      this.emit(SUCCESS, updatedClip);
+
       if(user.goldStandard){
         let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(id);
-        this.ThirdPartyApis.callAiAsyncApi(dataForPersonDetection); 
+        let response = this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
       }
-      return this.emit(SUCCESS, updatedClip);
+      return;
+
     } catch(error) {
       switch(error.message) {
       case 'ValidationError':
