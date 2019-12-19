@@ -37,6 +37,10 @@ module.exports = {
         foreignKey: 'clipId',
         as: 'clip'
       });
+      ClipPersonModel.hasMany(datasource.models.ScoreModel, {
+        foreignKey: 'testId',
+        as: 'testScores'
+      });
     };
   
     return ClipPersonModel;
