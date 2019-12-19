@@ -1375,6 +1375,220 @@
         }
       }
     },
+    "/clips/{clipId}/detectedPerson/{id}/generateModelSignedUrl": {
+      "get": {
+        "summary": "Generate signedURL for generated detectedPerson model.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "GenerateModelSignedUrl",
+        "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of selected person",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "clipId",
+            "in": "path",
+            "description": "Id of selected clip",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clips/{clipId}/detectedPerson/{id}/generateScore": {
+      "post": {
+        "summary": "Generate scores based on selected model and detectedPerson keypoints.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "SelectClipForScore",
+        "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of selected person",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "clipId",
+            "in": "path",
+            "description": "Id of selected clip",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clips/{clipId}/detectedPerson/{id}/scores": {
+      "get": {
+        "summary": "List detected person scores",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "SelectClipForScore",
+        "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of selected person",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "clipId",
+            "in": "path",
+            "description": "Id of selected clip",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Save generated scores from AI",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "CreateScore",
+        "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of selected person",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "clipId",
+            "in": "path",
+            "description": "Id of selected clip",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "requestBody": {
+          "description": "Set clip as gold standard",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "clipId": {
+                    "type": "integer",
+                    "required": true
+                  },
+                  "standardId": {
+                    "type": "integer",
+                    "required": true
+                  },
+                  "testId": {
+                    "type": "integer",
+                    "required": true
+                  },
+                  "score": {
+                    "type": "string",
+                    "required": true
+                  }
+                },
+                "example": {
+                  "clipId": 1,
+                  "standardId": 3,
+                  "testId": 4,
+                  "score" : "(0.3243244, 0.6756756)"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/clips/keypoint/list": {
       "get": {
         "summary": "List all keypoints",
