@@ -6,7 +6,7 @@ const reformatForKeypoints = clips => {
   const newObj = {
     clip_id: clips.id,
     start: 5,
-    video_path: 'https://tennis-trainer-dev-media.s3.ap-southeast-1.amazonaws.com/videos/dev/2019-12-06/2019663293/Mandaluyong City_12062019_14:24.mp4'
+    video_path: 'https://tennis-trainer-dev-media.s3.ap-southeast-1.amazonaws.com/videos/dev/2019-10-17/2019171072/Mandaluyong City_10172019_17:33.mp4'
   };
 
   return newObj;
