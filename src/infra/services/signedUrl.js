@@ -42,6 +42,23 @@ function generateSignedUrlForVideo(key){
   };
 }
 
+function generateSignedUrlForModel(key){
+  const params = {
+    Bucket: bucketName,
+    Key: key,
+    ContentType: 'application/octet-stream',
+    ACL: 'public-read-write',
+    Expires: 604800,
+  };
+
+  const signedUrl = generateSignedUrl(params);
+  const pathURL = `https://${bucketName}.s3.${s3Region}.amazonaws.com/${key}`;
+  return  {
+    signedUrl,
+    pathURL
+  };
+}
+
 
 
 function generateSignedUrl(params){
@@ -70,22 +87,6 @@ function fileUpload(userId, fileType, videoName){
   };
 }
 
-function generateVideoSignedUrl(key){
-  const params = {
-    Bucket: bucketName,
-    Key: key,
-    ContentType: 'video/mp4',
-    ACL: 'public-read-write',
-    Expires: 604800,
-  };
-
-  const signedUrl = s3.getSignedUrl('putObject', params);
-  return  {
-    signedUrl,
-    key,
-    bucketName
-  };
-}
 
 function keypointsUpload(clipId){
   const key = `keypoints/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${clipId}/${String(Date.now())}.json`;
@@ -129,7 +130,9 @@ module.exports = {
   keypointsUpload,
   fileUpload,
   generateKeypointsSignedUrl,
-  generateSignedUrlForVideo
+  generateSignedUrlForVideo,
+  generateSignedUrlForKeypoints,
+  generateSignedUrlForModel
 };
 
 // function putObject(bitmap, key, params) {
