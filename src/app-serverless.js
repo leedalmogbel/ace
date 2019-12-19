@@ -15,6 +15,7 @@ module.exports.handler = (event, context, callback) => {
     const app = brewed.getServerless();
     try {
       const res = await app(event, context);
+      console.log('RES FROM YML : ', res);
       callback(null, res);
     } catch (err) {
       callback(err);
