@@ -27,13 +27,20 @@ class ClipsController extends BaseController {
     // Get List of Detected Persons
     router.get('/:id/detectedPerson', this.injector('ListDetectedPersons'), this.show);
     router.post('/:id/detectedPerson', this.injector('CreateDetectedPersons'), this.createPerson);
+    //router.put('/:clipId/detectedPerson:id', this.injector('UpdateDetectedPersons'), this.update);
 
     router.put('/:clipId/detectedPerson/:id/setKeypoints', this.injector('SetDetectedPersonKeypoints'), this.update);
 
     // signedURL for detectedPerson
     router.get('/:clipId/detectedPerson/:id/generateKeypointsSignedUrl', this.injector('GenerateKeypointsSignedUrl'), this.showSignedUrl);
     router.get('/:clipId/detectedPerson/:id/generateVideoSignedUrl', this.injector('GenerateVideoSignedUrl'), this.showSignedUrl);
+    router.get('/:clipId/detectedPerson/:id/generateModelSignedUrl', this.injector('GenerateModelSignedUrl'), this.showSignedUrl);
     
+    // select clip for scoring
+    router.post('/:clipId/detectedPerson/:id/generateScore', this.injector('GenerateDetectedPersonScore'), this.showSignedUrl);
+    router.get('/:clipId/detectedPerson/:id/scores', this.injector('ShowDetectedPersonScore'), this.showSignedUrl);
+    router.post('/:clipId/detectedPerson/:id/scores', this.injector('CreateScore'), this.create);
+
     return router;
   }
 
