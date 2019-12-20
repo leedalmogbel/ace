@@ -18,6 +18,7 @@ class SetDetectedPersonKeypoints extends Operation {
       data.status = 'forKeypointsGeneration';
       const detectedPerson = await this.ClipPersonRepository.updateStatus(id, data);
       const message = 'Successfully selected for keypoints generation.';
+      console.log('READY FOR EXTRACTION : ', detectedPerson);
       this.emit(SUCCESS, message);
       let response = this.ThirdPartyApis.callKeypointsExtraction(detectedPerson);
       return;
