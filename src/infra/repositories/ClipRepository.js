@@ -5,7 +5,7 @@ const reformatForKeypoints = clips => {
   console.log('CLIPS DATA ', clips); 
   const newObj = {
     clip_id: clips.id,
-    start: 5,
+    start: clips.startTime,
     video_path: 'https://tennis-trainer-dev-media.s3.ap-southeast-1.amazonaws.com/videos/dev/2019-10-17/2019171072/Mandaluyong City_10172019_17:33.mp4'
   };
 

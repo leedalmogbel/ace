@@ -58,7 +58,7 @@ class ClipPersonRepository extends BaseRepository {
 
   async getDataForKeypointsGeneration(id) {
     const clipPerson = await this._getById(id, {
-      attributes: ['id', 'centroid'],
+      attributes: ['id', 'clipId', 'centroid'],
       include: [
         {
           model: this.ClipModel,
