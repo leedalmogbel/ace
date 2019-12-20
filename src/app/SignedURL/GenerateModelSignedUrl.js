@@ -16,7 +16,7 @@ class GenerateModelSignedUrl extends Operation {
     const key = `videos/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${clipParentData.video.userId}/${clipId}/${detectedPersonId}/${clipParentData.video.videoName}.h5`;
     const generatedData = signURL.generateSignedUrlForModel(key);
     try {
-      console.log('GenerateModelSignedURL : ', pathURL);
+      console.log('GenerateModelSignedURL : ', generatedData.pathURL);
       await this.ClipPersonRepository.update(detectedPersonId, {'modelLink':generatedData.pathURL});
       return this.emit(SUCCESS, generatedData);
     } catch(error) {

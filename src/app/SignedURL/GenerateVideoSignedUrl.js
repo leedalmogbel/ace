@@ -16,7 +16,7 @@ class GenerateVideoSignedUrl extends Operation {
     const key = `videos/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${clipParentData.video.userId}/${clipId}/${detectedPersonId}/${clipParentData.video.videoName}.mp4`;
     const generatedData = signURL.generateSignedUrlForVideo(key);
     try {
-      console.log('GenerateVideoSignedURL : ', pathURL);
+      console.log('GenerateVideoSignedURL : ', generatedData.pathURL);
       await this.ClipPersonRepository.update(detectedPersonId, {'skeletonLink':generatedData.pathURL});
       return this.emit(SUCCESS, generatedData);
     } catch(error) {
