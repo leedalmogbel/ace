@@ -29,18 +29,18 @@ class ClipsController extends BaseController {
     router.post('/:id/detectedPerson', this.injector('CreateDetectedPersons'), this.createPerson);
     //router.put('/:clipId/detectedPerson:id', this.injector('UpdateDetectedPersons'), this.update);
 
-    router.put('/:clipId/detectedPerson/:id/setKeypoints', this.injector('SetDetectedPersonKeypoints'), this.update);
+    router.post('/:clipId/detectedPerson/:id/setKeypoints', this.injector('SetDetectedPersonKeypoints'), this.showPersonKeypoints);
 
     // signedURL for detectedPerson
-    router.get('/:clipId/detectedPerson/:id/generateKeypointsSignedUrl', this.injector('GenerateKeypointsSignedUrl'), this.showSignedUrl);
-    router.get('/:clipId/detectedPerson/:id/generateVideoSignedUrl', this.injector('GenerateVideoSignedUrl'), this.showSignedUrl);
-    router.get('/:clipId/detectedPerson/:id/generateModelSignedUrl', this.injector('GenerateModelSignedUrl'), this.showSignedUrl);
+    router.post('/:clipId/detectedPerson/:id/generateKeypointsSignedUrl', this.injector('GenerateKeypointsSignedUrl'), this.showPersonKeypoints);
+    router.post('/:clipId/detectedPerson/:id/generateVideoSignedUrl', this.injector('GenerateVideoSignedUrl'), this.showPersonKeypoints);
     
     // select clip for scoring
-    router.post('/:clipId/detectedPerson/:id/generateScore', this.injector('GenerateDetectedPersonScore'), this.showSignedUrl);
+    router.post('/:clipId/detectedPerson/:id/generateScore', this.injector('GenerateDetectedPersonScore'), this.showDetectedPerson);
     router.get('/:clipId/detectedPerson/:id/scores', this.injector('ShowDetectedPersonScore'), this.showSignedUrl);
     router.post('/:clipId/detectedPerson/:id/scores', this.injector('CreateScore'), this.create);
 
+    
     return router;
   }
 
@@ -109,6 +109,31 @@ class ClipsController extends BaseController {
     operation.execute(Number(req.params.id), req.body);
   }
 
+  showPersonKeypoints(req, res, next) {
+    const { operation } = req;
+    const { SUCCESS, ERROR, VALIDATION_ERROR } = operation.events;
+
+    operation
+      .on(SUCCESS, (result) => {
+        res
+          .status(Status.OK)
+          .json(result);
+      })
+      .on(VALIDATION_ERROR, (error) => {
+        res.status(Status.BAD_REQUEST).json({
+          type: 'ValidationError',
+          details: error.details
+        });
+      })
+      .on(ERROR, next);
+
+    let body = req.body;
+    body.clipId = Number(req.params.clipId);
+    body.clipPersonId = Number(req.params.id);
+
+    operation.execute(body);
+  }
+
   showSignedUrl(req, res, next) {
     const { operation } = req;
 
@@ -129,6 +154,32 @@ class ClipsController extends BaseController {
       })
       .on(ERROR, next);
     operation.execute(Number(req.params.clipId), Number(req.params.id));
+  }
+
+  showDetectedPerson(req, res, next) {
+    const { operation } = req;
+
+    const { SUCCESS, ERROR, NOT_FOUND } = operation.events;
+
+    operation
+      .on(SUCCESS, (result) => {
+        res
+          .status(Status.OK)
+          .json(result);
+
+      })
+      .on(NOT_FOUND, (error) => {
+        res.status(Status.NOT_FOUND).json({
+          type: 'NotFoundError',
+          details: error.details
+        });
+      })
+      .on(ERROR, next);
+
+    let body =  req.body;
+    body.clip_id = Number(req.params.clipId);
+    body.clip_person_id = Number(req.params.id);
+    operation.execute(Number(req.params.id), body);
   }
 }
 
