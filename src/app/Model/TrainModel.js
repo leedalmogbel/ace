@@ -18,6 +18,7 @@ class TrainModel extends Operation {
       this.emit(SUCCESS, data);
 
       let trainingParams = {
+        'user_id': param.userId,
         'scenario_id':param.scenarioId,
         'json_path': personKeypoints,
         'keypoint_map': 'all'
