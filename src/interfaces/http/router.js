@@ -45,6 +45,8 @@ module.exports = ({ config, containerMiddleware, loggerMiddleware, errorHandler,
   apiRouter.use('/users', controller('controllers/UsersController'));
   apiRouter.use('/videos', controller('controllers/VideosController'));
   apiRouter.use('/clips', controller('controllers/ClipsController'));
+  apiRouter.use('/scenarios', controller('controllers/ScenariosController'));
+  apiRouter.use('/models', controller('controllers/StandardModelController'));
   apiRouter.use('/public/clips', controller('controllers/ClipsController'));
   /* apiRoutes END */
 
