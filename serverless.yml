@@ -44,6 +44,16 @@ functions:
           cors: true
           authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
       - http:
+          path: /api/scenarios
+          method: any
+          cors: true
+          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
+      - http:
+          path: /api/models
+          method: any
+          cors: true
+          authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
+      - http:
           path: /api/videos
           method: any
           cors: true
