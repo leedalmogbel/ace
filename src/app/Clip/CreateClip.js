@@ -18,10 +18,10 @@ class CreateClip extends Operation {
     
     const nameStartTime = Utils().formatTime(data.startTime);
     const nameEndTime = Utils().formatTime(data.endTime);
-
+  
     const video = await this.VideoRepository.getVideoName(data.videoId);
     data.clipName = `${video[0].videoName}-from:${nameStartTime}_to:${nameEndTime}`;
-
+  
    
     const clip = new Clip(data);
     
@@ -32,11 +32,22 @@ class CreateClip extends Operation {
       const data = Utils().resSuccess(newClip, message);
       this.emit(SUCCESS, data);
 
-      if(clip.goldStandard){
-        // check if data exist in detectedPersonData
-        let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(newClip.id);
-        let response = await this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
-      }
+      // if(clip.goldStandard){
+      //   // check if data exist in detectedPersonData
+      //   let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(newClip.id);
+      //   let response = await this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
+      // }
+
+      // if(clip.forInference){
+      //   console.log('INFERENCE IS TRUE');
+      //   let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(newClip.id);
+      //   let response = await this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
+      // }
+      let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(newClip.id);
+      console.log('CREATE CLIP person detection DATA : ', dataForPersonDetection);
+      let response = await this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
+      console.log('CREATE CLIP person detection : ', response);
+
       return;
     } catch(error) {
       console.log('CreateClip Error :', error);

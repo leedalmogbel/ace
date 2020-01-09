@@ -19,11 +19,11 @@ class UpdateClip extends Operation {
       const updatedClip = Utils().resSuccess(user, message);
       this.emit(SUCCESS, updatedClip);
 
-      if(user.goldStandard){
-        let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(id);
-        let response = this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
-      }
-      return;
+      // if(user.goldStandard){
+      //   let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(id);
+      //   let response = this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
+      // }
+      // return;
 
     } catch(error) {
       switch(error.message) {
