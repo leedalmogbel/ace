@@ -43,6 +43,9 @@ module.exports = {
       }, goldStandard : {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+      }, forInference : {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
       }, standardShotType : {
         type: DataTypes.STRING
       }, standardMovement : {
