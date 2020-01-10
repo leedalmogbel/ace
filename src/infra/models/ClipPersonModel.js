@@ -17,15 +17,6 @@ module.exports = {
       }, centroid : {
         type: DataTypes.STRING,
         allowNull: false
-      }, modelLink : {
-        type: DataTypes.STRING,
-        allowNull: true
-      }, keyPointLink : {
-        type: DataTypes.STRING,
-        allowNull: true
-      }, skeletonLink : {
-        type: DataTypes.STRING,
-        allowNull: true
       }
     }, {
       tableName: 'clipPersons',
@@ -38,8 +29,12 @@ module.exports = {
         as: 'clip'
       });
       ClipPersonModel.hasMany(datasource.models.ScoreModel, {
-        foreignKey: 'testId',
-        as: 'testScores'
+        foreignKey: 'clipPersonId',
+        as: 'scores'
+      });
+      ClipPersonModel.hasMany(datasource.models.PersonKeypointModel, {
+        foreignKey: 'clipPersonId',
+        as: 'personKeypoints'
       });
     };
   
