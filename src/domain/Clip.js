@@ -25,6 +25,7 @@ const Clip = attributes({
   createdAt: Date,
   updatedAt: Date,
   goldStandard: Boolean,
+  forInference: Boolean,
   standardMovement: String,
   standardShotType: String
 })(class Clip {});
