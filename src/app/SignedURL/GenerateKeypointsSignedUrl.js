@@ -2,22 +2,24 @@ const { Operation } = require('@amberjs/core');
 const signURL = require('src/infra/services/signedUrl');
 
 class GenerateKeypointsSignedUrl extends Operation {
-  constructor({ ClipPersonRepository, ThirdPartyApis }) {
+  constructor({ ClipPersonRepository, ThirdPartyApis, PersonKeypointRepository }) {
     super();
     this.ClipPersonRepository = ClipPersonRepository;
     this.ThirdPartyApis = ThirdPartyApis;
+    this.PersonKeypointRepository = PersonKeypointRepository;
   }
  
-  async execute(clipId, detectedPersonId) {
+  async execute(data) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
 
-    const signed = signURL.generateKeypointsSignedUrl(clipId, detectedPersonId);
+    const signed = signURL.generateKeypointsSignedUrl(data.clipId, data.clipPersonId);
     const pathURL = `https://${signed.bucketName}.s3.ap-southeast-1.amazonaws.com/${signed.key}`;
-    
+    console.log('GenerateKeypointsSignedUrl DATA : ', data);
     try {
       const signedUrl = signed.signedUrl;
       console.log('GenerateKeypointSignedURL : ', pathURL);
-      await this.ClipPersonRepository.update(detectedPersonId, {'keyPointLink':pathURL});
+      // update personkeypoint
+      await this.PersonKeypointRepository.update(data.personKeypointId, {'keypointLink':pathURL});
       //console.log('UPDATED PERSON :', updatedPerson);
       const created = {
         signedUrl,
