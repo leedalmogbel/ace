@@ -89,7 +89,7 @@ function fileUpload(userId, fileType, videoName){
 
 
 function keypointsUpload(clipId){
-  const key = `keypoints/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${clipId}/${String(Date.now())}.json`;
+  const key = `keypoints/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${clipId}/${String(Date.now())}.json`.replace(/\s/g, '');
 
   const params = {
     Bucket: bucketName,
@@ -108,7 +108,7 @@ function keypointsUpload(clipId){
 }
 
 function generateKeypointsSignedUrl(clipId, detectPersonId){
-  const key = `keypoints/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${clipId}/${detectPersonId}/${String(Date.now())}.json`;
+  const key = `keypoints/${process.env.NODE_ENV}/${new Date().toISOString().substr(0, 10)}/${clipId}/${detectPersonId}/${String(Date.now())}.json`.replace(/\s/g, '');
 
   const params = {
     Bucket: bucketName,
