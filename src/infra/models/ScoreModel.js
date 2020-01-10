@@ -34,12 +34,8 @@ module.exports = {
         as: 'clip'
       });
       ScoreModel.belongsTo(datasource.models.ClipPersonModel, {
-        foreignKey: 'standardId',
-        as: 'standardClip'
-      });
-      ScoreModel.belongsTo(datasource.models.ClipPersonModel, {
-        foreignKey: 'testId',
-        as: 'testClip'
+        foreignKey: 'clipPersonId',
+        as: 'clipPersons'
       });
     };
   

@@ -1,26 +1,71 @@
 const { Operation } = require('@amberjs/core');
 const Utils = require('src/infra/services/utils');
+const Score = require('src/domain/Score');
 
 //select person
 class GenerateDetectedPersonScore extends Operation {
-  constructor({ ClipPersonRepository, ThirdPartyApis }) {
+  constructor({ PersonKeypointRepository, ThirdPartyApis, ScoreRepository, StandardModelRepository, ClipRepository }) {
     super();
-    this.ClipPersonRepository = ClipPersonRepository;
+    this.PersonKeypointRepository = PersonKeypointRepository;
+    this.ScoreRepository = ScoreRepository;
     this.ThirdPartyApis = ThirdPartyApis;
+    this.StandardModelRepository = StandardModelRepository;
+    this.ClipRepository = ClipRepository;
   }
-
+ 
   async execute(id, data) {
     const {
       SUCCESS, NOT_FOUND, VALIDATION_ERROR, ERROR
     } = this.events;
 
     try {
-      //data.status = 'forKeypointsGeneration';
-      //const detectedPerson = await this.ClipPersonRepository.updateStatus(id, data);
+      const modelLink = await this.StandardModelRepository.getModelLink(data.modelId);
+      const jsonLink = await this.PersonKeypointRepository.getKeypointLink({'clipPersonId': 5});
+
+      if(!jsonLink){
+        /**
+         * Must call keypoint generation
+         */
+        const clipParent = await this.ClipRepository.getClipParent(data.clip_id);
+        const personKeypoints = await this.PersonKeypointRepository.upsert({
+          scenarioId : null,
+          clipPersonId : data.clip_person_id,
+          userId : clipParent.video.userId,
+        });
+        this.emit(SUCCESS, personKeypoints);
+        let response = this.ThirdPartyApis.callKeypointsExtraction(personKeypoints);
+        return;
+      }
+            
       const message = 'Successfully selected for score generation.';
-      this.emit(SUCCESS, message);
-      //let response = this.ThirdPartyApis.callScoresGeneration(detectedPerson);
-      return;
+
+      let scoreParams = {
+        ...data,
+        model_path : modelLink,
+        json_path : jsonLink
+      };
+
+      console.log('CALL SCORE GENERATION : ', scoreParams);
+   
+      /**
+       * Get score from AI
+       */
+      let response = await this.ThirdPartyApis.callScoresGeneration(scoreParams);
+      console.log('LOG SCORE GENERATION RESPONSE : ', response);
+
+      /**
+       * Save to score taable
+       */
+      const score = new Score({
+        clipId : data.clip_id,
+        standardId : id,
+        testId : id,
+        score : response.data.score
+      });
+      const newScore = await this.ScoreRepository.add(score);
+      console.log('SAVED SCORE : ', newScore);
+      
+      return this.emit(SUCCESS, message);
     } catch(error) {
       switch(error.message) {
       case 'ValidationError':
