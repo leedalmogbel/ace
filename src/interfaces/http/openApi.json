@@ -721,6 +721,7 @@
                   "shotDirection": "NA",
                   "speed": "NA",
                   "goldStandard" : false,
+                  "forInference" : false,
                   "standardShotType": "",
                   "standardMovement": ""
                 }
@@ -1238,7 +1239,7 @@
       }
     },
     "/clips/{clipId}/detectedPerson/{id}/setKeypoints": {
-      "put": {
+      "post": {
         "summary": "Select detected person for keypoints and mp4 generation.",
         "security": [
           {
@@ -1265,7 +1266,29 @@
             "format": "int64"
           }
         ],
-        
+        "requestBody": {
+          "description": "Set gold scenario and user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "scenarioId": {
+                    "type": "integer",
+                    "required": true
+                  },
+                  "userId": {
+                    "type": "integer",
+                    "required": true
+                  }
+                },
+                "example": {
+                  "scenarioId": 1,
+                  "userId": 2019131640
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "",
@@ -1284,7 +1307,7 @@
       }
     },
     "/clips/{clipId}/detectedPerson/{id}/generateKeypointsSignedUrl": {
-      "get": {
+      "post": {
         "summary": "Generate signedURL for selected Persons generated keypoints.",
         "security": [
           {
@@ -1311,7 +1334,24 @@
             "format": "int64"
           }
         ],
-        
+        "requestBody": {
+          "description": "Id of personKeypoint",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "personKeypointId": {
+                    "type": "integer",
+                    "required": true
+                  }
+                },
+                "example": {
+                  "personKeypointId": 4
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "",
@@ -1330,7 +1370,7 @@
       }
     },
     "/clips/{clipId}/detectedPerson/{id}/generateVideoSignedUrl": {
-      "get": {
+      "post": {
         "summary": "Generate signedURL for selected Persons generated skeleton mp4.",
         "security": [
           {
@@ -1357,7 +1397,24 @@
             "format": "int64"
           }
         ],
-        
+        "requestBody": {
+          "description": "Id of personKeypoint",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "personKeypointId": {
+                    "type": "integer",
+                    "required": true
+                  }
+                },
+                "example": {
+                  "personKeypointId": 4
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "",
@@ -1375,35 +1432,44 @@
         }
       }
     },
-    "/clips/{clipId}/detectedPerson/{id}/generateModelSignedUrl": {
-      "get": {
-        "summary": "Generate signedURL for generated detectedPerson model.",
+    "/scenarios/{id}/generateModelSignedUrl": {
+      "post": {
+        "summary": "Generate signedURL for generated model.",
         "security": [
           {
             "bearerAuth": []
           }
         ],
         "operationId": "GenerateModelSignedUrl",
-        "tags": [ "Clips" ],
+        "tags": [ "Scenarios" ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id of selected person",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "clipId",
-            "in": "path",
-            "description": "Id of selected clip",
+            "description": "Id of gold scenario",
             "required": true,
             "type": "integer",
             "format": "int64"
           }
         ],
-        
+        "requestBody": {
+          "description": "Id of user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "userId": {
+                    "type": "integer",
+                    "required": true
+                  }
+                },
+                "example": {
+                  "userId": 2019838809
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "",
@@ -1449,7 +1515,24 @@
             "format": "int64"
           }
         ],
-        
+        "requestBody": {
+          "description": "Selected model Id",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "modelId": {
+                    "type": "integer",
+                    "required": true
+                  }
+                },
+                "example": {
+                  "modelId": 1
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "",
@@ -1581,6 +1664,218 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/models": {
+      "get": {
+        "summary": "List all Models",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ListModels",
+        "tags": [ "Models" ],
+        "responses": {
+          "200": {
+            "description": "List of all models",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "data": [
+                      {
+                        "id": 1,
+                        "modelLink": "Link of model"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Train gold standard model",
+        "operationId": "TrainModel",
+        "tags": [ "Models" ],
+        "requestBody": {
+          "description": "Pass keypoints to AI for training",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "userId": {
+                    "type": "integer",
+                    "required": true
+                  },
+                  "scenarioId": {
+                    "type": "integer",
+                    "required": true
+                  }
+                },
+                "example": {
+                  "userId": 2019838809,
+                  "scenarioId" : 1
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Signed URl created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not created because of validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/defaultResponses/ValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scenarios": {
+      "get": {
+        "summary": "List all Gold Scenarios",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ListScenarios",
+        "tags": [ "Scenarios" ],
+        "responses": {
+          "200": {
+            "description": "List of all gold scenarios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "data": [
+                      {
+                        "id": 1,
+                        "scenario": "Forehand forward"
+                      },
+                      {
+                        "id": 2,
+                        "scenario": "Forehand to the side"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add new gold scenario",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "CreateScenario",
+        "tags": [ "Scenarios" ],
+        "requestBody": {
+          "description": "Add new scenario",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "movement": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "shotType": {
+                    "type": "string",
+                    "required": true
+                  }
+                },
+                "example": {
+                  "shotType": "Forehand",
+                  "movement" : "forward"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scenarios/{id}/keypoints": {
+      "get": {
+        "summary": "List all person keypoints based on gold scenario",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ListPersonKeypoints",
+        "tags": [ "Scenarios" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of selected gold scenario",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all person keypoints",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "data": [
+                      {
+                        "id": 1,
+                        "scenario": "Forehand forward"
+                      },
+                      {
+                        "id": 2,
+                        "scenario": "Forehand to the side"
+                      }
+                    ]
                   }
                 }
               }
