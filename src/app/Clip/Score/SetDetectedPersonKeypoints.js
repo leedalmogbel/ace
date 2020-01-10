@@ -3,24 +3,25 @@ const Utils = require('src/infra/services/utils');
 
 //select person
 class SetDetectedPersonKeypoints extends Operation {
-  constructor({ ClipPersonRepository, ThirdPartyApis }) {
+  constructor({ ThirdPartyApis, PersonKeypointRepository }) {
     super();
-    this.ClipPersonRepository = ClipPersonRepository;
     this.ThirdPartyApis = ThirdPartyApis;
+    this.PersonKeypointRepository = PersonKeypointRepository;
   }
 
-  async execute(id, data) {
+  async execute(data) {
     const {
       SUCCESS, NOT_FOUND, VALIDATION_ERROR, ERROR
     } = this.events;
 
     try {
-      data.status = 'forKeypointsGeneration';
-      const detectedPerson = await this.ClipPersonRepository.updateStatus(id, data);
+      console.log('SetDetectedPersonKeypoints DATA : ', data);
+      const personKeypoints = await this.PersonKeypointRepository.upsert(data);
       const message = 'Successfully selected for keypoints generation.';
-      console.log('READY FOR EXTRACTION : ', detectedPerson);
+      console.log('READY FOR EXTRACTION : ', personKeypoints);
       this.emit(SUCCESS, message);
-      let response = this.ThirdPartyApis.callKeypointsExtraction(detectedPerson);
+
+      let response = this.ThirdPartyApis.callKeypointsExtraction(personKeypoints);
       return;
     } catch(error) {
       switch(error.message) {
