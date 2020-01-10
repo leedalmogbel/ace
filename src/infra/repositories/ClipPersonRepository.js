@@ -1,5 +1,6 @@
-
 const { BaseRepository } = require('@amberjs/core');
+const sequelize = require('sequelize');
+const Op = sequelize.Op;
 
 const reformatForKeypointsGeneration = clipPerson => {
   const newObj = {
@@ -9,6 +10,18 @@ const reformatForKeypointsGeneration = clipPerson => {
     start: clipPerson.clip.startTime,
     end: clipPerson.clip.endTime,
     video_path: clipPerson.clip.video.path
+  };
+  
+  return newObj;
+};
+
+
+const reformatForScoreGeneration = clipPerson => {
+  const newObj = {
+    clip_id: clipPerson.clipId,
+    clip_person_id: clipPerson.id,
+    model_path: clipPerson.modelLink,
+    json_path: clipPerson.keyPointLink
   };
   
   return newObj;
@@ -96,6 +109,21 @@ class ClipPersonRepository extends BaseRepository {
       ]
     });
     return reformatForKeypointsGeneration(clipPerson);
+  }
+
+  async getDataForScoreGeneration(id){
+    const clipPerson = await this._getById(id);
+    return reformatForScoreGeneration(clipPerson);
+  }
+
+  async getModels(){
+    return await this.model.findAll({
+      where: {
+        modelLink : {
+          [Op.ne]: null
+        }
+      }
+    });
   }
 
 }
