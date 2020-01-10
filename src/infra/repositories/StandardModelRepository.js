@@ -4,6 +4,7 @@ const reformatForListing = models => {
   return models.map(model => {
     return {
       modelId: model.id,
+      modelLink: model.modelLink,
       scenario: model.scenario.scenario,
     };
   });
@@ -17,7 +18,7 @@ class StandardModelRepository extends BaseRepository {
 
   async getAllWithScenario(){
     return reformatForListing(await this.model.findAll({
-      attributes: ['id'],
+      attributes: ['id', 'modelLink'],
       include: [
         {
           model: this.ScenariosModel,
@@ -44,6 +45,11 @@ class StandardModelRepository extends BaseRepository {
     });
 
     return standardModelData;
+  }
+
+  async getModelLink(id){
+    const modelLink = await this._getById(id);
+    return modelLink.modelLink;
   }
 }
 
