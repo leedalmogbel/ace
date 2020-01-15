@@ -20,7 +20,7 @@ class GenerateDetectedPersonScore extends Operation {
 
     try {
       const modelLink = await this.StandardModelRepository.getModelLink(data.modelId);
-      const jsonLink = await this.PersonKeypointRepository.getKeypointLink({'clipPersonId': 5});
+      const jsonLink = await this.PersonKeypointRepository.getKeypointLink({'clipPersonId': data.clip_person_id});
 
       if(!jsonLink){
         /**
@@ -32,7 +32,10 @@ class GenerateDetectedPersonScore extends Operation {
           clipPersonId : data.clip_person_id,
           userId : clipParent.video.userId,
         });
-        this.emit(SUCCESS, personKeypoints);
+        let resMessage = {
+          "message" : "Generating keypoints. Try again later for inferencing."
+        }
+        this.emit(SUCCESS, resMessage);
         let response = this.ThirdPartyApis.callKeypointsExtraction(personKeypoints);
         return;
       }
@@ -51,7 +54,7 @@ class GenerateDetectedPersonScore extends Operation {
        * Get score from AI
        */
       let response = await this.ThirdPartyApis.callScoresGeneration(scoreParams);
-      console.log('LOG SCORE GENERATION RESPONSE : ', response);
+      console.log('LOG SCORE GENERATION RESPONSE DATA : ', response.data);
 
       /**
        * Save to score taable
@@ -65,7 +68,7 @@ class GenerateDetectedPersonScore extends Operation {
       const newScore = await this.ScoreRepository.add(score);
       console.log('SAVED SCORE : ', newScore);
       
-      return this.emit(SUCCESS, message);
+      return this.emit(SUCCESS, newScore);
     } catch(error) {
       switch(error.message) {
       case 'ValidationError':
