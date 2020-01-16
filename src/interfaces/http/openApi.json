@@ -105,7 +105,7 @@
             "bearerAuth": []
           }
         ],
-        "operationId": "CreateUser",
+        "operationId": "Login",
         "tags": [ "Users" ],
         "requestBody": {
           "description": "Sign in",
@@ -120,9 +120,6 @@
                   "email": {
                     "type": "string",
                     "required": true
-                  },
-                  "userType": {
-                    "type": "string"
                   },
                   "googleUserId": {
                     "type": "integer",
@@ -139,9 +136,8 @@
                 "example": {
                   "name": "Benjamin Matias",
                   "email": "bmatias@stratpoint.com",
-                  "userType": "admin /** Can be omitted if account exists **/",
-                  "googleUserId": "0123456789 /** Can be omitted if account exists **/",
-                  "fbUserId": "0123456789 /** Can be omitted if account exists **/"
+                  "googleUserId": "",
+                  "fbUserId": ""
                 }
               }
             }
@@ -186,6 +182,113 @@
                     },
                     "message": {
                       "status": "Successful Signin"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not created because of validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/defaultResponses/ValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "summary": "Create new user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "CreateUser",
+        "tags": [ "Users" ],
+        "requestBody": {
+          "description": "Create new user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "email": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "userType": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "googleUserId": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "fbUserId": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "subscribed": {
+                    "type": "boolean"
+                  }
+                },
+                "example": {
+                  "name": "Benjamin Matias",
+                  "email": "bmatias@stratpoint.com",
+                  "userType": "admin",
+                  "googleUserId": "0123456789",
+                  "fbUserId": "0123456789"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create new user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "userType": {
+                      "type": "string"
+                    },
+                    "googleUserId": {
+                      "type": "integer"
+                    },
+                    "subscribed": {
+                      "type": "boolean",
+                      "defaultValue": false
+                    }
+                  },
+                  "example": {
+                    "statusCode": 200,
+                    "data": {
+                      "id": 2019131640,
+                      "name": "Benjamin Matias",
+                      "email": "bmatias@stratpoint.com",
+                      "userType": "admin",
+                      "googleUserId": "20190917",
+                      "subscribed": true,
+                      "fbUserId": "20191024"
+                    },
+                    "message": {
+                      "status": "Successfully created."
                     }
                   }
                 }
