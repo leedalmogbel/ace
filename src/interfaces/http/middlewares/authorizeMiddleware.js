@@ -24,7 +24,7 @@ const authorizeMiddleware = (req, res, next) => {
   }else{
     next();
   }
-  
+   
 };
 
 module.exports = authorizeMiddleware;
