@@ -8,7 +8,7 @@ const controller = require('./utils/createControllerRoutes');
 const path = require('path');
 const openApiDoc = require('./openApi.json');
 
-module.exports = ({ config, containerMiddleware, loggerMiddleware, errorHandler, openApiMiddleware }) => {
+module.exports = ({ config, containerMiddleware, loggerMiddleware, errorHandler, openApiMiddleware, authorizeMiddleware }) => {
   const router = Router();
   router.use(containerMiddleware);
 
@@ -42,7 +42,7 @@ module.exports = ({ config, containerMiddleware, loggerMiddleware, errorHandler,
    * may cause errors on scaffoldings
    */
 
-  apiRouter.use('/users', controller('controllers/UsersController'));
+  apiRouter.use('/users', authorizeMiddleware, controller('controllers/UsersController'));
   apiRouter.use('/videos', controller('controllers/VideosController'));
   apiRouter.use('/clips', controller('controllers/ClipsController'));
   apiRouter.use('/scenarios', controller('controllers/ScenariosController'));
