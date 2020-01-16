@@ -46,6 +46,7 @@
     "googleapis": "^43.0.0",
     "http-status": "^1.0.1",
     "js-yaml": "^3.13.1",
+    "jwt-decode": "^2.2.0",
     "method-override": "^2.3.7",
     "node-fetch": "^2.6.0",
     "pg": "^7.12.1",
