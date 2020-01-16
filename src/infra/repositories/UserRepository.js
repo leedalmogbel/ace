@@ -1,30 +1,37 @@
 const { BaseRepository } = require('@amberjs/core');
 
 class UserRepository extends BaseRepository {
-  constructor({ UserModel }) {
+  constructor({ UserModel, PlayerRepository, CoachesRepository }) {
     super(UserModel);
+    this.PlayerRepository = PlayerRepository;
+    this.CoachesRepository = CoachesRepository;
   }
 
-  async createEmail (data) {
-    const year = new Date().getFullYear();
-    const userId = parseInt(`${year}${Math.floor(Math.random()* 999999) + 100000}`);
-    return this.model.findOrCreate({
-      where: {
-        email: data.email,
-      },
-      defaults: {
-        id: userId,
-        name: data.name,
-        userType: data.userType,
-        googleUserId: data.googleUserId,
-        fbUserId: data.fbUserId,
-        subscribed: data.subscribed,
+  async add(data) {
+    let newUser = await this.model.create(data);
+
+    
+    if(newUser){
+      if (data.userType == 'player'){
+        //create player
+        this.PlayerRepository.add({
+          userId:newUser.id
+        });
+      }else if (data.userType == 'coach'){
+        //create coach
+        this.CoachesRepository.add({
+          userId:newUser.id,
+          coachName:newUser.name
+        });
       }
-    });
+    }
+
+    return newUser;
+    // after creation create user or coach
+
   }
 
   async findCreateUpdate (data) {
-    console.log(data);
     const year = new Date().getFullYear();
     const userId = parseInt(`${year}${Math.floor(Math.random()* 999999) + 100000}`);
     return this.model.findOne({
@@ -54,7 +61,7 @@ class UserRepository extends BaseRepository {
           where: { email: data.email },
           returning: true,
         // plain: true,
-        })
+        });
       });
   }
 
@@ -67,6 +74,20 @@ class UserRepository extends BaseRepository {
       returning: true
     });
   } 
+
+  getByEmail(email) {
+    return this.model.findOne({
+      where: {
+        email: email
+      },
+      attributes: {
+        exclude: [
+          'createdAt',
+          'updatedAt'
+        ],
+      }
+    });
+  }
 }
 
 module.exports = UserRepository;

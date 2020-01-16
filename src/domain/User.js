@@ -8,9 +8,19 @@ const User = attributes({
     type: String,
     required: true
   },
-  userType: String,
-  googleUserId: String,
-  fbUserId: String,
+  userType: {
+    type: String,
+    required: true,
+    equal: ['coach', 'admin', 'player']
+  },
+  googleUserId: {
+    type: String,
+    empty: true
+  },
+  fbUserId: {
+    type: String,
+    empty: true
+  },
   subscribed: Boolean
 })(class User {
 
