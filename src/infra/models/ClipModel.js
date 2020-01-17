@@ -67,6 +67,9 @@ module.exports = {
         defaultValue: 'NA'
       }, comments : {
         type: DataTypes.STRING,
+      }, status : {
+        type: DataTypes.ENUM('init', 'failed', 'success'),
+        defaultValue: 'init'
       }
     }, {
       tableName: 'clips',
