@@ -11,14 +11,15 @@ class Login extends Operation {
     const { SUCCESS, ERROR, VALIDATION_ERROR, NOT_FOUND } = this.events;
     try {
       console.log('LOGIN DATA', data);
-      data.userType = 'coach';
       let usersData = await this.UserRepository.getByEmail(data.email);
-      //data.userType = 'player';
+      data.userType = 'player';
+
+      let whitelistData = await this.WhitelistRepository.getByEmail(data.email);
+      if(whitelistData){
+        data.userType = 'coach';
+      }
+      
       if(!usersData){
-        // let whitelistData = await this.WhitelistRepository.getByEmail(data.email);
-        // if(whitelistData){
-        //   data.userType = 'coach';
-        // }
         console.log('CREATE USER : ', data);
         usersData = await this.UserRepository.add(data);
       }else{
