@@ -201,6 +201,71 @@
         }
       }
     },
+    "/users/whitelist": {
+      "post": {
+        "summary": "Add new whitelisted email",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "CreateWhitelist",
+        "tags": [ "Users" ],
+        "requestBody": {
+          "description": "Add new whitelist user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "required": true
+                  }
+                },
+                "example": {
+                  "email": "kboquiren@stratpoint.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Add new whitelisted email.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "data": {
+                      "id": 1,
+                      "email": "kboquiren@stratpoint.com"
+                    },
+                    "message": {
+                      "status": "Successfully added to whitelisted emails."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not created because of validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/defaultResponses/ValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users": {
       "post": {
         "summary": "Create new user",
