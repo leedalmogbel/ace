@@ -23,6 +23,8 @@ class UsersController extends BaseController {
     //Filter
     router.get('/details/filter', this.injector('GetFilter'), this.showList);
     
+    //Whitelist emails
+    router.post('/whitelist', this.injector('CreateWhitelist'), this.create);
     return router;
   }
 
