@@ -2,9 +2,10 @@ const { Operation } = require('@amberjs/core');
 const {Persons} = require('src/domain/DetectedPerson');
 
 class CreateDetectedPersons extends Operation {
-  constructor({ ClipPersonRepository }) {
+  constructor({ ClipPersonRepository, ClipRepository }) {
     super();
     this.ClipPersonRepository = ClipPersonRepository;
+    this.ClipRepository = ClipRepository;
   }
 
   async execute(clipId, data) {
@@ -18,6 +19,8 @@ class CreateDetectedPersons extends Operation {
     }
 
     try {
+      // update clip status to 'success' before saving dtected persons;
+      this.ClipRepository.update(clipId, {status:'success'});
       await this.ClipPersonRepository.addMultiple(clipId, persons);
       
       return this.emit(SUCCESS, {

@@ -31,26 +31,20 @@ class CreateClip extends Operation {
       //check if goldStandard is true
       const data = Utils().resSuccess(newClip, message);
       this.emit(SUCCESS, data);
-
-      // if(clip.goldStandard){
-      //   // check if data exist in detectedPersonData
-      //   let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(newClip.id);
-      //   let response = await this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
-      // }
-
-      // if(clip.forInference){
-      //   console.log('INFERENCE IS TRUE');
-      //   let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(newClip.id);
-      //   let response = await this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
-      // }
+      
       let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(newClip.id);
       console.log('CREATE CLIP person detection DATA : ', dataForPersonDetection);
       let response = await this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
-      console.log('CREATE CLIP person detection : ', response);
-
+      // check if response result is busy update clip status to 'FAILED'
+      
+      if(response.data.message == 'Busy'){
+        this.ClipRepository.update(newClip.id, {status:'failed'});
+      }
+      console.log('CREATE CLIP response data: ', response.data);
+      
       return;
     } catch(error) {
-      console.log('CreateClip Error :', error);
+      console.log('CreateClip ERROR :', error);
       const dataError = Utils().resError(error);
       if(error.message === 'ValidationError') {
         return this.emit(VALIDATION_ERROR, dataError);
