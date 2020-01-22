@@ -19,7 +19,7 @@ class GenerateKeypointsSignedUrl extends Operation {
       const signedUrl = signed.signedUrl;
       console.log('GenerateKeypointSignedURL : ', pathURL);
       // update personkeypoint
-      await this.PersonKeypointRepository.update(data.personKeypointId, {'keypointLink':pathURL});
+      await this.PersonKeypointRepository.update(data.personKeypointId, {'keypointLink':pathURL, status:'successKeypoint'});
       //console.log('UPDATED PERSON :', updatedPerson);
       const created = {
         signedUrl,

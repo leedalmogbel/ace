@@ -18,7 +18,7 @@ class GenerateVideoSignedUrl extends Operation {
     const generatedData = signURL.generateSignedUrlForVideo(key);
     try {
       console.log('GenerateVideoSignedURL : ', generatedData.pathURL);
-      await this.PersonKeypointRepository.update(data.personKeypointId, {'skeletonLink':generatedData.pathURL});
+      await this.PersonKeypointRepository.update(data.personKeypointId, {'skeletonLink':generatedData.pathURL, status:'successSkeleton'});
       return this.emit(SUCCESS, generatedData);
     } catch(error) {
       if(error.message === 'ValidationError') {

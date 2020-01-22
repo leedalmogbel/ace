@@ -23,6 +23,9 @@ module.exports = {
       }, skeletonLink : {
         type: DataTypes.STRING,
         allowNull: true
+      }, status : {
+        type: DataTypes.ENUM('init', 'failed', 'successKeypoint', 'successSkeleton'),
+        defaultValue: 'init'
       }
     }, {
       tableName: 'personKeypoints',
