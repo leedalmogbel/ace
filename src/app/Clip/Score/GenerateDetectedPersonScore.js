@@ -21,7 +21,7 @@ class GenerateDetectedPersonScore extends Operation {
 
     try {
       const modelLinks = await this.StandardModelRepository.getModelLinks({scenarioId:data.scenarioId});
-      const jsonLink = await this.PersonKeypointRepository.getKeypointLink({clipPersonId: data.clip_person_id});
+      const jsonLink = await this.PersonKeypointRepository.getKeypointLink({clipPersonId: data.clipPersonId});
       
       if(jsonLink){
         let scoreParams = {
@@ -31,29 +31,29 @@ class GenerateDetectedPersonScore extends Operation {
         };
         this.logger.info(`GenerateDetectedPersonScore INFERENCE PARAMS : ${JSON.stringify(scoreParams)}`);
 
-        //let response = await this.ThirdPartyApis.callScoresGeneration(scoreParams);
-        let response = {data:{
-          clipId: 38,
-          clipPersonId: 3,
-          score: [
-            {
-              keypointMap : 'all',
-              score : 0.3456789
-            },
-            {
-              keypointMap : 'balance',
-              score : 0.3456789
-            },
-            {
-              keypointMap : 'movement',
-              score : 0.3456789
-            },
-            {
-              keypointMap : 'ballStriking',
-              score : 0.3456789
-            }
-          ]
-        }};
+        let response = await this.ThirdPartyApis.callScoresGeneration(scoreParams);
+        // let response = {data:{
+        //   clipId: 38,
+        //   clipPersonId: 3,
+        //   score: [
+        //     {
+        //       keypointMap : 'all',
+        //       score : 0.3456789
+        //     },
+        //     {
+        //       keypointMap : 'balance',
+        //       score : 0.3456789
+        //     },
+        //     {
+        //       keypointMap : 'movement',
+        //       score : 0.3456789
+        //     },
+        //     {
+        //       keypointMap : 'ballStriking',
+        //       score : 0.3456789
+        //     }
+        //   ]
+        // }};
         if(response.data.message == 'Busy'){
           return this.emit(SERVICE_UNAVAILABLE, {message:'Server is busy for inference. Try again later.'});
         }
@@ -81,22 +81,25 @@ class GenerateDetectedPersonScore extends Operation {
 
       // SELECTED person have no generated keypoints yet
       console.log('SetDetectedPersonKeypoints DATA : ', data);
-      const clipParent = await this.ClipRepository.getClipParent(data.clip_id);
+      const clipParent = await this.ClipRepository.getClipParent(data.clipId);
       const personKeypoints = await this.PersonKeypointRepository.upsert({
           scenarioId : null,
-          clipPersonId : data.clip_person_id,
+          clipPersonId : data.clipPersonId,
           userId : clipParent.video.userId,
       });
       // GENERATE KEYPOINTS
 
       let extractionResponse = await this.ThirdPartyApis.callKeypointsExtraction(personKeypoints);
+      // let extractionResponse = {data:{
+      //   message:'Busy'
+      // }}
       console.log('SetDetectedPersonKeypoints RESPONSE : ', extractionResponse);
       if(extractionResponse.data.message == 'Busy'){
         this.PersonKeypointRepository.update(personKeypoints.person_keypoint_id, {status:'failed'});
         return this.emit(SERVICE_UNAVAILABLE, {message:'Server is busy for inference. Try again later.'});
       }
 
-      this.emit(SUCCESS, {message:"Generating keypoints. Try again later."});
+      this.emit(SUCCESS, {details:{message:"Generating keypoints. Try again later."}});
       return;
 
     } catch(error) {

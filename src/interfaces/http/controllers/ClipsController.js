@@ -37,7 +37,7 @@ class ClipsController extends BaseController {
     
     // select clip for scoring
     router.post('/:clipId/detectedPerson/:id/generateScore', this.injector('GenerateDetectedPersonScore'), this.showDetectedPerson);
-    router.get('/:clipId/detectedPerson/:id/scores', this.injector('ShowDetectedPersonScore'), this.showSignedUrl);
+    router.get('/:clipId/detectedPerson/:id/scores', this.injector('ShowDetectedPersonScore'), this.showPersonKeypoints);
     router.post('/:clipId/detectedPerson/:id/scores', this.injector('CreateScore'), this.create);
 
     
@@ -134,28 +134,6 @@ class ClipsController extends BaseController {
     operation.execute(body);
   }
 
-  showSignedUrl(req, res, next) {
-    const { operation } = req;
-
-    const { SUCCESS, ERROR, NOT_FOUND } = operation.events;
-
-    operation
-      .on(SUCCESS, (result) => {
-        res
-          .status(Status.OK)
-          .json(result);
-
-      })
-      .on(NOT_FOUND, (error) => {
-        res.status(Status.NOT_FOUND).json({
-          type: 'NotFoundError',
-          details: error.details
-        });
-      })
-      .on(ERROR, next);
-    operation.execute(Number(req.params.clipId), Number(req.params.id));
-  }
-
   showDetectedPerson(req, res, next) {
     const { operation } = req;
 
@@ -183,8 +161,8 @@ class ClipsController extends BaseController {
       .on(ERROR, next);
 
     let body =  req.body;
-    body.clip_id = Number(req.params.clipId);
-    body.clip_person_id = Number(req.params.id);
+    body.clipId = Number(req.params.clipId);
+    body.clipPersonId = Number(req.params.id);
     operation.execute(Number(req.params.id), body);
   }
 }

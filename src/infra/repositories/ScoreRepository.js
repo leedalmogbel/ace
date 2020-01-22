@@ -7,12 +7,9 @@ class ScoreRepository extends BaseRepository {
   }
 
   async getAllWithParams(params){
-    if(params){
-      return await this.model.findAll({
-        where: params
-      });
-    }
-    return await this.model.findAll();
+    return await this.model.findAll({
+      where: params
+    });
   }
 }
 
