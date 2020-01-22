@@ -52,10 +52,10 @@ function generateSignedUrlForModel(key){
   };
 
   const signedUrl = generateSignedUrl(params);
-  const pathURL = `https://${bucketName}.s3.${s3Region}.amazonaws.com/${key}`;
+  const pathUrl = `https://${bucketName}.s3.${s3Region}.amazonaws.com/${key}`;
   return  {
     signedUrl,
-    pathURL
+    pathUrl
   };
 }
 
