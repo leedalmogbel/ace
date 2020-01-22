@@ -7,11 +7,11 @@ class ListPersonKeypoints extends Operation {
     this.PersonKeypointRepository = PersonKeypointRepository;
   }
 
-  async execute(id) {
+  async execute(params) {
     const { SUCCESS, ERROR } = this.events;
 
     try {
-      const users = await this.PersonKeypointRepository.getAll({'scenarioId':id});
+      const users = await this.PersonKeypointRepository.getAll(params);
       const data = Utils().resSuccess(users);
       return this.emit(SUCCESS, data);
     } catch(error) {

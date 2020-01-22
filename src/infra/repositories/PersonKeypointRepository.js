@@ -22,9 +22,9 @@ class PersonKeypointRepository extends BaseRepository {
     this.ClipModel = ClipModel;
     this.VideoModel = VideoModel;
   }
-  async getAll(param){
+  async getAll(params){
     return this.model.findAll({
-      where : param,
+      where : params,
       attributes: ['id', 'scenarioId', 'keypointLink']
     });
   }
