@@ -38,7 +38,7 @@ class ClipsController extends BaseController {
     // select clip for scoring
     router.post('/:clipId/detectedPerson/:id/generateScore', this.injector('GenerateDetectedPersonScore'), this.showDetectedPerson);
     router.get('/:clipId/detectedPerson/:id/scores', this.injector('ShowDetectedPersonScore'), this.showPersonKeypoints);
-    router.post('/:clipId/detectedPerson/:id/scores', this.injector('CreateScore'), this.create);
+    router.post('/:clipId/detectedPerson/:id/scores', this.injector('CreateScore'), this.showPersonKeypoints);
 
     
     return router;
