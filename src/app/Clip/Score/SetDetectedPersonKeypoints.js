@@ -21,7 +21,11 @@ class SetDetectedPersonKeypoints extends Operation {
       console.log('READY FOR EXTRACTION : ', personKeypoints);
       this.emit(SUCCESS, message);
 
-      let response = this.ThirdPartyApis.callKeypointsExtraction(personKeypoints);
+      let response = await this.ThirdPartyApis.callKeypointsExtraction(personKeypoints);
+      console.log('SetDetectedPersonKeypoints RESPONSE : ', response);
+      if(response.data.message == 'Busy'){
+        this.PersonKeypointRepository.update(personKeypoints.person_keypoint_id, {status:'failed'});
+      }
       return;
     } catch(error) {
       switch(error.message) {
