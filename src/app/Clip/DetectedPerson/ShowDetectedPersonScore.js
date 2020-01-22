@@ -1,7 +1,5 @@
 const { Operation } = require('@amberjs/core');
-const Utils = require('src/infra/services/utils');
 
-//select person
 class ShowDetectedPersonScore extends Operation {
   constructor({ThirdPartyApis, ScoreRepository }) {
     super();
@@ -9,19 +7,13 @@ class ShowDetectedPersonScore extends Operation {
     this.ThirdPartyApis = ThirdPartyApis;
   }
 
-  async execute(clipId, selectedPersonId) {
+  async execute(params) {
     const {
       SUCCESS, NOT_FOUND, VALIDATION_ERROR, ERROR
     } = this.events;
-
     try {
-      const detectedPersonScores = await this.ScoreRepository.getAllWithParams({'testId': selectedPersonId});
-      let message = 'Successfully generated.'; // update detectedPerson Scores , add field to detected person or create new table for score
-      if(detectedPersonScores){
-        message = 'Not selected for';
-      }
-      const data = Utils().resSuccess(detectedPersonScores, message);
-      return this.emit(SUCCESS, detectedPersonScores);
+      let detectedPersonScores = await this.ScoreRepository.getAllWithParams(params);
+      return this.emit(SUCCESS, {data:detectedPersonScores});
     } catch(error) {
       switch(error.message) {
       case 'ValidationError':
