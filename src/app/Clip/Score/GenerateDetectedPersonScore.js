@@ -57,26 +57,7 @@ class GenerateDetectedPersonScore extends Operation {
         if(response.data.message == 'Busy'){
           return this.emit(SERVICE_UNAVAILABLE, {message:'Server is busy for inference. Try again later.'});
         }
-        // insert data to score table or AI will call new API for saving score
-         /**
-       * Save to score taable
-       * Parse array
-       */
-        let scoreArr = response.data.score;
-        if(scoreArr){
-          let resultArr= await Promise.all(
-            scoreArr.map(score => {
-              return this.ScoreRepository.add({
-                ...score,
-                clipId: response.data.clipId,
-                clipPersonId: response.data.clipPersonId
-              });
-            })
-          );
-
-          return this.emit(SUCCESS, {data:resultArr});
-          //return this.emit(SUCCESS, {message:"Submitted for Score Generation."});
-        }
+        return this.emit(SUCCESS, {message:"Submitted for Score Generation."});
       }
 
       // SELECTED person have no generated keypoints yet
