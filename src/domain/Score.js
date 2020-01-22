@@ -1,7 +1,7 @@
 const { attributes } = require('structure');
 const Scores = attributes({
   score: {
-    type: Array,
+    type: Number,
     required: true
   },
   keypointMap: {

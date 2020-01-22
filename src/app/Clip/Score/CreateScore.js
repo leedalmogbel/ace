@@ -9,18 +9,37 @@ class CreateScore extends Operation {
 
   async execute(data) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
-
     const score = new Score(data);
 
     const { valid, errors } = score.validate(data);
     if (!valid) {
-      return this.emit(VALIDATION_ERROR, errors);
+      return this.emit(VALIDATION_ERROR, {
+        details: {
+          errors : errors
+        }
+      });
     }
 
     try {
-      const newScore = await this.ScoreRepository.add(score);
-      
-      return this.emit(SUCCESS, newScore);
+      let scoreArr = data.score;
+        if(scoreArr){
+          let resultArr= await Promise.all(
+            scoreArr.map(score => {
+              return this.ScoreRepository.add({
+                ...score,
+                clipId: data.clipId,
+                clipPersonId: data.clipPersonId
+              });
+            })
+          );
+          return this.emit(SUCCESS, {data:resultArr});
+        }
+
+        return this.emit(VALIDATION_ERROR, {
+          details: {
+            errors : 'Score cannot be empty.'
+          }
+        });
     } catch(error) {
       if(error.message === 'ValidationError') {
         return this.emit(VALIDATION_ERROR, error);
