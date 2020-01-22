@@ -16,7 +16,7 @@ class StandardModelRepository extends BaseRepository {
     this.ScenariosModel = ScenariosModel;
   }
 
-  async getAllWithScenario(){
+  async getAllWithScenario(params){
     return reformatForListing(await this.model.findAll({
       attributes: ['id', 'modelLink'],
       include: [
@@ -25,7 +25,8 @@ class StandardModelRepository extends BaseRepository {
           attributes: ['scenario'],
           as: 'scenario'
         },
-      ]
+      ],
+      where: params
     }));
   }
 
