@@ -17,13 +17,16 @@ module.exports = {
       }, modelLink : {
         type: DataTypes.STRING,
         allowNull: false
+      }, keypointMap : {
+        type: DataTypes.STRING,
+        defaultValue: 'all'
       }
     }, {
       tableName: 'standardModels',
       timestamps: true,
       indexes: [{
         unique: true,
-        fields: ['scenarioId', 'userId']
+        fields: ['scenarioId', 'userId', 'keypointMap']
       }]
     });
       

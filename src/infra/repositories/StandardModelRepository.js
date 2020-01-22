@@ -34,14 +34,20 @@ class StandardModelRepository extends BaseRepository {
     let standardModelData = await this.model.findOne({
       where: {
         userId: data.userId,
-        scenarioId: data.scenarioId
+        scenarioId: data.scenarioId,
+        keypointMap: data.keypointMap
       }
     }).then((standardModel) => {
       if(!standardModel){
         // create
         return this.model.create(data);
+      }else{
+        return this.model.update(data, {
+          where: { id: standardModel.id },
+          returning: true,
+        // plain: true,
+        });
       }
-      return standardModel;
     });
 
     return standardModelData;
