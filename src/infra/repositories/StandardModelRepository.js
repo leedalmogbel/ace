@@ -54,9 +54,12 @@ class StandardModelRepository extends BaseRepository {
     return standardModelData;
   }
 
-  async getModelLink(id){
-    const modelLink = await this._getById(id);
-    return modelLink.modelLink;
+  async getModelLinks(params){
+    const modelLinks = await this.model.findAll({
+      attributes: ['keypointMap', 'modelLink'],
+      where : params
+    });
+    return modelLinks;
   }
 }
 

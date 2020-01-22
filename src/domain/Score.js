@@ -1,4 +1,14 @@
 const { attributes } = require('structure');
+const Scores = attributes({
+  score: {
+    type: Array,
+    required: true
+  },
+  keypointMap: {
+    type: String,
+    required: true
+  }
+})(class Scores {});
 
 const Score = attributes({
   // Add atttributes here
@@ -6,17 +16,16 @@ const Score = attributes({
     type: Number,
     required: true
   },
-  standardId: {
-    type: Number,
-    required: true
-  },
-  testId: {
+  clipPersonId: {
     type: Number,
     required: true
   },
   score: {
-    type: String,
-    required: true
-  },
+    required: true,
+    type: Array,
+    minLength: 1,
+    unique: true,
+    itemType: Scores
+  }
 })(class Score {});
 module.exports = Score;

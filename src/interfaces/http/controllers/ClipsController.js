@@ -159,7 +159,7 @@ class ClipsController extends BaseController {
   showDetectedPerson(req, res, next) {
     const { operation } = req;
 
-    const { SUCCESS, ERROR, NOT_FOUND } = operation.events;
+    const { SUCCESS, ERROR, NOT_FOUND, SERVICE_UNAVAILABLE } = operation.events;
 
     operation
       .on(SUCCESS, (result) => {
@@ -172,6 +172,12 @@ class ClipsController extends BaseController {
         res.status(Status.NOT_FOUND).json({
           type: 'NotFoundError',
           details: error.details
+        });
+      })
+      .on(SERVICE_UNAVAILABLE, (error) => {
+        res.status(Status.SERVICE_UNAVAILABLE).json({
+          type: 'Service Unavailable',
+          details: error
         });
       })
       .on(ERROR, next);

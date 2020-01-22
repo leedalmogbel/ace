@@ -12,15 +12,15 @@ module.exports = {
       clipId : {
         type: DataTypes.INTEGER,
         allowNull: false
-      }, standardId : {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      }, testId : {
+      }, clipPersonId : {
         type: DataTypes.INTEGER,
         allowNull: false
       }, score : {
         type: DataTypes.STRING,
         allowNull: false
+      }, keypointMap : {
+        type: DataTypes.STRING,
+        defaultValue: 'all'
       }
     }, {
       tableName: 'scores',

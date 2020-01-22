@@ -1689,13 +1689,13 @@
             "application/json": {
               "schema": {
                 "properties": {
-                  "modelId": {
+                  "scenarioId": {
                     "type": "integer",
                     "required": true
                   }
                 },
                 "example": {
-                  "modelId": 1
+                  "scenarioId": 1
                 }
               }
             }
@@ -1800,24 +1800,36 @@
                     "type": "integer",
                     "required": true
                   },
-                  "standardId": {
-                    "type": "integer",
-                    "required": true
-                  },
-                  "testId": {
+                  "clipPersonId": {
                     "type": "integer",
                     "required": true
                   },
                   "score": {
-                    "type": "string",
+                    "type": "array",
                     "required": true
                   }
                 },
                 "example": {
                   "clipId": 1,
-                  "standardId": 3,
-                  "testId": 4,
-                  "score" : "(0.3243244, 0.6756756)"
+                  "clipPersonId": 3,
+                  "score" : [
+                    {
+                      "keypointMap" : "all",
+                      "score" : 0.3456789
+                    },
+                    {
+                      "keypointMap" : "balance",
+                      "score" : 0.3456789
+                    },
+                    {
+                      "keypointMap" : "movement",
+                      "score" : 0.3456789
+                    },
+                    {
+                      "keypointMap" : "ballStriking",
+                      "score" : 0.3456789
+                    }
+                  ]
                 }
               }
             }
@@ -1850,6 +1862,16 @@
         ],
         "operationId": "ListModels",
         "tags": [ "Models" ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "Id of selected user",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
         "responses": {
           "200": {
             "description": "List of all models",
@@ -2022,6 +2044,14 @@
             "in": "path",
             "description": "Id of selected gold scenario",
             "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "Id of selected user",
+            "required": false,
             "type": "integer",
             "format": "int64"
           }
