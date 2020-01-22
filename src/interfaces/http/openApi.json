@@ -1796,22 +1796,12 @@
             "application/json": {
               "schema": {
                 "properties": {
-                  "clipId": {
-                    "type": "integer",
-                    "required": true
-                  },
-                  "clipPersonId": {
-                    "type": "integer",
-                    "required": true
-                  },
                   "score": {
                     "type": "array",
                     "required": true
                   }
                 },
                 "example": {
-                  "clipId": 1,
-                  "clipPersonId": 3,
                   "score" : [
                     {
                       "keypointMap" : "all",
@@ -1826,7 +1816,7 @@
                       "score" : 0.3456789
                     },
                     {
-                      "keypointMap" : "ballStriking",
+                      "keypointMap" : "ball_striking",
                       "score" : 0.3456789
                     }
                   ]

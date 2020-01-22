@@ -13,7 +13,7 @@ class GenerateModelSignedUrl extends Operation {
   async execute(data) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
     
-    const keypointArr = ['all', 'balance', 'ballStriking', 'movement'];
+    const keypointArr = ['all', 'balance', 'ball_striking', 'movement'];
     
     try {
       let resultArr= await Promise.all(
