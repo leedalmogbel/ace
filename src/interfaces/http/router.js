@@ -13,15 +13,16 @@ module.exports = ({ config, containerMiddleware, loggerMiddleware, errorHandler,
   router.use(containerMiddleware);
 
   /* istanbul ignore if */
-  if(config.env === 'development') {
+  if(config.app.env === 'development') {
     router.use(statusMonitor());
   }
 
+
   /* istanbul ignore if */
-  if(config.env !== 'test') {
+  if(config.app.env !== 'test') {
     router.use(loggerMiddleware);
   }
-
+ 
   const apiRouter = Router();
 
   apiRouter
@@ -42,7 +43,7 @@ module.exports = ({ config, containerMiddleware, loggerMiddleware, errorHandler,
    * may cause errors on scaffoldings
    */
 
-  apiRouter.use('/users', authorizeMiddleware, controller('controllers/UsersController'));
+  apiRouter.use('/users', controller('controllers/UsersController'));
   apiRouter.use('/videos', controller('controllers/VideosController'));
   apiRouter.use('/clips', controller('controllers/ClipsController'));
   apiRouter.use('/scenarios', controller('controllers/ScenariosController'));
