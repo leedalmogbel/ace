@@ -21,6 +21,9 @@ module.exports = {
       }, keypointMap : {
         type: DataTypes.STRING,
         defaultValue: 'all'
+      }, scenarioId : {
+        type: DataTypes.INTEGER,
+        allowNull: false
       }
     }, {
       tableName: 'scores',
@@ -36,6 +39,10 @@ module.exports = {
       ScoreModel.belongsTo(datasource.models.ClipPersonModel, {
         foreignKey: 'clipPersonId',
         as: 'clipPersons'
+      });
+      ScoreModel.belongsTo(datasource.models.ScenariosModel, {
+        foreignKey: 'scenarioId',
+        as: 'scenario'
       });
     };
   

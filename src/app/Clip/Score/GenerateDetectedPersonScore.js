@@ -25,6 +25,7 @@ class GenerateDetectedPersonScore extends Operation {
       
       if(jsonLink){
         let scoreParams = {
+          scenario_id : data.scenarioId,
           clip_id : data.clipId,
           clip_person_id : data.clipPersonId,
           model_path : modelLinks,

@@ -20,6 +20,10 @@ const Score = attributes({
     type: Number,
     required: true
   },
+  scenarioId: {
+    type: Number,
+    required: true
+  },
   score: {
     required: true,
     type: Array,

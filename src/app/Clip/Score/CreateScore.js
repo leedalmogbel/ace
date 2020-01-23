@@ -28,7 +28,8 @@ class CreateScore extends Operation {
               return this.ScoreRepository.add({
                 ...score,
                 clipId: data.clipId,
-                clipPersonId: data.clipPersonId
+                clipPersonId: data.clipPersonId,
+                scenarioId: data.scenarioId
               });
             })
           );

@@ -37,6 +37,10 @@ module.exports = {
         foreignKey: 'scenarioId',
         as: 'keypoints'
       });
+      ScenariosModel.hasMany(datasource.models.ScoreModel, {
+        foreignKey: 'scenarioId',
+        as: 'scores'
+      });
     };
     
     return ScenariosModel;
