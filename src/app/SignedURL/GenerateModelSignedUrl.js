@@ -12,10 +12,11 @@ class GenerateModelSignedUrl extends Operation {
  
   async execute(data) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
-    
+    this.logger.info(`Generate Model SignedUrl DATA : ${JSON.stringify(data)}`);
     const keypointArr = ['all', 'balance', 'ball_striking', 'movement'];
     
     try {
+      // existing scenario Id and userId
       let resultArr= await Promise.all(
         keypointArr.map(keypoint => {
           let keyName = `models/${process.env.NODE_ENV}/${data.userId}/${data.scenarioId}/${String(Date.now())}_${keypoint}`.replace(/\s/g, '');
