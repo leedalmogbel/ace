@@ -10,7 +10,7 @@ class CreateScore extends Operation {
   async execute(data) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
     const score = new Score(data);
-
+    console.log('SCORE DATA :', data);
     const { valid, errors } = score.validate(data);
     if (!valid) {
       return this.emit(VALIDATION_ERROR, {
