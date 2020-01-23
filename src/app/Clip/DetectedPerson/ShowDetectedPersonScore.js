@@ -11,8 +11,10 @@ class ShowDetectedPersonScore extends Operation {
     const {
       SUCCESS, NOT_FOUND, VALIDATION_ERROR, ERROR
     } = this.events;
+    console.log('GET SCORES :', params);
     try {
-      let detectedPersonScores = await this.ScoreRepository.getAllWithParams(params);
+
+      let detectedPersonScores = await this.ScoreRepository.getAllWithParams({'clipId': params.clipId, 'clipPersonId':params.id});
       return this.emit(SUCCESS, {data:detectedPersonScores});
     } catch(error) {
       switch(error.message) {

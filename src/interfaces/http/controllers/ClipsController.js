@@ -37,7 +37,7 @@ class ClipsController extends BaseController {
     
     // select clip for scoring
     router.post('/:clipId/detectedPerson/:id/generateScore', this.injector('GenerateDetectedPersonScore'), this.showDetectedPerson);
-    router.get('/:clipId/detectedPerson/:id/scores', this.injector('ShowDetectedPersonScore'), this.showPersonKeypoints);
+    router.get('/:clipId/detectedPerson/:id/scores', this.injector('ShowDetectedPersonScore'), this.showPersonScores);
     router.post('/:clipId/detectedPerson/:id/scores', this.injector('CreateScore'), this.showPersonKeypoints);
 
     
@@ -130,7 +130,6 @@ class ClipsController extends BaseController {
     let body = req.body;
     body.clipId = Number(req.params.clipId);
     body.clipPersonId = Number(req.params.id);
-
     operation.execute(body);
   }
 
@@ -164,6 +163,27 @@ class ClipsController extends BaseController {
     body.clipId = Number(req.params.clipId);
     body.clipPersonId = Number(req.params.id);
     operation.execute(Number(req.params.id), body);
+  }
+
+
+  showPersonScores(req, res, next) {
+    const { operation } = req;
+    const { SUCCESS, ERROR, VALIDATION_ERROR } = operation.events;
+
+    operation
+      .on(SUCCESS, (result) => {
+        res
+          .status(Status.OK)
+          .json(result);
+      })
+      .on(VALIDATION_ERROR, (error) => {
+        res.status(Status.BAD_REQUEST).json({
+          type: 'ValidationError',
+          details: error.details
+        });
+      })
+      .on(ERROR, next);
+    operation.execute(req.params);
   }
 }
 
