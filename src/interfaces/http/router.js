@@ -48,6 +48,7 @@ module.exports = ({ config, containerMiddleware, loggerMiddleware, errorHandler,
   apiRouter.use('/clips', controller('controllers/ClipsController'));
   apiRouter.use('/scenarios', controller('controllers/ScenariosController'));
   apiRouter.use('/models', controller('controllers/StandardModelController'));
+  apiRouter.use('/analytics', controller('controllers/AnalyticsController'));
   apiRouter.use('/public/clips', controller('controllers/ClipsController'));
   /* apiRoutes END */
 
