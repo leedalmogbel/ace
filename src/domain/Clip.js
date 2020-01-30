@@ -18,8 +18,14 @@ const Clip = attributes({
     type: String,
     required: true
   },
-  currentSetScore: String,
-  currentGameScore: String,
+  currentSetScore: {
+    type: String,
+    empty: true
+  },
+  currentGameScore: {
+    type: String,
+    empty: true
+  },
   shotType: String,
   moveDirection: String,
   hitSpot: String,
@@ -35,7 +41,7 @@ const Clip = attributes({
   updatedAt: Date,
   clipType: {
     type: String,
-    required: true,
+    //required: true,
     equal: ['basic', 'forAnalytics', 'forGoldStandard']
   },
 })(class Clip {});
