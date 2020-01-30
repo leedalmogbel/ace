@@ -2,21 +2,21 @@ const { Operation } = require('@amberjs/core');
 const Utils = require('src/infra/services/utils.js');
 
 class ListClips extends Operation {
-  constructor({ ClipRepository }) {
+  constructor({ ClipRepository, logger }) {
     super();
     this.ClipRepository = ClipRepository;
+    this.logger = logger;
   }
 
   async execute(videoId) {
     const { SUCCESS, NOT_FOUND } = this.events;
-    console.log(videoId);
     try {
       const clips = await this.ClipRepository.getClips(videoId);
-      console.log('line 15 test list', clips);
+      this.logger.info(`ListClips; List of Clips based on videoID : ${JSON.stringify(clips)}`);
       const data = Utils().resSuccess(clips);
       return this.emit(SUCCESS, data);
     } catch(error) {
-      console.log('CLIP ERROR : ', error);
+      this.logger.info(`ListClips; ERROR : ${JSON.stringify(error)}`);
       return this.emit(NOT_FOUND, {
         type: error.message,
         details: error.details

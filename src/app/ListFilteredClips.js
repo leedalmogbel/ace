@@ -2,10 +2,11 @@ const { Operation } = require('@amberjs/core');
 const Utils = require('src/infra/services/utils');
 
 class ListFilteredClips extends Operation {
-  constructor({ AnalyticsRepository, FilterRepository }) {
+  constructor({ AnalyticsRepository, FilterRepository, logger }) {
     super();
     this.AnalyticsRepository = AnalyticsRepository;
     this.FilterRepository = FilterRepository;
+    this.logger = logger;
   }
 
   async execute(data) {
@@ -160,11 +161,11 @@ class ListFilteredClips extends Operation {
         percentage
       };
 
-      console.log('test output', filtering)
+      this.logger.info(`ListFilteredClips; Filters : ${JSON.stringify(filtering)}`);
       const newData = Utils().resSuccess(filtering);
       return this.emit(SUCCESS, newData);
     } catch(error) { 
-      console.log('line 19 beybe',error);
+      this.logger.info(`ListFilteredClips; ERROR : ${JSON.stringify(error)}`);
       return this.emit(NOT_FOUND, {
         type: error.message,
         details: error.details
