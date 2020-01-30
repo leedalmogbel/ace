@@ -9,25 +9,32 @@ class TrainModel extends Operation {
   }
 
   async execute(param) {
-    const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
-
+    const { SUCCESS, ERROR, VALIDATION_ERROR, SERVICE_UNAVAILABLE } = this.events;
+    console.log('TRAINMODEL PARAMS : ', param);
     try {
       const personKeypoints = await this.PersonKeypointRepository.getAllKeypoints(param);
+      console.log(personKeypoints);
+      if(personKeypoints.length > 0){
+        let trainingParams = {
+          'user_id': param.userId,
+          'scenario_id':param.scenarioId,
+          'json_path': personKeypoints
+        };
+
+        console.log('TrainModel PARAMS : ', trainingParams);
+        
+        let response = await this.ThirdPartyApis.callModelTraining(trainingParams);
+        if(response.data.message == 'Busy'){
+          return this.emit(SERVICE_UNAVAILABLE, {message:'Server is busy for inference. Try again later.'});
+        }
+        return this.emit(SUCCESS, {message : 'Generating model.'});
+      }
       
-      const data = Utils().resSuccess('', 'Start model training.');
-      this.emit(SUCCESS, data);
+      return this.emit(VALIDATION_ERROR, {data:{
+        message : 'No keypoints found.'
+      }});
 
-      let trainingParams = {
-        'user_id': param.userId,
-        'scenario_id':param.scenarioId,
-        'json_path': personKeypoints,
-        'keypoint_map': 'all'
-      };
-
-      console.log('TrainModel PARAMS : ', trainingParams);
-      let response = this.ThirdPartyApis.callModelTraining(trainingParams);
-
-      return;
+      
     } catch(error) {
       const dataError = Utils().resError(error);
       if(error.message === 'ValidationError') {
@@ -39,6 +46,6 @@ class TrainModel extends Operation {
   }
 }
 
-TrainModel.setEvents(['SUCCESS', 'ERROR', 'VALIDATION_ERROR', 'NOT_FOUND']);
+TrainModel.setEvents(['SUCCESS', 'ERROR', 'VALIDATION_ERROR', 'NOT_FOUND', 'SERVICE_UNAVAILABLE']);
 
 module.exports = TrainModel;

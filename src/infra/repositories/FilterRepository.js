@@ -38,7 +38,7 @@ class FilterRepository extends BaseRepository {
     return this.VideoModel.findAll({
       include: [{
         model: this.ClipModel,
-        AS: 'Clips',
+        as: 'clips',
         where: whereStatement,
         attributes: {
           exclude: [
