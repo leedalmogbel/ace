@@ -63,6 +63,18 @@ module.exports = {
       }, clipType : {
         type: DataTypes.ENUM('basic', 'forAnalytics', 'forGoldStandard'),
         defaultValue: 'basic'
+      }, winner : {
+        type: DataTypes.ENUM('yes', 'no'),
+        defaultValue: null
+      }, end : {
+        type: DataTypes.ENUM('yes', 'no'),
+        defaultValue: null
+      }, move : {
+        type: DataTypes.STRING,
+      }, opponentGameScore : {
+        type: DataTypes.STRING,
+      }, opponentPointScore : {
+        type: DataTypes.STRING,
       }
     }, {
       tableName: 'clips',

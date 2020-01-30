@@ -44,6 +44,12 @@ const Clip = attributes({
     //required: true,
     equal: ['basic', 'forAnalytics', 'forGoldStandard']
   },
+  winner: String,
+  move: String,
+  end: String,
+  rallyLength: String,
+  opponentGameScore: String,
+  opponentPointScore: String
 })(class Clip {});
 
 module.exports = {
