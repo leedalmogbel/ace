@@ -34,41 +34,19 @@ class GenerateDetectedPersonScore extends Operation {
         this.logger.info(`GenerateDetectedPersonScore INFERENCE PARAMS : ${JSON.stringify(scoreParams)}`);
 
         let response = await this.ThirdPartyApis.callScoresGeneration(scoreParams);
-        // let response = {data:{
-        //   clipId: 38,
-        //   clipPersonId: 3,
-        //   score: [
-        //     {
-        //       keypointMap : 'all',
-        //       score : 0.3456789
-        //     },
-        //     {
-        //       keypointMap : 'balance',
-        //       score : 0.3456789
-        //     },
-        //     {
-        //       keypointMap : 'movement',
-        //       score : 0.3456789
-        //     },
-        //     {
-        //       keypointMap : 'ballStriking',
-        //       score : 0.3456789
-        //     }
-        //   ]
-        // }};
         if(response.data.message == 'Busy'){
           return this.emit(SERVICE_UNAVAILABLE, {message:'Server is busy for inference. Try again later.'});
         }
-        return this.emit(SUCCESS, {message:"Submitted for Score Generation."});
+        return this.emit(SUCCESS, {message:'Submitted for Score Generation.'});
       }
 
       // SELECTED person have no generated keypoints yet
       console.log('SetDetectedPersonKeypoints DATA : ', data);
       const clipParent = await this.ClipRepository.getClipParent(data.clipId);
       const personKeypoints = await this.PersonKeypointRepository.upsert({
-          scenarioId : null,
-          clipPersonId : data.clipPersonId,
-          userId : clipParent.video.userId,
+        scenarioId : data.scenarioId,
+        clipPersonId : data.clipPersonId,
+        userId : clipParent.video.userId,
       });
       // GENERATE KEYPOINTS
 
@@ -82,7 +60,7 @@ class GenerateDetectedPersonScore extends Operation {
         return this.emit(SERVICE_UNAVAILABLE, {message:'Server is busy for inference. Try again later.'});
       }
 
-      this.emit(SUCCESS, {details:{message:"Generating keypoints. Try again later."}});
+      this.emit(SUCCESS, {details:{message:'Generating keypoints. Try again later.'}});
       return;
 
     } catch(error) {
