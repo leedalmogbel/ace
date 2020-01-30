@@ -888,10 +888,7 @@
                   "spin": "NA",
                   "shotDirection": "NA",
                   "speed": "NA",
-                  "goldStandard" : false,
-                  "forInference" : false,
-                  "standardShotType": "",
-                  "standardMovement": ""
+                  "clipType" : "forGoldStandard"
                 }
               }
             }
