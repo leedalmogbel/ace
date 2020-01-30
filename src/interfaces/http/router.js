@@ -43,12 +43,12 @@ module.exports = ({ config, containerMiddleware, loggerMiddleware, errorHandler,
    * may cause errors on scaffoldings
    */
 
-  apiRouter.use('/users', controller('controllers/UsersController'));
-  apiRouter.use('/videos', controller('controllers/VideosController'));
-  apiRouter.use('/clips', controller('controllers/ClipsController'));
-  apiRouter.use('/scenarios', controller('controllers/ScenariosController'));
-  apiRouter.use('/models', controller('controllers/StandardModelController'));
-  apiRouter.use('/analytics', controller('controllers/AnalyticsController'));
+  apiRouter.use('/users', authorizeMiddleware, controller('controllers/UsersController'));
+  apiRouter.use('/videos', authorizeMiddleware, controller('controllers/VideosController'));
+  apiRouter.use('/clips', authorizeMiddleware, controller('controllers/ClipsController'));
+  apiRouter.use('/scenarios', authorizeMiddleware, controller('controllers/ScenariosController'));
+  apiRouter.use('/models', authorizeMiddleware, controller('controllers/StandardModelController'));
+  apiRouter.use('/analytics', authorizeMiddleware, controller('controllers/AnalyticsController'));
   apiRouter.use('/public/clips', controller('controllers/ClipsController'));
   /* apiRoutes END */
 
