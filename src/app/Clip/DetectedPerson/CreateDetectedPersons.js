@@ -2,16 +2,18 @@ const { Operation } = require('@amberjs/core');
 const {Persons} = require('src/domain/DetectedPerson');
 
 class CreateDetectedPersons extends Operation {
-  constructor({ ClipPersonRepository, ClipRepository }) {
+  constructor({ ClipPersonRepository, ClipRepository, logger }) {
     super();
     this.ClipPersonRepository = ClipPersonRepository;
     this.ClipRepository = ClipRepository;
+    this.logger = logger;
   }
 
   async execute(clipId, data) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
 
     const persons = new Persons({...data});
+
 
     const { valid, errors } = persons.validate(data);
     if (!valid) {
@@ -21,6 +23,7 @@ class CreateDetectedPersons extends Operation {
     try {
       // update clip status to 'success' before saving dtected persons;
       this.ClipRepository.update(clipId, {status:'success'});
+      this.logger.info(`CreateDetectedPersons; Data from AI Extraction : ${JSON.stringify(persons)}`);
       await this.ClipPersonRepository.addMultiple(clipId, persons);
       
       return this.emit(SUCCESS, {

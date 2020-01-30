@@ -12,24 +12,28 @@ class CreateClip extends Operation {
   }
 
   async execute(data) {
-    
-    // Implement service/usecase logic here. eg:
-      
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
     
     const nameStartTime = Utils().formatTime(data.startTime);
     const nameEndTime = Utils().formatTime(data.endTime);
-  
     const video = await this.VideoRepository.getVideoName(data.videoId);
     data.clipName = `${video[0].videoName}-from:${nameStartTime}_to:${nameEndTime}`;
   
    
     const clip = new Clip(data);
+    const { valid, errors } = clip.validate(data);
+    if (!valid) {
+      return this.emit(VALIDATION_ERROR, {
+        details: {
+          errors : errors
+        }
+      });
+    }
     
     try {
-      const message = 'Clip Created';
       const newClip = await this.ClipRepository.add(clip);
-      const data = Utils().resSuccess(newClip, message);
+      this.logger.info(`CreateClip; Saved data : , ${JSON.stringify(newClip)}`);
+      const data = Utils().resSuccess(newClip, 'ClipCreated');
       this.emit(SUCCESS, data);
       
       let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(newClip.id);
@@ -41,8 +45,8 @@ class CreateClip extends Operation {
         this.ClipRepository.update(newClip.id, {status:'failed'});
       }
       
-      this.logger.info(`CreateClip; AI Extraction response : , ${JSON.stringify(response)}`);
-      
+      this.logger.info(`CreateClip; AI Extraction response : , ${JSON.stringify(response.data)}`); // causes circular error
+     
       return;
     } catch(error) {
 
