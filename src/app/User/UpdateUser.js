@@ -1,5 +1,5 @@
 const { Operation } = require('@amberjs/core');
-const Utils = require('../infra/services/utils');
+const Utils = require('src/infra/services/utils');
 
 class UpdateUser extends Operation {
   constructor({ UserRepository }) {
@@ -15,7 +15,7 @@ class UpdateUser extends Operation {
 
     try {
       const user = await this.UserRepository.subscribed(id, data);
-      const message = "Subscription Updated"
+      const message = 'Subscription Updated';
       const subscription = Utils().resSuccess(user[0], message);
       return this.emit(SUCCESS, subscription);
     } catch(error) {

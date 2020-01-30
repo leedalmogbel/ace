@@ -1,5 +1,5 @@
 const { Operation } = require('@amberjs/core');
-const signURL = require('../infra/services/signedUrl');
+const signURL = require('src/infra/services/signedUrl');
 const Keypoint = require('src/domain/Keypoint');
 
 class KeypointSignedURL extends Operation {
@@ -7,11 +7,12 @@ class KeypointSignedURL extends Operation {
     super();
     this.KeypointRepository = KeypointRepository;
   }
-
+ 
   async execute(data) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
 
     const signed = signURL.keypointsUpload(data.clipId);
+    console.log('SIGNED : ', signed);
     const pathURL = `https://${signed.bucketName}.s3.ap-southeast-1.amazonaws.com/${signed.key}`;
     const dataRDS = {
       clipId: data.clipId,

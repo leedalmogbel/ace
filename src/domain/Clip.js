@@ -24,18 +24,27 @@ const Clip = attributes({
   comments: String,
   createdAt: Date,
   updatedAt: Date,
-})(class Clip {
-  // Add validation functions below
-  // e.g.:
-  //
-  // isLegal() {
-  //   return this.age >= User.MIN_LEGAL_AGE;
-  // }
-});
+  goldStandard: Boolean,
+  forInference: Boolean,
+  standardMovement: String,
+  standardShotType: String
+})(class Clip {});
 
-// Add constants below
-// e.g.:
-//
-// User.MIN_LEGAL_AGE = 21;
-
-module.exports = Clip;
+const SetStandard = attributes({
+  goldStandard: {
+    type: Boolean,
+    required: true
+  },
+  standardMovement: {
+    type: String,
+    required: true
+  },
+  standardShotType: {
+    type: String,
+    required: true
+  },
+})(class SetStandard {});
+module.exports = {
+  Clip,
+  SetStandard
+};

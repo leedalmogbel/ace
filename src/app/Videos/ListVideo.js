@@ -1,5 +1,5 @@
 const { Operation } = require('@amberjs/core');
-const Utils = require('../infra/services/utils');
+const Utils = require('src/infra/services/utils');
 class ListVideo extends Operation {
   constructor({ VideoRepository }) {
     super();

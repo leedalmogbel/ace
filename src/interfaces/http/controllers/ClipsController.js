@@ -21,6 +21,26 @@ class ClipsController extends BaseController {
     router.get('/video/details/filter', this.injector('GetFilter'), this.showFilter);
     router.get('/countfilter', this.injector('ListFilteredClips'), this.showFilter);
 
+    //Set Gold Standard
+    router.put('/:id/setStandard', this.injector('SetGoldStandard'), this.update);
+
+    // Get List of Detected Persons
+    router.get('/:id/detectedPerson', this.injector('ListDetectedPersons'), this.show);
+    router.post('/:id/detectedPerson', this.injector('CreateDetectedPersons'), this.createPerson);
+    //router.put('/:clipId/detectedPerson:id', this.injector('UpdateDetectedPersons'), this.update);
+
+    router.post('/:clipId/detectedPerson/:id/setKeypoints', this.injector('SetDetectedPersonKeypoints'), this.showPersonKeypoints);
+
+    // signedURL for detectedPerson
+    router.post('/:clipId/detectedPerson/:id/generateKeypointsSignedUrl', this.injector('GenerateKeypointsSignedUrl'), this.showPersonKeypoints);
+    router.post('/:clipId/detectedPerson/:id/generateVideoSignedUrl', this.injector('GenerateVideoSignedUrl'), this.showPersonKeypoints);
+    
+    // select clip for scoring
+    router.post('/:clipId/detectedPerson/:id/generateScore', this.injector('GenerateDetectedPersonScore'), this.showDetectedPerson);
+    router.get('/:clipId/detectedPerson/:id/scores', this.injector('ShowDetectedPersonScore'), this.showPersonScores);
+    router.post('/:clipId/detectedPerson/:id/scores', this.injector('CreateScore'), this.showPersonKeypoints);
+
+    
     return router;
   }
 
@@ -67,6 +87,103 @@ class ClipsController extends BaseController {
       .on(ERROR, next);
 
     operation.execute(req.query);
+  }
+
+  createPerson(req, res, next) {
+    const { operation } = req;
+    const { SUCCESS, ERROR, VALIDATION_ERROR } = operation.events;
+
+    operation
+      .on(SUCCESS, (result) => {
+        res
+          .status(Status.CREATED)
+          .json(result);
+      })
+      .on(VALIDATION_ERROR, (error) => {
+        res.status(Status.BAD_REQUEST).json({
+          type: 'ValidationError',
+          details: error.details
+        });
+      })
+      .on(ERROR, next);
+    operation.execute(Number(req.params.id), req.body);
+  }
+
+  showPersonKeypoints(req, res, next) {
+    const { operation } = req;
+    const { SUCCESS, ERROR, VALIDATION_ERROR } = operation.events;
+
+    operation
+      .on(SUCCESS, (result) => {
+        res
+          .status(Status.OK)
+          .json(result);
+      })
+      .on(VALIDATION_ERROR, (error) => {
+        res.status(Status.BAD_REQUEST).json({
+          type: 'ValidationError',
+          details: error.details
+        });
+      })
+      .on(ERROR, next);
+
+    let body = req.body;
+    body.clipId = Number(req.params.clipId);
+    body.clipPersonId = Number(req.params.id);
+    operation.execute(body);
+  }
+
+  showDetectedPerson(req, res, next) {
+    const { operation } = req;
+
+    const { SUCCESS, ERROR, NOT_FOUND, SERVICE_UNAVAILABLE } = operation.events;
+
+    operation
+      .on(SUCCESS, (result) => {
+        res
+          .status(Status.OK)
+          .json(result);
+
+      })
+      .on(NOT_FOUND, (error) => {
+        res.status(Status.NOT_FOUND).json({
+          type: 'NotFoundError',
+          details: error.details
+        });
+      })
+      .on(SERVICE_UNAVAILABLE, (error) => {
+        res.status(Status.SERVICE_UNAVAILABLE).json({
+          type: 'Service Unavailable',
+          details: error
+        });
+      })
+      .on(ERROR, next);
+
+    let body =  req.body;
+    body.clipId = Number(req.params.clipId);
+    body.clipPersonId = Number(req.params.id);
+    operation.execute(Number(req.params.id), body);
+  }
+
+
+  showPersonScores(req, res, next) {
+    const { operation } = req;
+    const { SUCCESS, ERROR, VALIDATION_ERROR } = operation.events;
+
+    operation
+      .on(SUCCESS, (result) => {
+        res
+          .status(Status.OK)
+          .json(result);
+      })
+      .on(VALIDATION_ERROR, (error) => {
+        res.status(Status.BAD_REQUEST).json({
+          type: 'ValidationError',
+          details: error.details
+        });
+      })
+      .on(ERROR, next);
+    operation.execute(req.params);
   }
 }
 

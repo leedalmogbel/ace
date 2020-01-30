@@ -8,20 +8,21 @@ const controller = require('./utils/createControllerRoutes');
 const path = require('path');
 const openApiDoc = require('./openApi.json');
 
-module.exports = ({ config, containerMiddleware, loggerMiddleware, errorHandler, openApiMiddleware }) => {
+module.exports = ({ config, containerMiddleware, loggerMiddleware, errorHandler, openApiMiddleware, authorizeMiddleware }) => {
   const router = Router();
   router.use(containerMiddleware);
 
   /* istanbul ignore if */
-  if(config.env === 'development') {
+  if(config.app.env === 'development') {
     router.use(statusMonitor());
   }
 
+
   /* istanbul ignore if */
-  if(config.env !== 'test') {
+  if(config.app.env !== 'test') {
     router.use(loggerMiddleware);
   }
-
+ 
   const apiRouter = Router();
 
   apiRouter
@@ -42,10 +43,15 @@ module.exports = ({ config, containerMiddleware, loggerMiddleware, errorHandler,
    * may cause errors on scaffoldings
    */
 
-  apiRouter.use('/users', controller('controllers/UsersController'));
-  apiRouter.use('/videos', controller('controllers/VideosController'));
-  apiRouter.use('/clips', controller('controllers/ClipsController'));
+  apiRouter.use('/users', authorizeMiddleware, controller('controllers/UsersController'));
+  apiRouter.use('/videos', authorizeMiddleware, controller('controllers/VideosController'));
+  apiRouter.use('/clips', authorizeMiddleware, controller('controllers/ClipsController'));
+  apiRouter.use('/scenarios', authorizeMiddleware, controller('controllers/ScenariosController'));
+  apiRouter.use('/models', authorizeMiddleware, controller('controllers/StandardModelController'));
+  apiRouter.use('/analytics', authorizeMiddleware, controller('controllers/AnalyticsController'));
+  apiRouter.use('/public/clips', controller('controllers/ClipsController'));
   /* apiRoutes END */
+
 
   router.use('/api', apiRouter);
   router.use('/', static(path.join(__dirname, './public')));

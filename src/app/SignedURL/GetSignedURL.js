@@ -1,5 +1,5 @@
 const { Operation } = require('@amberjs/core');
-const signURL = require('../infra/services/signedUrl');
+const signURL = require('src/infra/services/signedUrl');
 const Video = require('src/domain/Video');
 const Match = require('src/domain/Match');
 

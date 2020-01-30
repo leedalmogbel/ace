@@ -40,6 +40,16 @@ module.exports = {
       }, smartPattern : {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+      }, goldStandard : {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      }, forInference : {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      }, standardShotType : {
+        type: DataTypes.STRING
+      }, standardMovement : {
+        type: DataTypes.STRING
       }, extra : {
         type: DataTypes.STRING,
         defaultValue: 'none'
@@ -57,6 +67,9 @@ module.exports = {
         defaultValue: 'NA'
       }, comments : {
         type: DataTypes.STRING,
+      }, status : {
+        type: DataTypes.ENUM('init', 'failed', 'success'),
+        defaultValue: 'init'
       }
     }, {
       tableName: 'clips',
@@ -80,6 +93,10 @@ module.exports = {
       ClipModel.belongsTo(datasource.models.VideoModel, {
         foreignKey: 'videoId',
         as: 'video'
+      });
+      ClipModel.hasMany(datasource.models.ClipPersonModel, {
+        foreignKey: 'clipId',
+        as: 'personImages'
       });
     };
 

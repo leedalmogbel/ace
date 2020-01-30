@@ -10,7 +10,8 @@ class UsersController extends BaseController {
 
     // User
     router.get('/list', this.injector('ListUsers'), this.index);
-    router.post('/signin', this.injector('CreateUser'), this.create);
+    router.post('/', this.injector('CreateUser'), this.create);
+    router.post('/signin', this.injector('Login'), this.login);
     router.get('/:id', this.injector('ShowUser'), this.show);
     router.put('/:id', this.injector('UpdateUser'), this.update);
     router.delete('/:id', this.injector('DeleteUser'), this.delete);
@@ -22,6 +23,8 @@ class UsersController extends BaseController {
     //Filter
     router.get('/details/filter', this.injector('GetFilter'), this.showList);
     
+    //Whitelist emails
+    router.post('/whitelist', this.injector('CreateWhitelist'), this.create);
     return router;
   }
 
@@ -45,6 +48,25 @@ class UsersController extends BaseController {
       .on(ERROR, next);
 
     operation.execute(req.query, req.body);
+  }
+
+  login(req, res, next) {
+    const { operation } = req;
+    const { SUCCESS, VALIDATION_ERROR, ERROR } = operation.events;
+
+    operation
+      .on(SUCCESS, result => {
+        res.status(Status.OK).json(result);
+      })
+      .on(VALIDATION_ERROR, error => {
+        res.status(Status.BAD_REQUEST).json({
+          type: 'ValidationError',
+          details: error.details
+        });
+      })
+      .on(ERROR, next);
+
+    operation.execute(req.body);
   }
 }
 

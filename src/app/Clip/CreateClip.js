@@ -1,12 +1,14 @@
 const { Operation } = require('@amberjs/core');
-const Clip = require('src/domain/Clip');
+const {Clip} = require('src/domain/Clip');
 const Utils = require('src/infra/services/utils.js');
 
 class CreateClip extends Operation {
-  constructor({ ClipRepository, VideoRepository }) {
+  constructor({ ClipRepository, VideoRepository, ThirdPartyApis, logger }) {
     super();
     this.ClipRepository = ClipRepository;
     this.VideoRepository = VideoRepository;
+    this.ThirdPartyApis = ThirdPartyApis;
+    this.logger = logger;
   }
 
   async execute(data) {
@@ -17,40 +19,35 @@ class CreateClip extends Operation {
     
     const nameStartTime = Utils().formatTime(data.startTime);
     const nameEndTime = Utils().formatTime(data.endTime);
-
+  
     const video = await this.VideoRepository.getVideoName(data.videoId);
     data.clipName = `${video[0].videoName}-from:${nameStartTime}_to:${nameEndTime}`;
-
-    const newData = {
-      videoId: data.videoId,
-      clipName: data.clipName,
-      set: data.set,
-      game: data.game,
-      startTime: data.startTime,
-      endTime: data.endTime,
-      currentSetScore: data.currentSetScore,
-      currentGameScore: data.currentGameScore,
-      shotType: data.shotType,
-      moveDirection: data.moveDirection,
-      hitSpot: data.hitSpot,
-      shotResult: data.shotResult,
-      smartPattern: data.smartPattern,
-      extra: data.extra,
-      errorType: data.errorType,
-      spin: data.spin,
-      shotDirection: data.shotDirection,
-      speed: data.speed,
-      comments: data.comments
-    };
-    
-    const clip = new Clip(newData);
+  
+   
+    const clip = new Clip(data);
     
     try {
       const message = 'Clip Created';
       const newClip = await this.ClipRepository.add(clip);
       const data = Utils().resSuccess(newClip, message);
-      return this.emit(SUCCESS, data);
+      this.emit(SUCCESS, data);
+      
+      let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(newClip.id);
+
+      this.logger.info(`CreateClip; Data for AI Extraction : , ${JSON.stringify(dataForPersonDetection)}`);
+      
+      let response = await this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
+      if(response.data.message == 'Busy'){
+        this.ClipRepository.update(newClip.id, {status:'failed'});
+      }
+      
+      this.logger.info(`CreateClip; AI Extraction response : , ${JSON.stringify(response)}`);
+      
+      return;
     } catch(error) {
+
+      this.logger.error(`CreateClip; ERROR : , ${JSON.stringify(error)}`);
+
       const dataError = Utils().resError(error);
       if(error.message === 'ValidationError') {
         return this.emit(VALIDATION_ERROR, dataError);
