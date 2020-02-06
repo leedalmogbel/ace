@@ -15,7 +15,7 @@ module.exports = class ThirdPartyApis {
     Will generate detected persons from video
   */
   callPersonDetection(params){
-    params.debug = true;
+    params.debug = false;
     return axios.post('http://ip-10-64-69-87.ap-southeast-1.compute.internal:6000/detect', params);
   }
 
@@ -24,17 +24,17 @@ module.exports = class ThirdPartyApis {
   */
   callKeypointsExtraction(params){
     params.train_directly = false;
-    params.debug = true;
+    params.debug = false;
     return axios.post('http://ip-10-64-69-87.ap-southeast-1.compute.internal:6000/extract', params);
   }
 
   callScoresGeneration(params){
-    params.debug = true;
+    params.debug = false;
     return axios.post('http://ip-10-64-69-87.ap-southeast-1.compute.internal:6000/predict', params);
   }
 
   callModelTraining(params){
-    params.debug = true;
+    params.debug = false;
     return axios.post('http://ip-10-64-69-87.ap-southeast-1.compute.internal:6000/train', params);
   }
 };
