@@ -75,6 +75,8 @@ module.exports = {
         type: DataTypes.STRING,
       }, opponentPointScore : {
         type: DataTypes.STRING,
+      }, rallyLength : {
+        type: DataTypes.STRING,
       }
     }, {
       tableName: 'clips',
