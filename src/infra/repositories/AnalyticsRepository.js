@@ -6,11 +6,11 @@ const Op = require('sequelize').Op;
 const mergeArr = (origData, newData, key) => origData.filter( aa => ! newData.find ( bb => aa[key] === bb[key]) ).concat(newData);
 const statSkeleton = [
   {
-    name: "1st serve",
+    name: "1st",
     stats: 0
   },
   {
-    name: "2nd serve",
+    name: "2nd",
     stats: 0
   },
   {
@@ -284,7 +284,7 @@ class AnalyticsRepository extends BaseRepository {
         scores: await getRatio(mergedData.pointResults.find( d => d.name === 'ace').total, mergedData.pointResults.find( d => d.name === 'double fault').total)
       },
       {
-        name: 'Winners/Unfored Errors',
+        name: 'Winners/Unforced Errors',
         scores: await getRatio(mergedData.pointResults.find( d => d.name === 'winner').total, mergedData.pointResults.find( d => d.name === 'unforced error').total)
       }
     ];
