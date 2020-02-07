@@ -46,11 +46,11 @@ const mergeData = (input) => input.reduce((acc, val) => {
   data.forEach(({ name, stats }) => {
     const matchedSetIndex = acc.data.findIndex(accData => accData.name === name);
     if (matchedSetIndex !== -1) {
-      acc.data[matchedSetIndex].stats.push(stats);
+      acc.data[matchedSetIndex].scores.push(stats);
     } else {
       acc.data.push({
         name,
-        stats: [stats]
+        scores: [stats]
       });
     }
   });
