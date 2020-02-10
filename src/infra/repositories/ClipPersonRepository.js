@@ -51,15 +51,13 @@ class ClipPersonRepository extends BaseRepository {
     return clipPersons;
   }
 
-  async getAllWithParams(params){
-
+  getAllWithParams(params){
     if(params){
-      return await this.model.findAll({
+      return this.model.findAll({
         where: params
       });
     }
-    
-    return await this.model.findAll();
+    return this.model.findAll();
   }
 
   async updateStatus(id, data){
