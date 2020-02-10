@@ -17,30 +17,6 @@ class CoachesRepository extends BaseRepository {
       }
     });
   }
-
-  async findAllCoaches(res) {
-    const allCoach = this.model.find({
-      include: [{
-        model: UserModel,
-        where: { 
-          userType: 'coach'
-        }
-      }]
-    });
-    return res.status(200).send(allCoach);
-  }
-
-  async getById(res) {
-    const coachId = this.model.getById({
-      include: [{
-        model: UserModel,
-        where: {
-          userType: 'coach'
-        }
-      }]
-    });
-    return res.status(200).send(coachId);
-  }
 }
 module.exports = CoachesRepository;
 
