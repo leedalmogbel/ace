@@ -2,14 +2,15 @@ const { Operation } = require('@amberjs/core');
 const Utils = require('src/infra/services/utils.js');
 
 class TrainModel extends Operation {
-  constructor({ PersonKeypointRepository, ThirdPartyApis }) {
+  constructor({ PersonKeypointRepository, ThirdPartyApis, FailedQueueRepository }) {
     super();
     this.PersonKeypointRepository = PersonKeypointRepository;
     this.ThirdPartyApis = ThirdPartyApis;
+    this.FailedQueueRepository = FailedQueueRepository;
   }
 
   async execute(param) {
-    const { SUCCESS, ERROR, VALIDATION_ERROR, SERVICE_UNAVAILABLE } = this.events;
+    const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
     console.log('TRAINMODEL PARAMS : ', param);
     try {
       const personKeypoints = await this.PersonKeypointRepository.getAllKeypoints(param);
@@ -24,8 +25,14 @@ class TrainModel extends Operation {
         console.log('TrainModel PARAMS : ', trainingParams);
         
         let response = await this.ThirdPartyApis.callModelTraining(trainingParams);
+   
         if(response.data.message == 'Busy'){
-          return this.emit(SERVICE_UNAVAILABLE, {message:'Server is busy for inference. Try again later.'});
+          this.FailedQueueRepository.add({
+            data: JSON.stringify(trainingParams),
+            source: 'modelTraining',
+          });
+          return this.emit(SUCCESS, {message : 'Model generation on queue.'});
+          //return this.emit(SERVICE_UNAVAILABLE, {message:'Server is busy for inference. Try again later.'});
         }
         return this.emit(SUCCESS, {message : 'Generating model.'});
       }

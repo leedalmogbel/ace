@@ -3,10 +3,11 @@ const Utils = require('src/infra/services/utils');
 
 //select person
 class SetDetectedPersonKeypoints extends Operation {
-  constructor({ ThirdPartyApis, PersonKeypointRepository }) {
+  constructor({ ThirdPartyApis, PersonKeypointRepository, FailedQueueRepository }) {
     super();
     this.ThirdPartyApis = ThirdPartyApis;
     this.PersonKeypointRepository = PersonKeypointRepository;
+    this.FailedQueueRepository = FailedQueueRepository;
   }
 
   async execute(data) {
@@ -22,8 +23,17 @@ class SetDetectedPersonKeypoints extends Operation {
       this.emit(SUCCESS, message);
 
       let response = await this.ThirdPartyApis.callKeypointsExtraction(personKeypoints);
+      // let response = {
+      //   data:{
+      //     message: 'Busy'
+      //   }
+      // };
       console.log('SetDetectedPersonKeypoints RESPONSE : ', response);
       if(response.data.message == 'Busy'){
+        this.FailedQueueRepository.add({
+          data: JSON.stringify(personKeypoints),
+          source: 'extraction',
+        });
         this.PersonKeypointRepository.update(personKeypoints.person_keypoint_id, {status:'failed'});
       }
       return;

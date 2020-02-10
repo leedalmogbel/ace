@@ -3,12 +3,13 @@ const {Clip} = require('src/domain/Clip');
 const Utils = require('src/infra/services/utils.js');
 
 class CreateClip extends Operation {
-  constructor({ ClipRepository, VideoRepository, ThirdPartyApis, logger }) {
+  constructor({ ClipRepository, VideoRepository, ThirdPartyApis, logger, FailedQueueRepository }) {
     super();
     this.ClipRepository = ClipRepository;
     this.VideoRepository = VideoRepository;
     this.ThirdPartyApis = ThirdPartyApis;
     this.logger = logger;
+    this.FailedQueueRepository = FailedQueueRepository;
   }
 
   async execute(data) {
@@ -41,7 +42,17 @@ class CreateClip extends Operation {
       this.logger.info(`CreateClip; Data for AI Extraction : , ${JSON.stringify(dataForPersonDetection)}`);
       
       let response = await this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
+      // let response = {
+      //   data:{
+      //     message: 'Busy'
+      //   }
+      // };
       if(response.data.message == 'Busy'){
+        // save to FailedQueue
+        this.FailedQueueRepository.add({
+          data: JSON.stringify(dataForPersonDetection),
+          source: 'personDetection',
+        });
         this.ClipRepository.update(newClip.id, {status:'failed'});
       }
       
