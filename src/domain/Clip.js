@@ -46,7 +46,10 @@ const Clip = attributes({
   },
   winner: String,
   move: String,
-  end: String,
+  end: {
+    type: String,
+    empty: true
+  },
   rallyLength: String,
   opponentGameScore: String,
   opponentPointScore: String

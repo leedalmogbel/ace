@@ -9,6 +9,7 @@ const Video = attributes({
   status: String,
   opponent: String,
   matchType: String,
+  gameType: String,
   location: String,
   date: String,
   time: String,

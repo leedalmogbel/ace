@@ -28,6 +28,8 @@ module.exports = {
         type: DataTypes.STRING
       }, time : {
         type: DataTypes.STRING
+      }, gameType : {
+        type: DataTypes.STRING
       }
     }, {
       tableName: 'videos',

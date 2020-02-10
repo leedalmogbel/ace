@@ -878,16 +878,23 @@
                   "endTime": "102",
                   "currentSetScore": "5-4",
                   "currentGameScore": "40-15",
+                  "oppositeSetScore": "5-4",
+                  "oppositeGameScore": "40-15",
                   "shotType": "backhand",
-                  "moveDirection": "body shot",
+                  "shotDirection": "cross-court",
                   "hitSpot": "behind baseline",
+                  "moveDirection": "body shot",
                   "shotResult": "winner",
                   "smartPattern": "true",
                   "extra": "hit ball early",
                   "errorType": "NA",
                   "spin": "NA",
-                  "shotDirection": "NA",
                   "speed": "NA",
+                  "comment":"",
+                  "winner": "no",
+                  "errorLocation":"wide",
+                  "move" : "return",
+                  "rallyLength":"1-4",
                   "clipType" : "forGoldStandard"
                 }
               }
@@ -2016,9 +2023,41 @@
         "tags": [ "Analytics" ],
         "parameters": [
           {
-            "name": "userId",
+            "name": "videoId",
             "in": "query",
-            "description": "Id of selected user",
+            "description": "Id of selected video/match",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "hitSpot",
+            "in": "query",
+            "description": "Possible Values : behind baseline, inside baseline, inside service line",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "errorType",
+            "in": "query",
+            "description": "Possible Values : into net, long, wide",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "shotDirection",
+            "in": "query",
+            "description": "Possible Values : cross-court, down-the-line, inside-out",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "shotType",
+            "in": "query",
+            "description": "Possible Values : forehand, backhand, volley, overhead",
             "required": false,
             "type": "integer",
             "format": "int64"
@@ -2027,6 +2066,80 @@
         "responses": {
           "200": {
             "description": "Match analytics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "data": [
+                      {
+                        "id": 1,
+                        "modelLink": "Link of model"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/progress": {
+      "get": {
+        "summary": "Display progress report",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ProgressReport",
+        "tags": [ "Analytics" ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "Id of selected user",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "hitSpot",
+            "in": "query",
+            "description": "Possible Values : behind baseline, inside baseline, inside service line",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "errorType",
+            "in": "query",
+            "description": "Possible Values : into net, long, wide",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "shotDirection",
+            "in": "query",
+            "description": "Possible Values : cross-court, down-the-line, inside-out",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "shotType",
+            "in": "query",
+            "description": "Possible Values : forehand, backhand, volley, overhead",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Progress Report",
             "content": {
               "application/json": {
                 "schema": {

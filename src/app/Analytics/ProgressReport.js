@@ -1,6 +1,6 @@
 const { Operation } = require('@amberjs/core');
 
-class MatchReport extends Operation {
+class ProgressReport extends Operation {
   constructor({ AnalyticsRepository, logger }) {
     super();
     this.AnalyticsRepository = AnalyticsRepository;
@@ -9,21 +9,19 @@ class MatchReport extends Operation {
 
   async execute(params) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
-    this.logger.info(`PARAMS : ${JSON.stringify(params)}`);
-    
-    if (!params.videoId) {
+    this.logger.info(`PARAMS : ${params}`);
+    if (!params.userId) {
       return this.emit(VALIDATION_ERROR, {
         details: {
           errors : {
-            message: 'Video Id is required.',
-            path: 'videoId'
+            message: 'User Id is required.',
+            path: 'userId'
           }
         }
       });
     }
-    
     try {
-      const matches = await this.AnalyticsRepository.getMatchReports(params);
+      const matches = await this.AnalyticsRepository.getProgressReports(params);
       return this.emit(SUCCESS, matches);
     } catch(error) {
       return this.emit(ERROR, error);
@@ -31,7 +29,7 @@ class MatchReport extends Operation {
   }
 }
 
-MatchReport.setEvents(['SUCCESS', 'ERROR', 'VALIDATION_ERROR', 'NOT_FOUND']);
+ProgressReport.setEvents(['SUCCESS', 'ERROR', 'VALIDATION_ERROR', 'NOT_FOUND']);
 
-module.exports = MatchReport;
+module.exports = ProgressReport;
     
