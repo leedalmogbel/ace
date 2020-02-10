@@ -10,11 +10,12 @@ class VideoRepository extends BaseRepository {
       where: {
         userId: id
       },
-      attributes: [
-        'id',
-        'videoName',
-        'path',
-      ]
+      attributes: {
+        exclude: [
+          'createdAt',
+          'updatedAt'
+        ],
+      }
     });
   }
 

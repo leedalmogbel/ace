@@ -3,14 +3,29 @@ const { attributes } = require('structure');
 const Clip = attributes({
   // Add atttributes here
   id: Number,
-  videoId: Number,
+  videoId: {
+    type: Number,
+    required: true
+  },
   clipName: String,
   set: Number,
   game: Number,
-  startTime: String,
-  endTime: String,
-  currentSetScore: String,
-  currentGameScore: String,
+  startTime: {
+    type: String,
+    required: true
+  },
+  endTime: {
+    type: String,
+    required: true
+  },
+  currentSetScore: {
+    type: String,
+    empty: true
+  },
+  currentGameScore: {
+    type: String,
+    empty: true
+  },
   shotType: String,
   moveDirection: String,
   hitSpot: String,
@@ -24,27 +39,19 @@ const Clip = attributes({
   comments: String,
   createdAt: Date,
   updatedAt: Date,
-  goldStandard: Boolean,
-  forInference: Boolean,
-  standardMovement: String,
-  standardShotType: String
+  clipType: {
+    type: String,
+    //required: true,
+    equal: ['basic', 'forAnalytics', 'forGoldStandard']
+  },
+  winner: String,
+  move: String,
+  end: String,
+  rallyLength: String,
+  opponentGameScore: String,
+  opponentPointScore: String
 })(class Clip {});
 
-const SetStandard = attributes({
-  goldStandard: {
-    type: Boolean,
-    required: true
-  },
-  standardMovement: {
-    type: String,
-    required: true
-  },
-  standardShotType: {
-    type: String,
-    required: true
-  },
-})(class SetStandard {});
 module.exports = {
-  Clip,
-  SetStandard
+  Clip
 };

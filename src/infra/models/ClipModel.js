@@ -40,16 +40,6 @@ module.exports = {
       }, smartPattern : {
         type: DataTypes.BOOLEAN,
         defaultValue: false
-      }, goldStandard : {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-      }, forInference : {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-      }, standardShotType : {
-        type: DataTypes.STRING
-      }, standardMovement : {
-        type: DataTypes.STRING
       }, extra : {
         type: DataTypes.STRING,
         defaultValue: 'none'
@@ -70,6 +60,21 @@ module.exports = {
       }, status : {
         type: DataTypes.ENUM('init', 'failed', 'success'),
         defaultValue: 'init'
+      }, clipType : {
+        type: DataTypes.ENUM('basic', 'forAnalytics', 'forGoldStandard'),
+        defaultValue: 'basic'
+      }, winner : {
+        type: DataTypes.ENUM('yes', 'no'),
+        defaultValue: null
+      }, end : {
+        type: DataTypes.ENUM('yes', 'no'),
+        defaultValue: null
+      }, move : {
+        type: DataTypes.STRING,
+      }, opponentGameScore : {
+        type: DataTypes.STRING,
+      }, opponentPointScore : {
+        type: DataTypes.STRING,
       }
     }, {
       tableName: 'clips',
