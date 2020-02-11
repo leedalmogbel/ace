@@ -21,3 +21,26 @@ module.exports.handler = (event, context, callback) => {
     }
   });
 };
+
+
+module.exports.failedScenariosHandler = (event, context, callback) => {
+  brew(config, async (err, brewed) => {
+    if (err) throw err;
+    brewed.container.register({
+      ThirdPartyApis: asClass(ThirdPartyApis, {
+        lifetime: Lifetime.SINGLETON
+      })
+    });
+    const operation = brewed.container.resolve('RetryFailedScenarios');
+    const { SUCCESS, ERROR } = operation.events;
+    operation
+      .on(SUCCESS, result => {
+        callback(null, result);
+      })
+      .on(ERROR, err => {
+        callback(err);
+      });
+
+    operation.execute();
+  });
+};

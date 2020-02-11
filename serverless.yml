@@ -8,7 +8,7 @@ plugins:
 provider:
   profile: tennis-dev
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs12.x
   memorySize: 2048
   versionFunctions: false
   environment: ${file(env.yml):${self:custom.stage}}
@@ -26,6 +26,10 @@ custom:
   stage: ${opt:stage, self:provider.stage}
 
 functions:
+  failedScenariosHandler:
+    handler: src/app-serverless.failedScenariosHandler
+    events:
+      - schedule: cron(0/1 * * * ? *)
   app:
     handler: src/app-serverless.handler
     events:
