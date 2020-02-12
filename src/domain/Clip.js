@@ -36,7 +36,10 @@ const Clip = attributes({
   spin: String,
   shotDirection: String,
   speed: String,
-  comments: String,
+  comments: {
+    type: String,
+    empty: true
+  },
   createdAt: Date,
   updatedAt: Date,
   clipType: {
