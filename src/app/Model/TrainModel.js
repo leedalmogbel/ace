@@ -25,7 +25,9 @@ class TrainModel extends Operation {
         console.log('TrainModel PARAMS : ', trainingParams);
         
         let response = await this.ThirdPartyApis.callModelTraining(trainingParams);
-   
+        // let response = {
+        //   data:{message:'Busy'}
+        // };
         if(response.data.message == 'Busy'){
           this.FailedQueueRepository.add({
             data: JSON.stringify(trainingParams),

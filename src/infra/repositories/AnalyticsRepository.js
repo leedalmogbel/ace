@@ -25,7 +25,7 @@ const pointResultsSkeleton =  [
     total: 0
   },
   {
-    name: "double fault",
+    name: "double_fault",
     total: 0
   },
   {
@@ -33,7 +33,7 @@ const pointResultsSkeleton =  [
     total: 0
   },
   {
-    name: "unforced error",
+    name: "unforced_error",
     total: 0
   }
 ];
@@ -57,7 +57,6 @@ const mergeData = (input) => input.reduce((acc, val) => {
 
   // Merge pointResults
   pointResults.forEach(({ name, total }) => {
-    console.log('NAME : ', name)
     const matchedSetIndex = acc.pointResults.findIndex(accData => accData.name === name);
     if (matchedSetIndex !== -1) {
       acc.pointResults[matchedSetIndex].total.push(total);
@@ -81,7 +80,6 @@ const getRatio = (firstArr, secondArr) => {
   return firstArr.map( (data, index) => {
     console.log(`${data} / ${secondArr[index]}`);
     let ratio = Number(data) / Number(secondArr[index]);
-    console.log('RATIO :',ratio)
     return (secondArr[index] == 0) ? 0 : ratio;
   })
 }
@@ -210,8 +208,9 @@ class AnalyticsRepository extends BaseRepository {
   }
 
   async getMatchReports(params){
-    console.log('PARAMS : ', params);
-    
+    console.log('Match Report PARAMS : ', params);
+    Object.keys(params).forEach((key) => (params[key] == null || params[key] == '') && delete params[key]);
+    console.log('Match Report removed PARAMS : ', params);
     let res = await Promise.all([
       this.ClipModel.findAll({
         where: {
@@ -281,11 +280,11 @@ class AnalyticsRepository extends BaseRepository {
     let pointResultsData = [
       {
         name: 'Aces/Double Faults',
-        scores: await getRatio(mergedData.pointResults.find( d => d.name === 'ace').total, mergedData.pointResults.find( d => d.name === 'double fault').total)
+        scores: await getRatio(mergedData.pointResults.find( d => d.name === 'ace').total, mergedData.pointResults.find( d => d.name === 'double_fault').total)
       },
       {
         name: 'Winners/Unforced Errors',
-        scores: await getRatio(mergedData.pointResults.find( d => d.name === 'winner').total, mergedData.pointResults.find( d => d.name === 'unforced error').total)
+        scores: await getRatio(mergedData.pointResults.find( d => d.name === 'winner').total, mergedData.pointResults.find( d => d.name === 'unforced_error').total)
       }
     ];
    
