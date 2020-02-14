@@ -11,7 +11,7 @@ class CreateScenario extends Operation {
   async execute(data) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
 
-    data.scenario = `${data.shotType} ${data.movement}`.trim();
+    data.scenario = data.scenario.trim();
     const scenario = new Scenario(data);
     
     const { valid, errors } = scenario.validate(data);

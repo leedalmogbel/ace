@@ -8,7 +8,8 @@ const Scenario = attributes({
   }, 
   shotType: {
     type: String,
-    required: true
+    required: false,
+    empty: true
   },
   movement: {
     type: String,

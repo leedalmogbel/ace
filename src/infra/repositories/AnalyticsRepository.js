@@ -6,15 +6,15 @@ const Op = require('sequelize').Op;
 const mergeArr = (origData, newData, key) => origData.filter( aa => ! newData.find ( bb => aa[key] === bb[key]) ).concat(newData);
 const statSkeleton = [
   {
-    name: "1st",
+    name: "1st serve pts won",
     stats: 0
   },
   {
-    name: "2nd",
+    name: "2nd serve pts won",
     stats: 0
   },
   {
-    name: "return",
+    name: "return pts won",
     stats: 0
   }
 ];
@@ -228,7 +228,7 @@ class AnalyticsRepository extends BaseRepository {
       }).map( data => {
         data = JSON.parse(JSON.stringify(data));
         return {
-          name: data.move,
+          name: `${(data.move !== 'return') ? data.move+' serve' : data.move} pts won`,
           stats: Number(data.totalWinCount) / Number(data.totalCount) * 100
         };
       }),

@@ -10,10 +10,10 @@ module.exports = {
       }, 
       scenario : {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       }, shotType : {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       }, movement : {
         type: DataTypes.STRING,
         allowNull: true
@@ -21,10 +21,10 @@ module.exports = {
     }, {
       tableName: 'scenarios',
       timestamps: true,
-      indexes: [{
-        unique: true,
-        fields: ['shotType', 'movement']
-      }]
+      // indexes: [{
+      //   unique: true,
+      //   fields: ['shotType', 'movement']
+      // }]
     });
     
        
