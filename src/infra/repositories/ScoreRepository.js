@@ -8,7 +8,11 @@ class ScoreRepository extends BaseRepository {
 
   async getAllWithParams(params){
     return await this.model.findAll({
-      where: params
+      where: params,
+      order: [
+        ['createdAt', 'DESC']
+      ],
+      limit: 4
     });
   }
 }
