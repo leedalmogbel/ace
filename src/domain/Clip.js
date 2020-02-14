@@ -51,9 +51,12 @@ const Clip = attributes({
   move: String,
   end: {
     type: String,
+    nullable: true
+  },
+  rallyLength: {
+    type: String,
     empty: true
   },
-  rallyLength: String,
   opponentGameScore: String,
   opponentPointScore: String
 })(class Clip {});
