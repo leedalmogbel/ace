@@ -890,7 +890,7 @@
                   "errorType": "NA",
                   "spin": "NA",
                   "speed": "NA",
-                  "comment":"",
+                  "comments":"",
                   "winner": "no",
                   "errorLocation":"wide",
                   "move" : "return",
@@ -1923,18 +1923,13 @@
             "application/json": {
               "schema": {
                 "properties": {
-                  "movement": {
-                    "type": "string",
-                    "required": true
-                  },
-                  "shotType": {
+                  "scenario": {
                     "type": "string",
                     "required": true
                   }
                 },
                 "example": {
-                  "shotType": "Forehand",
-                  "movement" : "forward"
+                  "scenario": "Forehand Forward"
                 }
               }
             }

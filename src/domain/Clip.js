@@ -36,7 +36,10 @@ const Clip = attributes({
   spin: String,
   shotDirection: String,
   speed: String,
-  comments: String,
+  comments: {
+    type: String,
+    empty: true
+  },
   createdAt: Date,
   updatedAt: Date,
   clipType: {
@@ -48,9 +51,12 @@ const Clip = attributes({
   move: String,
   end: {
     type: String,
+    nullable: true
+  },
+  rallyLength: {
+    type: String,
     empty: true
   },
-  rallyLength: String,
   opponentGameScore: String,
   opponentPointScore: String
 })(class Clip {});
