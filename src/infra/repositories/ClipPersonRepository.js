@@ -46,18 +46,7 @@ class ClipPersonRepository extends BaseRepository {
 
     await Promise.all(promises);
 
-    let clipPersons = await this.getAllWithParams({'clipId':clipId});
-
-    return clipPersons;
-  }
-
-  getAllWithParams(params){
-    if(params){
-      return this.model.findAll({
-        where: params
-      });
-    }
-    return this.model.findAll();
+    return await this.model.findAll({'clipId':clipId});
   }
 
   async updateStatus(id, data){

@@ -10,7 +10,7 @@ class ListDetectedPersons extends Operation {
   async execute(id) {
     const { SUCCESS, NOT_FOUND } = this.events;
     try {
-      const detectedPersons = await this.ClipPersonRepository.getAllWithParams({'clipId': id});
+      const detectedPersons = await this.ClipPersonRepository.getAll({'clipId': id});
       let data = {
         'statusCode' : 200,
         'message' : 'Processing'
