@@ -14,7 +14,16 @@ class ShowDetectedPersonScore extends Operation {
     console.log('GET SCORES :', params);
     try {
 
-      let detectedPersonScores = await this.ScoreRepository.getAllWithParams({'clipId': params.clipId, 'clipPersonId':params.id});
+      let detectedPersonScores = await this.ScoreRepository.getAll({
+        where: {
+          clipId: params.clipId,
+          clipPersonId: params.id
+        },
+        order: [
+          ['createdAt', 'DESC']
+        ],
+        limit: 4
+      });
       return this.emit(SUCCESS, {data:detectedPersonScores});
     } catch(error) {
       switch(error.message) {
