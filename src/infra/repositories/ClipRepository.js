@@ -83,16 +83,6 @@ const getRatio = (firstArr, secondArr) => {
   })
 };
 
-const reformatForKeypoints = clips => {
-  console.log('CLIPS DATA ', clips); 
-  const newObj = {
-    clip_id: clips.id,
-    start: clips.startTime,
-    video_path: clips.video.path
-  };
-
-  return newObj;
-};
 
 class ClipRepository extends BaseRepository {
   constructor({ ClipModel, VideoModel }) {
@@ -117,8 +107,8 @@ class ClipRepository extends BaseRepository {
     });
   }
 
-  async getDataWithRelation(id){
-    const clips = await this._getById(id, {
+  getDataWithRelation(id){
+    return this._getById(id, {
       include: [
         {
           model: this.VideoModel,
@@ -127,8 +117,6 @@ class ClipRepository extends BaseRepository {
         },
       ]
     });
-
-    return reformatForKeypoints(clips);
   }
 
   async updateStatus(id, data){
