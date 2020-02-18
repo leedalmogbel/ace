@@ -2,8 +2,9 @@
 const { BaseRepository } = require('@amberjs/core');
 
 class VideoRepository extends BaseRepository {
-  constructor({ VideoModel }) {
+  constructor({ VideoModel, ClipModel}) {
     super(VideoModel);
+    this.ClipModel = ClipModel;
   }
   async getVideoById(id) {
     return this.model.findAll({
@@ -30,7 +31,7 @@ class VideoRepository extends BaseRepository {
     });
   }
 
-  getByFilter(data) {
+  async getByFilter(data) {
     var whereStatement = {};
     if (data.videoId) {
       whereStatement.videoId = data.videoId;
