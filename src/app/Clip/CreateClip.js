@@ -51,18 +51,18 @@ class CreateClip extends Operation {
 
       this.logger.info(`CreateClip; Data for AI Extraction : , ${JSON.stringify(dataForPersonDetection)}`);
       
-      //let response = await this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
-      let response = {
-        data:{
-          message: 'Busy'
-        }
-      };
+      let response = await this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
+      // let response = {
+      //   data:{
+      //     message: 'Busy'
+      //   }
+      // };
       if(response.data.message == 'Busy'){
         // save to FailedQueue
-        // this.FailedQueueRepository.add({
-        //   data: JSON.stringify(dataForPersonDetection),
-        //   source: 'personDetection',
-        // });
+        this.FailedQueueRepository.add({
+          data: JSON.stringify(dataForPersonDetection),
+          source: 'personDetection',
+        });
         this.ClipRepository.update(newClip.id, {status:'failed'});
       }
       
