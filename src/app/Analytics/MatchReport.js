@@ -1,9 +1,9 @@
 const { Operation } = require('@amberjs/core');
 
 class MatchReport extends Operation {
-  constructor({ AnalyticsRepository, logger }) {
+  constructor({ ClipRepository, logger }) {
     super();
-    this.AnalyticsRepository = AnalyticsRepository;
+    this.ClipRepository = ClipRepository;
     this.logger = logger;
   }
 
@@ -23,7 +23,7 @@ class MatchReport extends Operation {
     }
     
     try {
-      const matches = await this.AnalyticsRepository.getMatchReports(params);
+      const matches = await this.ClipRepository.getMatchReports(params);
       return this.emit(SUCCESS, matches);
     } catch(error) {
       return this.emit(ERROR, error);
