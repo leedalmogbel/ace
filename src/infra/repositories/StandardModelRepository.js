@@ -1,8 +1,6 @@
 
 const { BaseRepository } = require('@amberjs/core');
 
-
-
 class StandardModelRepository extends BaseRepository {
   constructor({ StandardModel, ScenariosModel }) {
     super(StandardModel);
@@ -10,27 +8,7 @@ class StandardModelRepository extends BaseRepository {
   }
 
   async upsert(data) {
-    // check if userId and scenarioId exist
-    let standardModelData = await this.model.findOne({
-      where: {
-        userId: data.userId,
-        scenarioId: data.scenarioId,
-        keypointMap: data.keypointMap
-      }
-    }).then((standardModel) => {
-      if(!standardModel){
-        // create
-        return this.model.create(data);
-      }else{
-        return this.model.update(data, {
-          where: { id: standardModel.id },
-          returning: true,
-        // plain: true,
-        });
-      }
-    });
-
-    return standardModelData;
+    return await this.model.upsert(data);
   }
 
   async getModelLinks(params){
