@@ -1,15 +1,6 @@
 
 const { BaseRepository } = require('@amberjs/core');
-const reformatForListing = models => { 
-  return models.map(model => {
-    if(model.standardModel.length > 0){
-      return {
-        scenario: model.scenario,
-        scenarioId: model.id,
-      };
-    }
-  });
-};
+
 
 class ScenarioRepository extends BaseRepository {
   constructor({ ScenariosModel, StandardModel }) {
@@ -17,8 +8,8 @@ class ScenarioRepository extends BaseRepository {
     this.StandardModel = StandardModel;
   }
  //getAllWithScenario
-  async getAllScenariosWithModel(params){
-    return reformatForListing(await this.model.findAll({
+  getAllScenariosWithModel(params){
+    return this.model.findAll({
       attributes: ['scenario', 'id'],
       include: [
         {
@@ -28,7 +19,7 @@ class ScenarioRepository extends BaseRepository {
           as: 'standardModel',
         }
       ],
-    }));
+    });
   }
 }
 
