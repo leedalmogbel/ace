@@ -10,7 +10,8 @@ module.exports = {
       }, 
       scenario : {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        unique: true
       }, shotType : {
         type: DataTypes.STRING,
         allowNull: true

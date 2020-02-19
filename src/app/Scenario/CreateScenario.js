@@ -34,8 +34,8 @@ class CreateScenario extends Operation {
           details : {
             errors : [
               {
-                message : 'Shot type and movement combination already exists.',
-                path : 'shotType'
+                message : 'Scenario name already exists.',
+                path : 'scenario'
               }
             ]
           }
