@@ -1,17 +1,19 @@
 const { Operation } = require('@amberjs/core');
 
 class Login extends Operation {
-  constructor({UserRepository, WhitelistRepository }) {
+  constructor({UserRepository, WhitelistRepository, PlayerRepository, CoachesRepository }) {
     super();
     this.UserRepository = UserRepository;
     this.WhitelistRepository = WhitelistRepository;
+    this.PlayerRepository = PlayerRepository;
+    this.CoachesRepository = CoachesRepository;
   }
 
   async execute(data) {
     const { SUCCESS, ERROR, VALIDATION_ERROR, NOT_FOUND } = this.events;
     try {
       console.log('LOGIN DATA', data);
-      let usersData = await this.UserRepository.getByEmail(data.email);
+      
       data.userType = 'player';
 
       let whitelistData = await this.WhitelistRepository.getByEmail(data.email);
@@ -19,12 +21,22 @@ class Login extends Operation {
         data.userType = 'coach';
       }
       
-      if(!usersData){
-        console.log('CREATE USER : ', data);
-        usersData = await this.UserRepository.add(data);
-      }else{
-        // must update data
-        usersData = await this.UserRepository.update(usersData.id, data);
+      let updated = await this.UserRepository.upsert(data);
+      let usersData = await this.UserRepository.getByEmail(data.email);
+      console.log('USERDA DATA :', usersData);
+      if(updated){
+        if (data.userType == 'player'){
+          //create player
+          this.PlayerRepository.upsert({
+            userId:usersData.id
+          });
+        }else if (data.userType == 'coach'){
+          //create coach
+          this.CoachesRepository.upsert({
+            userId:usersData.id,
+            coachName:usersData.name
+          });
+        }
       }
       // check email if existing in users table
       // check if email is in whitelist for userType

@@ -17,6 +17,10 @@ class CoachesRepository extends BaseRepository {
       }
     });
   }
+
+  async upsert(data) {
+    return await this.model.upsert(data);
+  }
 }
 module.exports = CoachesRepository;
 

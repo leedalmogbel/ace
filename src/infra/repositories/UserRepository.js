@@ -8,27 +8,11 @@ class UserRepository extends BaseRepository {
   }
 
   async add(data) {
-    let newUser = await this.model.create(data);
+    return await this.model.create(data);
+  }
 
-    
-    if(newUser){
-      if (data.userType == 'player'){
-        //create player
-        this.PlayerRepository.add({
-          userId:newUser.id
-        });
-      }else if (data.userType == 'coach'){
-        //create coach
-        this.CoachesRepository.add({
-          userId:newUser.id,
-          coachName:newUser.name
-        });
-      }
-    }
-
-    return newUser;
-    // after creation create user or coach
-
+  async upsert(data) {
+    return await this.model.upsert(data);
   }
 
   async subscribed(id, data) {
