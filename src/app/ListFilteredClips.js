@@ -2,18 +2,19 @@ const { Operation } = require('@amberjs/core');
 const Utils = require('src/infra/services/utils');
 
 class ListFilteredClips extends Operation {
-  constructor({ AnalyticsRepository, FilterRepository, logger }) {
+  constructor({ AnalyticsRepository, VideoRepository, logger }) {
     super();
     this.AnalyticsRepository = AnalyticsRepository;
-    this.FilterRepository = FilterRepository;
+    this.VideoRepository = VideoRepository;
     this.logger = logger;
   }
 
   async execute(data) {
     const { SUCCESS, NOT_FOUND } = this.events;
 
+
     try {
-      const filtered = await this.FilterRepository.getByFilter(data);
+      const filtered = await this.VideoRepository.getByFilter(data);
       const clips = await this.AnalyticsRepository.testCount(data);
       const c = clips[0];
 

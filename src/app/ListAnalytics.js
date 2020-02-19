@@ -13,7 +13,25 @@ class ListAnalytics extends Operation {
     const { SUCCESS, ERROR } = this.events;
     try {
       const video = await this.VideoRepository.getVideoName(videoId);
-      const clips = await this.ClipRepository.getClipAnalytics(videoId, set);
+      const clips = await this.ClipRepository.getAll({
+        where: {
+          videoId: videoId,
+          set: set
+        },
+        attributes: [
+          'set',
+          'game',
+          'shotType',
+          'hitSpot',
+          'shotResult',
+          'smartPattern',
+          'extra',
+          'errorType',
+          'spin',
+          'shotDirection',
+          'speed'
+        ]
+      });
       const match = await this.MatchRepository.getAll();
       const analytics = {
         videoName: video[0].videoName,

@@ -17,7 +17,7 @@ class UpdateClip extends Operation {
       const user = await this.ClipRepository.update(id, data);
       const message = 'Updated Successfully!';
       const updatedClip = Utils().resSuccess(user, message);
-      this.emit(SUCCESS, updatedClip);
+      return this.emit(SUCCESS, updatedClip);
 
       // if(user.goldStandard){
       //   let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(id);

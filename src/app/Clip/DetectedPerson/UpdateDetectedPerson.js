@@ -17,13 +17,7 @@ class UpdateDetectedPerson extends Operation {
       const user = await this.ClipPersonRepository.update(id, data);
       const message = 'Updated Successfully!';
       const updatedClip = Utils().resSuccess(user, message);
-      this.emit(SUCCESS, updatedClip);
-
-      if(user.goldStandard){
-        let dataForPersonDetection = await this.ClipPersonRepository.getDataWithRelation(id);
-        let response = this.ThirdPartyApis.callPersonDetection(dataForPersonDetection); 
-      }
-      return;
+      return this.emit(SUCCESS, updatedClip);
 
     } catch(error) {
       switch(error.message) {

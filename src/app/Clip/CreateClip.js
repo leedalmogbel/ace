@@ -1,6 +1,16 @@
 const { Operation } = require('@amberjs/core');
 const {Clip} = require('src/domain/Clip');
 const Utils = require('src/infra/services/utils.js');
+const reformatForKeypoints = clips => {
+  console.log('CLIPS DATA ', clips); 
+  const newObj = {
+    clip_id: clips.id,
+    start: clips.startTime,
+    video_path: clips.video.path
+  };
+
+  return newObj;
+};
 
 class CreateClip extends Operation {
   constructor({ ClipRepository, VideoRepository, ThirdPartyApis, logger, FailedQueueRepository }) {
@@ -37,7 +47,7 @@ class CreateClip extends Operation {
       const data = Utils().resSuccess(newClip, 'ClipCreated');
       this.emit(SUCCESS, data);
       
-      let dataForPersonDetection = await this.ClipRepository.getDataWithRelation(newClip.id);
+      let dataForPersonDetection = reformatForKeypoints(await this.ClipRepository.getDataWithRelation(newClip.id));
 
       this.logger.info(`CreateClip; Data for AI Extraction : , ${JSON.stringify(dataForPersonDetection)}`);
       

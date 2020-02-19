@@ -34,32 +34,8 @@ class ClipPersonRepository extends BaseRepository {
     this.ClipModel = ClipModel;
   }
 
-  async addMultiple(clipId, data) {
-    let promises = [];
-    promises.push(
-      Promise.all(
-        data.personImages.map(person => {
-          return this.model.create(person);
-        })
-      )
-    );
-
-    await Promise.all(promises);
-
-    let clipPersons = await this.getAllWithParams({'clipId':clipId});
-
-    return clipPersons;
-  }
-
-  async getAllWithParams(params){
-
-    if(params){
-      return await this.model.findAll({
-        where: params
-      });
-    }
-    
-    return await this.model.findAll();
+  async addMultiple(data) {
+    return await this.model.bulkCreate(data.personImages);
   }
 
   async updateStatus(id, data){
@@ -114,16 +90,6 @@ class ClipPersonRepository extends BaseRepository {
   async getDataForScoreGeneration(id){
     const clipPerson = await this._getById(id);
     return reformatForScoreGeneration(clipPerson);
-  }
-
-  async getModels(){
-    return await this.model.findAll({
-      where: {
-        modelLink : {
-          [Op.ne]: null
-        }
-      }
-    });
   }
 
 }
