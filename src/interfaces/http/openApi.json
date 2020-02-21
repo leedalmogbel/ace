@@ -684,7 +684,7 @@
       }
     },
     "/videos/getSignedURL": {
-      "get": {
+      "post": {
         "summary": "Signed URL for uploading videos in S3",
         "security": [
           {
