@@ -84,14 +84,10 @@ class PersonKeypointRepository extends BaseRepository {
   }
 
 
-  async getKeypointLink(param){
-    let personKeypoint = await this.model.findOne({
+  getKeypointLink(param){
+    return this.model.findOne({
       where: param
     });
-    if(personKeypoint){
-      return personKeypoint.keypointLink;
-    }
-    return false;
   }
 
 }

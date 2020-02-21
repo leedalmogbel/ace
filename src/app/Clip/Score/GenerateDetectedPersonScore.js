@@ -19,7 +19,7 @@ class GenerateDetectedPersonScore extends Operation {
     const {
       SUCCESS, NOT_FOUND, VALIDATION_ERROR, ERROR, SERVICE_UNAVAILABLE
     } = this.events;
-
+ 
     try {
       const modelLinks = await this.StandardModelRepository.getModelLinks({scenarioId:data.scenarioId});
       const jsonLink = await this.PersonKeypointRepository.getKeypointLink({clipPersonId: data.clipPersonId});
@@ -30,7 +30,7 @@ class GenerateDetectedPersonScore extends Operation {
           clip_id : data.clipId,
           clip_person_id : data.clipPersonId,
           model_path : modelLinks,
-          json_path : jsonLink
+          json_path : jsonLink.keypointLink
         };
         this.logger.info(`GenerateDetectedPersonScore INFERENCE PARAMS : ${JSON.stringify(scoreParams)}`);
 
