@@ -196,9 +196,8 @@ class ClipRepository extends BaseRepository {
         ...await this.getMatchReports({videoId: videoData.id, ...params })
       }
     })
-    console.log('BEFORE MERGE DATA : ', progressData);
+    
     let mergedData = await mergeData(progressData);
-    console.log('MERGE DATA : ', mergedData);
     let pointResultsData = [
       {
         name: 'Aces/Double Faults',

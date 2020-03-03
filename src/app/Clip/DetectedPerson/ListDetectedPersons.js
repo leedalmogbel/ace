@@ -11,6 +11,7 @@ class ListDetectedPersons extends Operation {
     const { SUCCESS, NOT_FOUND } = this.events;
     try {
       console.log('ListDetectedPersons : ', id);
+      // check clip status if detectedPerson is on queue 
       const detectedPersons = await this.ClipPersonRepository.getAll({
         where: {
           clipId: id
@@ -19,10 +20,11 @@ class ListDetectedPersons extends Operation {
       let data = {
         'statusCode' : 200,
         'message' : 'Processing'
-      }
+      };
       if(detectedPersons.length){
         data = Utils().resSuccess(detectedPersons);
       }
+      // if empty call AI extraction (must have status to check if its in queue)
       return this.emit(SUCCESS, data);
     } catch(error) {
       console.log('PERSON ERROR : ', error);
