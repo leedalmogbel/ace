@@ -1,4 +1,4 @@
-{
+{ 
   "openapi": "3.0.0",
   "info": {
     "title": "Tennis Trainer API Endpoints",
@@ -1097,6 +1097,128 @@
             "name": "shotResult",
             "in": "query",
             "description": "point result of the player",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "errorType",
+            "in": "query",
+            "description": "error type of the shot",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "shotDirection",
+            "in": "query",
+            "description": "direction of the shot",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "data": [
+                      {
+                        "videoName": "Danville_10172019_17:54",
+                        "matchType": "match",
+                        "location": "Danville",
+                        "ClipModels": [
+                          {
+                            "id": 3,
+                            "videoId": 1,
+                            "clipName": "Danville_10172019_17:54-from:00:01:34_to:00:01:42",
+                            "set": 3,
+                            "game": 2,
+                            "startTime": "94",
+                            "endTime": "102",
+                            "currentSetScore": "5-4",
+                            "currentGameScore": "40-15",
+                            "shotType": "forehand",
+                            "moveDirection": "body shot",
+                            "hitSpot": "behind baseline",
+                            "shotResult": "winner",
+                            "smartPattern": true,
+                            "extra": "hit ball early",
+                            "errorType": "NA",
+                            "spin": "NA",
+                            "shotDirection": "NA",
+                            "speed": "NA",
+                            "comments": null
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "User created successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "User not created because of validation error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/defaultResponses/ValidationError"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clips/filter": {
+      "get": {
+        "summary": "Filter clips",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ClipFilter",
+        "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "videoId",
+            "in": "query",
+            "description": "Id of video to filter",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "shotType",
+            "in": "query",
+            "description": "shot type of the player",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "forehand",
+              "backhand",
+              "volley",
+              "overhead"
+            ]
+          },
+          {
+            "name": "hitSpot",
+            "in": "query",
+            "description": "hitting spot of the player",
             "required": false,
             "type": "string"
           },
