@@ -3,6 +3,15 @@ const { BaseRepository } = require('@amberjs/core');
 const sequelize = require('sequelize');
 const Op = require('sequelize').Op;
 
+const pointsResult = {
+  ACE: 'ace',
+  DOUBLE_FAULT: 'double-fault',
+  WINNER: 'winner',
+  UNFORCED_ERROR: 'unforced-error',
+  FORCED_ERROR_ON_OPPONENT: 'forced-error-on-opponent',
+  TENTATIVE_ON_DEFENSE: 'tentative-on-defense'
+};
+
 const mergeArr = (origData, newData, key) => origData.filter( aa => ! newData.find ( bb => aa[key] === bb[key]) ).concat(newData);
 const statSkeleton = [
   {
@@ -21,19 +30,19 @@ const statSkeleton = [
 
 const pointResultsSkeleton =  [
   {
-    name: "ace",
+    name: pointsResult.ACE,
     total: 0
   },
   {
-    name: "double_fault",
+    name: pointsResult.DOUBLE_FAULT,
     total: 0
   },
   {
-    name: "winner",
+    name: pointsResult.WINNER,
     total: 0
   },
   {
-    name: "unforced_error",
+    name: pointsResult.UNFORCED_ERROR,
     total: 0
   }
 ];
@@ -186,7 +195,8 @@ class ClipRepository extends BaseRepository {
 
     let progressData = await this.VideoModel.findAll({
       where: {
-        userId : userId
+        userId : userId,
+        matchType: 'match'
       },
       attributes : ['id', 'videoName', 'matchType']
     }).map(async(videoData, index) => {
@@ -201,11 +211,11 @@ class ClipRepository extends BaseRepository {
     let pointResultsData = [
       {
         name: 'Aces/Double Faults',
-        scores: await getRatio(mergedData.pointResults.find( d => d.name === 'ace').total, mergedData.pointResults.find( d => d.name === 'double_fault').total)
+        scores: await getRatio(mergedData.pointResults.find( d => d.name === pointsResult.ACE).total, mergedData.pointResults.find( d => d.name === pointsResult.DOUBLE_FAULT).total)
       },
       {
         name: 'Winners/Unforced Errors',
-        scores: await getRatio(mergedData.pointResults.find( d => d.name === 'winner').total, mergedData.pointResults.find( d => d.name === 'unforced_error').total)
+        scores: await getRatio(mergedData.pointResults.find( d => d.name === pointsResult.WINNER).total, mergedData.pointResults.find( d => d.name === pointsResult.UNFORCED_ERROR).total)
       }
     ];
    
