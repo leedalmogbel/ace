@@ -230,23 +230,23 @@ class ClipRepository extends BaseRepository {
      const statResult = [
       {
         name: "1st serve %",
-        stats: Number(initialValue.first.total) / (Number(initialValue.first.total) + Number(initialValue.second.total))
+        stats: Math.round(Number(initialValue.first.total) / (Number(initialValue.first.total) + Number(initialValue.second.total)) * 100)
       },
       {
         name: "2nd serve %",
-        stats: ( Number(initialValue.second.total) - Number(doubleFaultCount)) / Number(initialValue.second.total)
+        stats: Math.round(( Number(initialValue.second.total) - Number(doubleFaultCount)) / Number(initialValue.second.total) * 100)
       },
       {
         name: "1st serve pts won",
-        stats: Number(initialValue.first.totalWin) / Number(initialValue.first.total) * 100
+        stats: Math.round(Number(initialValue.first.totalWin) / Number(initialValue.first.total) * 100 )
       },
       {
         name: "2nd serve pts won",
-        stats: Number(initialValue.second.totalWin) / Number(initialValue.second.total) * 100
+        stats: Math.round(Number(initialValue.second.totalWin) / Number(initialValue.second.total) * 100)
       },
       {
         name: "return pts won",
-        stats: Number(initialValue.return.totalWin) / Number(initialValue.return.total) * 100
+        stats: Math.round(Number(initialValue.return.totalWin) / Number(initialValue.return.total) * 100)
       }
     ];
 
