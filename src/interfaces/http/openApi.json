@@ -1223,9 +1223,9 @@
             "type": "string"
           },
           {
-            "name": "errorType",
+            "name": "shotResult",
             "in": "query",
-            "description": "error type of the shot",
+            "description": "result of the shot",
             "required": false,
             "type": "string"
           },

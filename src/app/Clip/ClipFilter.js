@@ -14,7 +14,7 @@ class ClipFilter extends Operation {
     let filters = {
       videoId : data.videoId
     };
-
+    //filters = data;
     if(data.shotType){
       filters.shotType = {
         [Op.in] : JSON.parse(data.shotType)
@@ -27,9 +27,9 @@ class ClipFilter extends Operation {
       };
     }
 
-    if(data.errorType){
-      filters.errorType = {
-        [Op.in] : JSON.parse(data.errorType)
+    if(data.shotResult){
+      filters.shotResult = {
+        [Op.in] : JSON.parse(data.shotResult)
       };
     }
 
