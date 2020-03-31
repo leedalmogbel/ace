@@ -3,8 +3,25 @@ const { BaseRepository } = require('@amberjs/core');
 const sequelize = require('sequelize');
 const Op = require('sequelize').Op;
 
+const pointsResult = {
+  ACE: 'ace',
+  DOUBLE_FAULT: 'double-fault',
+  WINNER: 'winner',
+  UNFORCED_ERROR: 'unforced-error',
+  FORCED_ERROR_ON_OPPONENT: 'forced-error-on-opponent',
+  TENTATIVE_ON_DEFENSE: 'tentative-on-defense'
+};
+
 const mergeArr = (origData, newData, key) => origData.filter( aa => ! newData.find ( bb => aa[key] === bb[key]) ).concat(newData);
 const statSkeleton = [
+  {
+    name: "1st serve %",
+    stats: 0
+  },
+  {
+    name: "2nd serve %",
+    stats: 0
+  },
   {
     name: "1st serve pts won",
     stats: 0
@@ -21,19 +38,19 @@ const statSkeleton = [
 
 const pointResultsSkeleton =  [
   {
-    name: "ace",
+    name: pointsResult.ACE,
     total: 0
   },
   {
-    name: "double_fault",
+    name: pointsResult.DOUBLE_FAULT,
     total: 0
   },
   {
-    name: "winner",
+    name: pointsResult.WINNER,
     total: 0
   },
   {
-    name: "unforced_error",
+    name: pointsResult.UNFORCED_ERROR,
     total: 0
   }
 ];
@@ -44,6 +61,7 @@ const mergeData = (input) => input.reduce((acc, val) => {
   // Merge Data
   data.forEach(({ name, stats }) => {
     const matchedSetIndex = acc.data.findIndex(accData => accData.name === name);
+    stats = isNaN(stats) ? 0 : stats;
     if (matchedSetIndex !== -1) {
       acc.data[matchedSetIndex].scores.push(stats);
     } else {
@@ -145,13 +163,16 @@ class ClipRepository extends BaseRepository {
           [sequelize.literal('COUNT("move") FILTER (WHERE winner = \'yes\')'), 'totalWinCount'],
         ],
         group: ['ClipModel.move']
-      }).map( data => {
-        data = JSON.parse(JSON.stringify(data));
-        return {
-          name: `${(data.move !== 'return') ? data.move+' serve' : data.move} pts won`,
-          stats: Number(data.totalWinCount) / Number(data.totalCount) * 100
-        };
       }),
+      // .map( data => {
+      //   data = JSON.parse(JSON.stringify(data));
+      //   let nameVal = `${(data.move !== 'return') ? data.move+' serve' : data.move} pts won`;
+      //   let statResult = Number(data.totalWinCount) / Number(data.totalCount) * 100;
+      //   return {
+      //     name: nameVal,
+      //     stats: statResult
+      //   };
+      // }),
       this.model.findAll({
         where: {
           ...params, 
@@ -173,8 +194,66 @@ class ClipRepository extends BaseRepository {
       })
     ]);
      
+     let clipTotalResult = res[0];
+     let initialValue= {
+       return : {total : 0, totalWin : 0},
+        first : {total : 0, totalWin : 0},
+        second : {total : 0, totalWin : 0},
+     }
+     clipTotalResult.forEach(result => {
+      switch (result.dataValues.move) {
+        case '1st':
+          initialValue.first.total = Number(result.dataValues.totalCount);
+          initialValue.first.totalWin = Number(result.dataValues.totalWinCount);
+        break;
+        case '2nd':
+          initialValue.second.total = Number(result.dataValues.totalCount);
+          initialValue.second.totalWin = Number(result.dataValues.totalWinCount);
+        break;
+        case 'return':
+          initialValue.return.total = Number(result.dataValues.totalCount);
+          initialValue.return.totalWin = Number(result.dataValues.totalWinCount);
+        break;
+      
+        default:
+          break;
+      }
+     });
+     
+     let doubleFaultCount =  0;
+     res[1].forEach(element => {
+       if(element.name == pointsResult.DOUBLE_FAULT){
+        doubleFaultCount = element.total;
+       }
+     });
+
+     const statResult = [
+      {
+        name: "1st serve %",
+        stats: Math.round(Number(initialValue.first.total) / (Number(initialValue.first.total) + Number(initialValue.second.total)) * 100)
+      },
+      {
+        name: "2nd serve %",
+        stats: Math.round(( Number(initialValue.second.total) - Number(doubleFaultCount)) / Number(initialValue.second.total) * 100)
+      },
+      {
+        name: "1st serve pts won",
+        stats: Math.round(Number(initialValue.first.totalWin) / Number(initialValue.first.total) * 100 )
+      },
+      {
+        name: "2nd serve pts won",
+        stats: Math.round(Number(initialValue.second.totalWin) / Number(initialValue.second.total) * 100)
+      },
+      {
+        name: "return pts won",
+        stats: Math.round(Number(initialValue.return.totalWin) / Number(initialValue.return.total) * 100)
+      }
+    ];
+
+     console.log('RESULT INITIAL :', statResult);
+
     return {
-      data: mergeArr(statSkeleton,res[0],'name'),
+      data: mergeArr(statSkeleton,statResult,'name'),
       pointResults: mergeArr(pointResultsSkeleton,res[1],'name')
     };
   }
@@ -186,7 +265,8 @@ class ClipRepository extends BaseRepository {
 
     let progressData = await this.VideoModel.findAll({
       where: {
-        userId : userId
+        userId : userId,
+        matchType: 'match'
       },
       attributes : ['id', 'videoName', 'matchType']
     }).map(async(videoData, index) => {
@@ -196,17 +276,16 @@ class ClipRepository extends BaseRepository {
         ...await this.getMatchReports({videoId: videoData.id, ...params })
       }
     })
-    console.log('BEFORE MERGE DATA : ', progressData);
+    
     let mergedData = await mergeData(progressData);
-    console.log('MERGE DATA : ', mergedData);
     let pointResultsData = [
       {
         name: 'Aces/Double Faults',
-        scores: await getRatio(mergedData.pointResults.find( d => d.name === 'ace').total, mergedData.pointResults.find( d => d.name === 'double_fault').total)
+        scores: await getRatio(mergedData.pointResults.find( d => d.name === pointsResult.ACE).total, mergedData.pointResults.find( d => d.name === pointsResult.DOUBLE_FAULT).total)
       },
       {
         name: 'Winners/Unforced Errors',
-        scores: await getRatio(mergedData.pointResults.find( d => d.name === 'winner').total, mergedData.pointResults.find( d => d.name === 'unforced_error').total)
+        scores: await getRatio(mergedData.pointResults.find( d => d.name === pointsResult.WINNER).total, mergedData.pointResults.find( d => d.name === pointsResult.UNFORCED_ERROR).total)
       }
     ];
    

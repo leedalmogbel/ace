@@ -8,61 +8,11 @@ class UserRepository extends BaseRepository {
   }
 
   async add(data) {
-    let newUser = await this.model.create(data);
-
-    
-    if(newUser){
-      if (data.userType == 'player'){
-        //create player
-        this.PlayerRepository.add({
-          userId:newUser.id
-        });
-      }else if (data.userType == 'coach'){
-        //create coach
-        this.CoachesRepository.add({
-          userId:newUser.id,
-          coachName:newUser.name
-        });
-      }
-    }
-
-    return newUser;
-    // after creation create user or coach
-
+    return await this.model.create(data);
   }
 
-  async findCreateUpdate (data) {
-    const year = new Date().getFullYear();
-    const userId = parseInt(`${year}${Math.floor(Math.random()* 999999) + 100000}`);
-    return this.model.findOne({
-      where: {
-        email: data.email,
-      }
-    })
-      .then( (foundUser) => {
-        if (!foundUser) {
-          return this.model.create({
-            id: userId,
-            name: data.name,
-            email: data.email,
-            userType: data.userType,
-            googleUserId: data.googleUserId,
-            fbUserId: data.fbUserId,
-            subscribed: data.subscribed,
-          });
-        }
-        return this.model.update({
-          name: data.name,
-          userType: data.userType,
-          googleUserId: data.googleUserId,
-          fbUserId: data.fbUserId,
-          subscribed: data.subscribed,
-        }, {
-          where: { email: data.email },
-          returning: true,
-        // plain: true,
-        });
-      });
+  async upsert(data) {
+    return await this.model.upsert(data);
   }
 
   async subscribed(id, data) {

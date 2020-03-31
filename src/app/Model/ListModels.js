@@ -1,17 +1,28 @@
 const { Operation } = require('@amberjs/core');
 const Utils = require('src/infra/services/utils.js');
+const reformatForListing = models => { 
+  return models.map(model => {
+    if(model.standardModel.length > 0){
+      return {
+        scenario: model.scenario,
+        scenarioId: model.id,
+      };
+    }
+  });
+};
 
 class ListModels extends Operation {
-  constructor({ StandardModelRepository, logger }) {
+  constructor({ ScenarioRepository, logger }) {
     super();
-    this.StandardModelRepository = StandardModelRepository;
+    this.ScenarioRepository = ScenarioRepository;
     this.logger = logger;
   }
 
   async execute(params) {
     const { SUCCESS, NOT_FOUND } = this.events;
     try {
-      const models = await this.StandardModelRepository.getAllWithScenario(params);
+
+      const models = reformatForListing(await this.ScenarioRepository.getAllScenariosWithModel(params));
       const data = Utils().resSuccess(models);
       return this.emit(SUCCESS, data);
     } catch(error) {

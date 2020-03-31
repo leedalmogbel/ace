@@ -19,6 +19,7 @@ class ClipsController extends BaseController {
 
     //Filter
     router.get('/video/details/filter', this.injector('GetFilter'), this.showFilter);
+    router.get('/filter', this.injector('ClipFilter'), this.showFilter);
     router.get('/countfilter', this.injector('ListFilteredClips'), this.showFilter);
 
     // Get List of Detected Persons

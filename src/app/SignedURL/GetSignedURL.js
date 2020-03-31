@@ -43,7 +43,7 @@ class GetSignedURL extends Operation {
         };
         const match = new Match(dataMatch);
         const newMatch = await this.MatchRepository.add(match);
-        console.log(newMatch.videoId);
+        console.log('UPLOADED VIDEO : ', newMatch);
       }
       const videoData = [{
         videoId:newVideo.id,
@@ -66,8 +66,15 @@ class GetSignedURL extends Operation {
       };
       return this.emit(SUCCESS, created);
     } catch(error) {
-      if(error.message === 'ValidationError') {
-        return this.emit(VALIDATION_ERROR, error);
+      if(error.name === 'SequelizeUniqueConstraintError') {
+        return this.emit(VALIDATION_ERROR, {
+          details: {
+            errors : [{
+              message: 'Video already exist!',
+              path: 'date'
+            }]
+          }
+        });
       }
       return this.emit(ERROR, error);
     }
