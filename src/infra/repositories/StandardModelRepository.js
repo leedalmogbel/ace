@@ -19,12 +19,13 @@ class StandardModelRepository extends BaseRepository {
     return modelLinks;
   }
 
-  getAll(params) {
-    return this.model.findAll({
-      where: params,
-      attributes: ['modelLink', 'keypointMap']
+  getOne(params){
+    return this.model.findOne({
+      attributes: ['status'],
+      where : params
     });
   }
+
 }
 
 module.exports = StandardModelRepository;

@@ -20,6 +20,8 @@ module.exports = {
       }, keypointMap : {
         type: DataTypes.STRING,
         defaultValue: 'all'
+      }, status : {
+        type: DataTypes.STRING,
       }
     }, {
       tableName: 'standardModels',

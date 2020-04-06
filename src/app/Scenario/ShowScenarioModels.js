@@ -21,14 +21,16 @@ class ShowScenarioModels extends Operation {
     }
 
     
-    let whereParams = {
+    let parameters = {
         ...params,
         scenarioId : scenarioId
-    }
+    };
 
+    console.log(`SCENARIO ID : ${scenarioId} , PARAMS : ${JSON.stringify(parameters)}`);
 
     try {
-      const scenarios = await this.StandardModelRepository.getAll(whereParams);
+      const scenarios = await this.StandardModelRepository.getOne(parameters);
+     // if NULL either processing or none at all
       const data = Utils().resSuccess(scenarios);
       return this.emit(SUCCESS, data);
     } catch(error) {

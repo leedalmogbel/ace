@@ -9,12 +9,27 @@ class ScenariosController extends BaseController {
     const router = Router();
 
     // Gold Scenarios
-    router.get('/', this.injector('ListScenarios'), this.index);
+    router.get('/', this.injector('ListScenarios'), this.indexQuery);
     router.post('/', this.injector('CreateScenario'), this.create);
-    router.get('/:id/models', this.injector('ShowScenarioModels'), this.showWithValidation);
+    router.get('/:id/model-status', this.injector('ShowScenarioModels'), this.showWithValidation);
     router.get('/:id/keypoints', this.injector('ListPersonKeypoints'), this.getWithParams);
     router.post('/:id/generateModelSignedUrl', this.injector('GenerateModelSignedUrl'), this.getBody);
     return router;
+  }
+
+  indexQuery(req, res, next) {
+    const { operation } = req;
+    const { SUCCESS, ERROR } = operation.events;
+
+    operation
+      .on(SUCCESS, (result) => {
+        res
+          .status(Status.OK)
+          .json(result);
+      })
+      .on(ERROR, next);
+
+    operation.execute(req.query);
   }
 
   getBody(req, res, next) {
