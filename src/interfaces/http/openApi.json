@@ -1716,6 +1716,50 @@
         }
       }
     },
+    "/scenarios/{id}/models": {
+      "get": {
+        "summary": "Get scenario models.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ShowScenarioModels",
+        "tags": [ "Scenarios" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of gold scenario",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "Id of user",
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/clips/{clipId}/detectedPerson/{id}/generateScore": {
       "post": {
         "summary": "Generate scores based on selected model and detectedPerson keypoints.",
