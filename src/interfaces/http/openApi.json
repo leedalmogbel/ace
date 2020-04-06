@@ -1716,9 +1716,9 @@
         }
       }
     },
-    "/scenarios/{id}/models": {
+    "/scenarios/{id}/model-status": {
       "get": {
-        "summary": "Get scenario models.",
+        "summary": "Get scenario model status.",
         "security": [
           {
             "bearerAuth": []
@@ -1990,6 +1990,11 @@
       },
       "post": {
         "summary": "Train gold standard model",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "operationId": "TrainModel",
         "tags": [ "Models" ],
         "requestBody": {
@@ -2049,6 +2054,16 @@
         ],
         "operationId": "ListScenarios",
         "tags": [ "Scenarios" ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "Id of selected user",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
         "responses": {
           "200": {
             "description": "List of all gold scenarios",
@@ -2323,6 +2338,11 @@
     "/clips/keypoint/list": {
       "get": {
         "summary": "List all keypoints",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "operationId": "ListKeypoints",
         "tags": [ "Keypoints" ],
         "responses": {
@@ -2353,6 +2373,11 @@
     "/clips/keypoint": {
       "get": {
         "summary": "Get path where keypoint is uploaded",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "operationId": "GetKeypoint",
         "tags": [ "Keypoints" ],
         "parameters": [
