@@ -11,12 +11,7 @@ class ListScenarios extends Operation {
     const { SUCCESS, ERROR } = this.events;
 
     try {
-      const users = await this.ScenarioRepository.getAll({
-        attributes: [
-          'id',
-          'scenario'
-        ]
-      });
+      const users = await this.ScenarioRepository.getAllScenariosAndModel({});
       const data = Utils().resSuccess(users);
       return this.emit(SUCCESS, data);
     } catch(error) {
