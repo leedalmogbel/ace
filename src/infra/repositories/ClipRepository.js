@@ -143,6 +143,50 @@ class ClipRepository extends BaseRepository {
     return this.getDataWithRelation(id);
   }
 
+  getUniqueMoveTotalCount(videoId){
+    return this.model.findAll({
+      where: {
+        videoId: videoId,
+        move: {
+          [Op.ne]: ''
+        }
+      },
+      attributes: [
+        'move',
+        [sequelize.literal('COUNT("move")'), 'totalCount'],
+        [sequelize.literal('COUNT("move") FILTER (WHERE winner = \'yes\')'), 'totalWinCount'],
+      ],
+      group: ['ClipModel.move']
+    })
+  }
+
+  getUniqueShotResultTotalCount(params){
+    return this.model.findAll({
+      where: {
+        ...params, 
+        shotResult: {
+          [Op.ne]: ''
+        }
+      },
+      attributes: [
+        ['shotResult', 'name'],
+        [sequelize.literal('COUNT("shotResult")'), 'total']
+      ],
+      group: ['ClipModel.shotResult']
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
   async getMatchReports(params){
     delete params.userId;
