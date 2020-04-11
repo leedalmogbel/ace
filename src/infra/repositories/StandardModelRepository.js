@@ -18,6 +18,14 @@ class StandardModelRepository extends BaseRepository {
     });
     return modelLinks;
   }
+
+  getOne(params){
+    return this.model.findOne({
+      attributes: ['status'],
+      where : params
+    });
+  }
+
 }
 
 module.exports = StandardModelRepository;

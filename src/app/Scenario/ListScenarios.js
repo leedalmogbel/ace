@@ -7,16 +7,12 @@ class ListScenarios extends Operation {
     this.ScenarioRepository = ScenarioRepository;
   }
 
-  async execute() {
+  async execute(params) {
     const { SUCCESS, ERROR } = this.events;
 
     try {
-      const users = await this.ScenarioRepository.getAll({
-        attributes: [
-          'id',
-          'scenario'
-        ]
-      });
+      // add params to display only users scenario list
+      const users = await this.ScenarioRepository.getAllScenariosAndModel(params);
       const data = Utils().resSuccess(users);
       return this.emit(SUCCESS, data);
     } catch(error) {

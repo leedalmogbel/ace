@@ -23,7 +23,7 @@ class GenerateModelSignedUrl extends Operation {
           let key = `${keyName}.h5`;
           let generatedData = signURL.generateSignedUrlForModel(key);
           generatedData.keypointMap = keypoint;
-          this.StandardModelRepository.upsert({userId: data.userId, scenarioId: data.scenarioId, modelLink:generatedData.pathUrl, keypointMap: keypoint});
+          this.StandardModelRepository.upsert({userId: data.userId, scenarioId: data.scenarioId, modelLink:generatedData.pathUrl, keypointMap: keypoint, status:'Completed'});
           return generatedData;
         })
       );

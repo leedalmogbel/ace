@@ -1,5 +1,6 @@
 
 const { BaseRepository } = require('@amberjs/core');
+const sequelize = require('sequelize');
 
 
 class ScenarioRepository extends BaseRepository {
@@ -19,6 +20,26 @@ class ScenarioRepository extends BaseRepository {
           as: 'standardModel',
         }
       ],
+    });
+  }
+
+  getAllScenariosAndModel(params){
+    return this.model.findAll({
+      attributes: ['scenario', 'id'],
+      include: [
+        {
+          model: this.StandardModel,
+          attributes: ['id'],
+          where : params,
+          //separate:true,
+          as: 'standardModel',
+          required : false
+        }
+      ],
+    }).map((dt) => {
+      let data = dt.dataValues;
+      data.standardModel = data.standardModel.length;
+      return dt;
     });
   }
 }

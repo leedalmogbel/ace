@@ -2,18 +2,22 @@ const { Operation } = require('@amberjs/core');
 const Utils = require('src/infra/services/utils.js');
 
 class TrainModel extends Operation {
-  constructor({ PersonKeypointRepository, ThirdPartyApis, FailedQueueRepository }) {
+  constructor({ PersonKeypointRepository, ThirdPartyApis, FailedQueueRepository, StandardModelRepository }) {
     super();
     this.PersonKeypointRepository = PersonKeypointRepository;
     this.ThirdPartyApis = ThirdPartyApis;
     this.FailedQueueRepository = FailedQueueRepository;
+    this.StandardModelRepository = StandardModelRepository;
   }
 
   async execute(param) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
     console.log('TRAINMODEL PARAMS : ', param);
     try {
-      const personKeypoints = await this.PersonKeypointRepository.getAllKeypoints(param);
+      const personKeypoints = await this.PersonKeypointRepository.getAllKeypoints({
+        ...param,
+        status : 'successSkeleton'
+      });
       console.log(personKeypoints);
       if(personKeypoints.length > 0){
         let trainingParams = {
@@ -23,7 +27,17 @@ class TrainModel extends Operation {
         };
 
         console.log('TrainModel PARAMS : ', trainingParams);
-        
+        // must update status in StandardModel if existing
+        const standardModels = await this.StandardModelRepository.getAll({
+          where : param
+        });
+
+        if(standardModels.length > 0){
+          // update status to processing
+          standardModels.map((data) => {
+            data.update({status : 'Processing'});
+          });
+        }
         let response = await this.ThirdPartyApis.callModelTraining(trainingParams);
         // let response = {
         //   data:{message:'Busy'}
@@ -36,6 +50,7 @@ class TrainModel extends Operation {
           return this.emit(SUCCESS, {message : 'Model generation on queue.'});
           //return this.emit(SERVICE_UNAVAILABLE, {message:'Server is busy for inference. Try again later.'});
         }
+       
         return this.emit(SUCCESS, {message : 'Generating model.'});
       }
       
