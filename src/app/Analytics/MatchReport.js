@@ -1,10 +1,11 @@
 const { Operation } = require('@amberjs/core');
 
 class MatchReport extends Operation {
-  constructor({ ClipRepository, logger }) {
+  constructor({ ClipRepository, logger, AnalyticsService }) {
     super();
     this.ClipRepository = ClipRepository;
     this.logger = logger;
+    this.AnalyticsService = AnalyticsService;
   }
 
   async execute(params) {
@@ -23,7 +24,10 @@ class MatchReport extends Operation {
     }
     
     try {
-      const matches = await this.ClipRepository.getMatchReports(params);
+      //const matches = await this.ClipRepository.getMatchReports(params);
+      const uniqueMoveCounts = await this.ClipRepository.getUniqueMoveTotalCount(params.videoId);
+      const uniqueShotResultCounts = await this.ClipRepository.getUniqueShotResultTotalCount(params);
+      let matches = this.AnalyticsService.getMatchAnalytics(uniqueMoveCounts, uniqueShotResultCounts);
       return this.emit(SUCCESS, matches);
     } catch(error) {
       return this.emit(ERROR, error);

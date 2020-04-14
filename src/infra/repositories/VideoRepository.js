@@ -79,6 +79,15 @@ class VideoRepository extends BaseRepository {
       ]
     });
   }
+
+  getAllVideo(params){
+    return this.model.findAll({
+      where: {
+        ...params
+      },
+      attributes : ['id', 'videoName', 'matchType']
+    });
+  }
 }
 
 
