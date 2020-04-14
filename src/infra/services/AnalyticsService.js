@@ -7,7 +7,7 @@ const pointsResultList = {
   WINNER: 'winner',
   UNFORCED_ERROR: 'unforced-error',
   FORCED_ERROR_ON_OPPONENT: 'forced-error-on-opponent',
-  TENTATIVE_ON_DEFENSE: 'tentative-on-defense'
+  TENTATIVE_ON_OFFENSE: 'tentative-on-offense'
 };
 
 /**
@@ -36,6 +36,7 @@ const matchStatList = {
 class AnalyticsService {
   constructor() {
     this.MatchClass = new MatchAnalytics();
+    this.ProgressClass = new ProgressAnalytics();
   }
 
   getMatchAnalytics(basicData, advanceData){
@@ -48,6 +49,12 @@ class AnalyticsService {
       pointResults: advanceMatchStat
     };
 
+  }
+
+  getProgressAnalytics(firstArr, secondArr){
+    return firstArr.map( (firstNumber, index) => {
+      return this.ProgressClass.computeAdvanceStatistics(firstNumber, secondArr[index]);
+    });
   }
 }
 
@@ -90,13 +97,12 @@ class MatchAnalytics{
 
   formatAdvanceMatchData(data){
     let initialValue= [
-      { name: pointsResultList.ACE, total: 1 },
+      { name: pointsResultList.ACE, total: 0 },
       { name: pointsResultList.DOUBLE_FAULT, total: 0 },
-      { name: pointsResultList.ACE, total: 3 },
       { name: pointsResultList.WINNER, total: 0 },
       { name: pointsResultList.UNFORCED_ERROR, total: 0 },
       { name: pointsResultList.FORCED_ERROR_ON_OPPONENT, total: 0 },
-      { name: pointsResultList.TENTATIVE_ON_DEFENSE, total: 0 },
+      { name: pointsResultList.TENTATIVE_ON_OFFENSE, total: 0 },
     ];
     
    
@@ -116,27 +122,33 @@ class MatchAnalytics{
     const statResult = [
       {
         name: matchStatList.FIRST_SERVE_PERCENT,
-        stats: Math.round(Number(basicData.first.total) / (Number(basicData.first.total) + Number(basicData.second.total)) * 100)
+        stats: parseInt(Math.round(Number(basicData.first.total) / (Number(basicData.first.total) + Number(basicData.second.total)) * 100)) || 0
       },
       {
         name: matchStatList.SECOND_SERVE_PERCENT,
-        stats: Math.round(( Number(basicData.second.total) - Number(doubleFaultVal[0].total)) / Number(basicData.second.total) * 100)
+        stats: parseInt(Math.round(( Number(basicData.second.total) - Number(doubleFaultVal[0].total)) / Number(basicData.second.total) * 100)) || 0
       },
       {
         name: matchStatList.FIRST_SERVE_WON,
-        stats: Math.round(Number(basicData.first.totalWin) / Number(basicData.first.total) * 100 )
+        stats: parseInt(Math.round(Number(basicData.first.totalWin) / Number(basicData.first.total) * 100 )) || 0
       },
       {
         name: matchStatList.SECOND_SERVE_WON,
-        stats: Math.round(Number(basicData.second.totalWin) / Number(basicData.second.total) * 100)
+        stats: parseInt(Math.round(Number(basicData.second.totalWin) / Number(basicData.second.total) * 100)) || 0
       },
       {
-        name: matchStatList.SECOND_SERVE_WON,
-        stats: Math.round(Number(basicData.return.totalWin) / Number(basicData.return.total) * 100)
+        name: matchStatList.RETURN_SHOT_WON,
+        stats: parseInt(Math.round(Number(basicData.return.totalWin) / Number(basicData.return.total) * 100)) || 0
       }
     ];
 
     return statResult;
+  }
+}
+
+class ProgressAnalytics{
+  computeAdvanceStatistics(firstNumber, secondNumber){
+    return parseInt(Number(firstNumber) / Number(secondNumber)) || 0;
   }
 }
 
