@@ -2062,6 +2062,48 @@
             "required": false,
             "type": "integer",
             "format": "int64"
+          },
+          {
+            "name": "activity",
+            "in": "query",
+            "description": "i.e sports, music",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "subActivityOne",
+            "in": "query",
+            "description": "i.e tennis, choreography",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "subActivityTwo",
+            "in": "query",
+            "description": "i.e groundstroke-forehand",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "subActivityThree",
+            "in": "query",
+            "description": "i.e cross-court",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "subActivityFour",
+            "in": "query",
+            "description": "i.e behind baseline",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "subActivityFive",
+            "in": "query",
+            "description": "i.e ",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
@@ -2104,13 +2146,32 @@
             "application/json": {
               "schema": {
                 "properties": {
-                  "scenario": {
-                    "type": "string",
-                    "required": true
+                  "activity": {
+                    "type": "string"
+                  },
+                  "subActivityOne": {
+                    "type": "string"
+                  },
+                  "subActivityTwo": {
+                    "type": "string"
+                  },
+                  "subActivityThree": {
+                    "type": "string"
+                  },
+                  "subActivityFour": {
+                    "type": "string"
+                  },
+                  "subActivityFive": {
+                    "type": "string"
                   }
                 },
                 "example": {
-                  "scenario": "Forehand Forward"
+                  "activity": "sports",
+                  "subActivityOne":"tennis",
+                  "subActivityTwo":"groundstroke-forehand",
+                  "subActivityThree":"cross-court",
+                  "subActivityFour":"behind baseline",
+                  "subActivityFive":""
                 }
               }
             }

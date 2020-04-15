@@ -11,8 +11,10 @@ class CreateScenario extends Operation {
   async execute(data) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
 
-    data.scenario = data.scenario.trim();
+    //data.scenario = data.scenario.trim();
+    data = Utils().reformat(data, '-');
     const scenario = new Scenario(data);
+   
     
     const { valid, errors } = scenario.validate(data);
 
@@ -25,16 +27,16 @@ class CreateScenario extends Operation {
     }
 
     try {
-      const newVideo = await this.ScenarioRepository.add(scenario);
-      const data = Utils().resSuccess(newVideo, 'Gold scenario added.');
-      return this.emit(SUCCESS, data);
+      const newScenario = await this.ScenarioRepository.add(scenario);
+      const result = Utils().resSuccess(newScenario, 'Gold scenario added.');
+      return this.emit(SUCCESS, result);
     } catch(error) {
       if(error.name == 'SequelizeUniqueConstraintError')
         return this.emit(VALIDATION_ERROR, {
           details : {
             errors : [
               {
-                message : 'Scenario name already exists.',
+                message : 'Activity combination already exist',
                 path : 'scenario'
               }
             ]

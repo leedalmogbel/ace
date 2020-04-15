@@ -1,6 +1,26 @@
 const { Operation } = require('@amberjs/core');
 const Utils = require('src/infra/services/utils.js');
 
+const scenariosFields = ['activity', 'subActivityOne', 'subActivityTwo', 'subActivityThree', 'subActivityFour', 'subActivityFive']; 
+const parseResult = (input) => input.reduce((acc, val) => {
+  val.forEach(data => {
+    Object.keys(data).forEach( (key) =>{
+      let value = JSON.parse(JSON.stringify(data));
+      acc[key].push(value[key]);
+    });
+  });
+  console.log(val);
+  return acc;
+}, {
+  activity : [],
+  subActivityOne : [],
+  subActivityTwo : [],
+  subActivityThree : [],
+  subActivityFour : [],
+  subActivityFive : [],
+});
+
+
 class ListScenarios extends Operation {
   constructor({ ScenarioRepository }) {
     super();
@@ -12,8 +32,14 @@ class ListScenarios extends Operation {
 
     try {
       // add params to display only users scenario list
-      const users = await this.ScenarioRepository.getAllScenariosAndModel(params);
-      const data = Utils().resSuccess(users);
+      let self = this;
+      let results = await Promise.all(
+        scenariosFields.map(field=>{
+          return self.ScenarioRepository.getDistinctValues(field, params);
+        })
+      );
+      
+      const data = Utils().resSuccess(parseResult(results));
       return this.emit(SUCCESS, data);
     } catch(error) {
       const dataError = Utils().resError(error);

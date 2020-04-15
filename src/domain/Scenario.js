@@ -2,18 +2,29 @@ const { attributes } = require('structure');
 
 const Scenario = attributes({
   // Add atttributes here
-  scenario: {
+  activity: {
     type: String,
     required: true
   }, 
-  shotType: {
+  subActivityOne: {
     type: String,
-    required: false,
+    required: true
+  }, 
+  subActivityTwo: {
+    type: String,
+    required: true
+  }, 
+  subActivityThree: {
+    type: String,
     empty: true
   },
-  movement: {
+  subActivityFour: {
     type: String,
     empty: true
   },
+  subActivityFive: {
+    type: String,
+    empty: true
+  }
 })(class Scenario {});
 module.exports = Scenario;
