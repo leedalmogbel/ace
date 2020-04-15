@@ -22,6 +22,9 @@ module.exports = {
         defaultValue: 'all'
       }, status : {
         type: DataTypes.STRING,
+      }, keypointUrl : {
+        type: DataTypes.STRING,
+        allowNull: true
       }
     }, {
       tableName: 'standardModels',

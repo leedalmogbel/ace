@@ -32,4 +32,31 @@ const Score = attributes({
     itemType: Scores
   }
 })(class Score {});
-module.exports = Score;
+
+
+const GenerateScore = attributes({
+  // Add atttributes here
+  clipId: {
+    type: Number,
+    required: true
+  },
+  clipPersonId: {
+    type: Number,
+    required: true
+  },
+  scenarioId: {
+    type: Number,
+    required: true
+  },
+  userId: {
+    type: Number,
+    required: true
+  }
+})(class GenerateScore {});
+
+
+
+module.exports = {
+  GenerateScore,
+  Score
+};

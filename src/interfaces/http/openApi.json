@@ -1690,10 +1690,20 @@
                   "userId": {
                     "type": "integer",
                     "required": true
+                  },
+                  "status": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "keypointUrl": {
+                    "type": "integer",
+                    "required": true
                   }
                 },
                 "example": {
-                  "userId": 2019838809
+                  "userId": 2019838809,
+                  "status": "Failed or Completed",
+                  "keypointUrl":"url-of-selected-keypoint"
                 }
               }
             }
@@ -1768,14 +1778,13 @@
             "bearerAuth": []
           }
         ],
-        "operationId": "SelectClipForScore",
+        "operationId": "GenerateDetectedPersonScore",
         "tags": [ "Clips" ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "description": "Id of selected person",
-            "required": true,
             "type": "integer",
             "format": "int64"
           },
@@ -1783,7 +1792,6 @@
             "name": "clipId",
             "in": "path",
             "description": "Id of selected clip",
-            "required": true,
             "type": "integer",
             "format": "int64"
           }
@@ -1795,12 +1803,15 @@
               "schema": {
                 "properties": {
                   "scenarioId": {
-                    "type": "integer",
-                    "required": true
+                    "type": "integer"
+                  },
+                  "userId": {
+                    "type": "integer"
                   }
                 },
                 "example": {
-                  "scenarioId": 1
+                  "scenarioId": 1,
+                  "userId" : 1
                 }
               }
             }

@@ -1,5 +1,5 @@
 const { Operation } = require('@amberjs/core');
-const Score = require('src/domain/Score');
+const {Score} = require('src/domain/Score');
 
 class CreateScore extends Operation {
   constructor({ ScoreRepository }) {

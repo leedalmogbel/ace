@@ -21,7 +21,8 @@ class ListModels extends Operation {
   async execute(params) {
     const { SUCCESS, NOT_FOUND } = this.events;
     try {
-
+      // get all with status Completed
+      params.status = 'Completed';
       const models = reformatForListing(await this.ScenarioRepository.getAllScenariosWithModel(params));
       const data = Utils().resSuccess(models);
       return this.emit(SUCCESS, data);

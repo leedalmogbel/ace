@@ -26,6 +26,24 @@ class StandardModelRepository extends BaseRepository {
     });
   }
 
+  getKeypointUrl(params){
+    return this.model.findOne({
+      attributes: ['keypointUrl'],
+      where : params
+    });
+  }
+
+  update(status, params){
+    return this.model.update(
+      {
+        status : status
+      },
+      {
+        where : params
+      });
+  }
+
+
 }
 
 module.exports = StandardModelRepository;

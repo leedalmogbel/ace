@@ -134,7 +134,7 @@ class ClipsController extends BaseController {
   showDetectedPerson(req, res, next) {
     const { operation } = req;
 
-    const { SUCCESS, ERROR, NOT_FOUND, SERVICE_UNAVAILABLE } = operation.events;
+    const { SUCCESS, ERROR, NOT_FOUND, SERVICE_UNAVAILABLE, VALIDATION_ERROR } = operation.events;
 
     operation
       .on(SUCCESS, (result) => {
@@ -149,6 +149,12 @@ class ClipsController extends BaseController {
           details: error.details
         });
       })
+      .on(VALIDATION_ERROR, (error) => {
+        res.status(Status.BAD_REQUEST).json({
+          type: 'ValidationError',
+          details: error.details
+        });
+      })
       .on(SERVICE_UNAVAILABLE, (error) => {
         res.status(Status.SERVICE_UNAVAILABLE).json({
           type: 'Service Unavailable',
@@ -157,10 +163,7 @@ class ClipsController extends BaseController {
       })
       .on(ERROR, next);
 
-    let body =  req.body;
-    body.clipId = Number(req.params.clipId);
-    body.clipPersonId = Number(req.params.id);
-    operation.execute(Number(req.params.id), body);
+    operation.execute(req.params, req.body);
   }
 
 
