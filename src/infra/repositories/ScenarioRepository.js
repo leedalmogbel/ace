@@ -8,10 +8,18 @@ class ScenarioRepository extends BaseRepository {
     super(ScenariosModel);
     this.StandardModel = StandardModel;
   }
- //getAllWithScenario
+  getDistinctValues(field, params){
+    if(params.userId) delete params.userId;
+    return this.model.findAll({
+      attributes: [[sequelize.fn('DISTINCT', sequelize.col(field)), field]],
+      where : params,
+      raw : true 
+    });
+  }
+
+
   getAllScenariosWithModel(params){
     return this.model.findAll({
-      attributes: ['scenario', 'id'],
       include: [
         {
           model: this.StandardModel,
@@ -25,7 +33,7 @@ class ScenarioRepository extends BaseRepository {
 
   getAllScenariosAndModel(params){
     return this.model.findAll({
-      attributes: ['scenario', 'id'],
+      attributes: ['activity', 'id'],
       include: [
         {
           model: this.StandardModel,

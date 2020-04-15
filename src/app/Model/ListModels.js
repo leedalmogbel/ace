@@ -3,8 +3,9 @@ const Utils = require('src/infra/services/utils.js');
 const reformatForListing = models => { 
   return models.map(model => {
     if(model.standardModel.length > 0){
+      let scenario = `${model.activity} ${model.subActivityOne} ${model.subActivityTwo} ${model.subActivityThree} ${model.subActivityFour} ${model.subActivityFive}`;
       return {
-        scenario: model.scenario,
+        scenario: scenario.trim(),
         scenarioId: model.id,
       };
     }

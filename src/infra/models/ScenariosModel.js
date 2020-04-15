@@ -8,24 +8,32 @@ module.exports = {
         autoIncrement: true,
         type: DataTypes.INTEGER,
       }, 
-      scenario : {
+      activity : {
+        type: DataTypes.STRING,
+        allowNull: false,
+      }, subActivityOne : {
+        type: DataTypes.STRING,
+        allowNull: false
+      }, subActivityTwo : {
+        type: DataTypes.STRING,
+        allowNull: false
+      }, subActivityThree : {
         type: DataTypes.STRING,
         allowNull: true,
-        unique: true
-      }, shotType : {
+      }, subActivityFour : {
         type: DataTypes.STRING,
         allowNull: true
-      }, movement : {
+      }, subActivityFive : {
         type: DataTypes.STRING,
         allowNull: true
       }
     }, {
       tableName: 'scenarios',
       timestamps: true,
-      // indexes: [{
-      //   unique: true,
-      //   fields: ['shotType', 'movement']
-      // }]
+      indexes: [{
+        unique: true,
+        fields: ['activity', 'subActivityOne', 'subActivityTwo', 'subActivityThree', 'subActivityFour', 'subActivityFive']
+      }]
     });
     
        
