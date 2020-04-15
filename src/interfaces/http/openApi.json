@@ -1770,6 +1770,77 @@
         }
       }
     },
+    "/scenarios/ids": {
+      "get": {
+        "summary": "Get scenario ids.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ListScenarioIds",
+        "tags": [ "Scenarios" ],
+        "parameters": [
+         {
+            "name": "activity",
+            "in": "query",
+            "description": "i.e sports, music",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "subActivityOne",
+            "in": "query",
+            "description": "i.e tennis, choreography",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "subActivityTwo",
+            "in": "query",
+            "description": "i.e groundstroke-forehand",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "subActivityThree",
+            "in": "query",
+            "description": "i.e cross-court",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "subActivityFour",
+            "in": "query",
+            "description": "i.e behind baseline",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "subActivityFive",
+            "in": "query",
+            "description": "i.e ",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/clips/{clipId}/detectedPerson/{id}/generateScore": {
       "post": {
         "summary": "Generate scores based on selected model and detectedPerson keypoints.",
