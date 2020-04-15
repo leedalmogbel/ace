@@ -1,6 +1,12 @@
 const { Operation } = require('@amberjs/core');
 const signURL = require('src/infra/services/signedUrl');
 
+const modelStatus = {
+  COMPLETED : 'Completed',
+  FAILED : 'Failed',
+  PROCESSING : 'Processing'
+};
+
 class GenerateModelSignedUrl extends Operation {
   constructor({ ThirdPartyApis, ClipRepository, StandardModelRepository, logger }) {
     super();
@@ -14,8 +20,15 @@ class GenerateModelSignedUrl extends Operation {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
     this.logger.info(`Generate Model SignedUrl DATA : ${JSON.stringify(data)}`);
     const keypointArr = ['all', 'balance', 'ball_striking', 'movement'];
-    
+    //add validation to data
     try {
+      if(data.status == modelStatus.FAILED){
+        await this.StandardModelRepository.update(modelStatus.FAILED, {
+          userId : data.userId,
+          scenarioId : data.scenarioId
+        });
+        return this.emit(SUCCESS, 'Updated Status to Failed');
+      }
       // existing scenario Id and userId
       let resultArr= await Promise.all(
         keypointArr.map(keypoint => {
@@ -23,7 +36,7 @@ class GenerateModelSignedUrl extends Operation {
           let key = `${keyName}.h5`;
           let generatedData = signURL.generateSignedUrlForModel(key);
           generatedData.keypointMap = keypoint;
-          this.StandardModelRepository.upsert({userId: data.userId, scenarioId: data.scenarioId, modelLink:generatedData.pathUrl, keypointMap: keypoint, status:'Completed'});
+          this.StandardModelRepository.upsert({userId: data.userId, scenarioId: data.scenarioId, modelLink:generatedData.pathUrl, keypointMap: keypoint, keypointUrl: data.keypointUrl, status:modelStatus.COMPLETED});
           return generatedData;
         })
       );
