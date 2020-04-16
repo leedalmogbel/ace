@@ -32,13 +32,41 @@ const Utils = () => {
       return data;
     }
     return 'Data must be an object';
-  }
+  };
+
+  const compareValues = (key, order = 'asc') => {
+    return function innerSort(a, b) {
+      if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+        // property doesn't exist on either object
+        return 0;
+      }
+      
+      let dataA = (isNaN(parseInt(a[key]))) ? a[key] : parseInt(a[key]);
+      let dataB = (isNaN(parseInt(b[key]))) ? b[key] : parseInt(b[key]);
+
+      const varA = (typeof dataA === 'string')
+        ? dataA.toUpperCase() : dataA;
+      const varB = (typeof dataB === 'string')
+        ? dataB.toUpperCase() : dataB;
+  
+      let comparison = 0;
+      if (varA > varB) {
+        comparison = 1;
+      } else if (varA < varB) {
+        comparison = -1;
+      }
+      return (
+        (order === 'desc') ? (comparison * -1) : comparison
+      );
+    };
+  };
 
   return {
     resSuccess,
     resError,
     formatTime,
-    reformat
+    reformat,
+    compareValues
   };
 };
 
