@@ -81,7 +81,7 @@ class ClipRepository extends BaseRepository {
   getShotTypeTotalCount(params){
     return this.model.findAll({
       attributes: [
-        [sequelize.literal('CONCAT("shotType", "hitSpot", "shotDirection")'), 'name'],
+        [sequelize.literal('CONCAT("shotType" , \'  \' ,  "hitSpot", \'  \' , "shotDirection")'), 'name'],
         [sequelize.literal('COUNT(CONCAT("shotType", "hitSpot", "shotDirection"))'), 'total']
       ],
       where: params,
