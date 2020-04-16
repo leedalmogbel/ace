@@ -31,9 +31,10 @@ class ScenarioRepository extends BaseRepository {
     });
   }
 
+
   getAllScenariosAndModel(params){
     return this.model.findAll({
-      attributes: ['activity', 'id'],
+      attributes: ['id'],
       include: [
         {
           model: this.StandardModel,
