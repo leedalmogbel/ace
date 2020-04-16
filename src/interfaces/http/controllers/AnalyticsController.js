@@ -10,6 +10,7 @@ class AnalyticsController extends BaseController {
 
     router.get('/match', this.injector('MatchReport'), this.index);
     router.get('/progress', this.injector('ProgressReport'), this.index);
+    router.get('/practice-recommendation', this.injector('PracticeRecommendation'), this.index);
     
     return router;
   }
