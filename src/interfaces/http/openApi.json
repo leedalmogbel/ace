@@ -2478,6 +2478,69 @@
         }
       }
     },
+    "/analytics/practice-recommendation": {
+      "get": {
+        "summary": "Display top best shots",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "BestShots",
+        "tags": [ "Analytics" ],
+        "parameters": [
+          {
+            "name": "videoId",
+            "in": "query",
+            "description": "Id of selected video/match",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "hitSpot",
+            "in": "query",
+            "description": "Possible Values : behind baseline, inside baseline, inside service line",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "shotDirection",
+            "in": "query",
+            "description": "Possible Values : cross-court, down-the-line, inside-out",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "shotType",
+            "in": "query",
+            "description": "Possible Values : forehand, backhand, volley, overhead",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Practice Recommendation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "data": [
+                      {
+                        "id": 1,
+                        "modelLink": "Link of model"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/clips/keypoint/list": {
       "get": {
         "summary": "List all keypoints",

@@ -39,6 +39,10 @@ class AnalyticsService {
     this.ProgressClass = new ProgressAnalytics();
   }
 
+  loadMatchClass(){
+    return this.MatchClass;
+  }
+
   getMatchAnalytics(basicData, advanceData){
     let basicMatchStat = this.MatchClass.formatBasicMatchData(basicData);
     let advanceMatchStat = this.MatchClass.formatAdvanceMatchData(advanceData);
