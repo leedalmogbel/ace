@@ -1,6 +1,8 @@
 const { Operation } = require('@amberjs/core');
 const {VideoId} = require('src/domain/Analytics');
 const Utils = require('src/infra/services/utils.js');
+const sequelize = require('sequelize');
+const Op = sequelize.Op;
 
 const pointsResultList = {
   ACE: 'ace',
@@ -32,16 +34,40 @@ class PracticeRecommendation extends Operation {
         }
       });
     }
+
+
+    let filters = {
+      videoId : params.videoId
+    };
+ 
+    if(params.shotType){
+      filters.shotType = {
+        [Op.in] : JSON.parse(params.shotType)
+      };
+    }
+
+    if(params.hitSpot){
+      filters.hitSpot = {
+        [Op.in] : JSON.parse(params.hitSpot)
+      };
+    }
+
+    if(params.shotDirection){
+      filters.shotDirection = {
+        [Op.in] : JSON.parse(params.shotDirection)
+      };
+    }
+
     
     try {
-      params.shotResult = [pointsResultList.WINNER, pointsResultList.FORCED_ERROR_ON_OPPONENT];
-      const bestShots = await this.ClipRepository.getShotTypeTotalCount(params).then(data => {
-        return data.sort(Utils().compareValues('total', 'asc'));
+      filters.shotResult = [pointsResultList.WINNER, pointsResultList.FORCED_ERROR_ON_OPPONENT];
+      const bestShots = await this.ClipRepository.getShotTypeTotalCount(filters).then(data => {
+        return data.sort(Utils().compareValues('total', 'desc'));
       });
 
   
-      params.shotResult = [pointsResultList.UNFORCED_ERROR, pointsResultList.TENTATIVE_ON_OFFENSE];
-      const worseShots = await this.ClipRepository.getShotTypeTotalCount(params).then(data => {
+      filters.shotResult = [pointsResultList.UNFORCED_ERROR, pointsResultList.TENTATIVE_ON_OFFENSE];
+      const worseShots = await this.ClipRepository.getShotTypeTotalCount(filters).then(data => {
         return data.sort(Utils().compareValues('total', 'desc'));
       });
 
