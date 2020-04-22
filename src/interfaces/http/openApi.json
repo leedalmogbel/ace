@@ -1781,6 +1781,13 @@
         "operationId": "ListScenarioIds",
         "tags": [ "Scenarios" ],
         "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "useId",
+            "required": false,
+            "type": "string"
+          },
          {
             "name": "activity",
             "in": "query",

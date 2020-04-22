@@ -33,22 +33,24 @@ class ScenarioRepository extends BaseRepository {
 
 
   getAllScenariosAndModel(params){
+    let userId = params.userId;
+    delete params.userId;
+    
     return this.model.findAll({
       attributes: ['id'],
+      where : params,
       include: [
         {
           model: this.StandardModel,
           attributes: ['id'],
-          where : params,
+          where : {
+            userId : userId
+          },
           //separate:true,
           as: 'standardModel',
           required : false
         }
       ],
-    }).map((dt) => {
-      let data = dt.dataValues;
-      data.standardModel = data.standardModel.length;
-      return dt;
     });
   }
 }
