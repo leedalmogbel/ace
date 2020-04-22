@@ -129,6 +129,7 @@ class ProgressReport extends Operation {
 
     
       let mergedData = await mergeData(progressData);
+      console.log(`MERGE DATA : ${JSON.stringify(mergedData)}`);
       let pointsResult = [
         {
           name: 'Winners/Unforced Errors',
@@ -140,7 +141,7 @@ class ProgressReport extends Operation {
         }
       ];
       
-  
+      console.log(`POINTS RESULT : ${JSON.stringify(pointsResult)}`);
       let progressDashboard = {
         consistency : {
           label : labels,
