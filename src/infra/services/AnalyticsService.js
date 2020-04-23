@@ -152,7 +152,7 @@ class MatchAnalytics{
 
 class ProgressAnalytics{
   computeAdvanceStatistics(firstNumber, secondNumber){
-    return parseInt(Number(firstNumber) / Number(secondNumber)) || 0;
+    return parseInt(Math.round(Number(firstNumber) / Number(secondNumber) * 100)) || 0
   }
 }
 

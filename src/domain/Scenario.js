@@ -1,4 +1,10 @@
 const { attributes } = require('structure');
+const UserId = attributes({
+  userId: {
+    type: Number,
+    required: true
+  },
+})(class UserId {});
 
 const Scenario = attributes({
   // Add atttributes here
@@ -27,4 +33,7 @@ const Scenario = attributes({
     empty: true
   }
 })(class Scenario {});
-module.exports = Scenario;
+module.exports = {
+  Scenario,
+  UserId
+};

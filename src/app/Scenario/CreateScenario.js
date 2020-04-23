@@ -1,5 +1,5 @@
 const { Operation } = require('@amberjs/core');
-const Scenario = require('src/domain/Scenario');
+const {Scenario} = require('src/domain/Scenario');
 const Utils = require('src/infra/services/utils.js');
 
 class CreateScenario extends Operation {
