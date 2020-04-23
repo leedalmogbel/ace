@@ -40,19 +40,19 @@ class PracticeRecommendation extends Operation {
       videoId : params.videoId
     };
  
-    if(params.shotType){
+    if(params.shotType && (JSON.parse(params.shotType).length > 0)){
       filters.shotType = {
         [Op.in] : JSON.parse(params.shotType)
       };
     }
 
-    if(params.hitSpot){
+    if(params.hitSpot && (JSON.parse(params.hitSpot).length > 0)){
       filters.hitSpot = {
         [Op.in] : JSON.parse(params.hitSpot)
       };
     }
 
-    if(params.shotDirection){
+    if(params.shotDirection && (JSON.parse(params.shotDirection).length > 0)){
       filters.shotDirection = {
         [Op.in] : JSON.parse(params.shotDirection)
       };

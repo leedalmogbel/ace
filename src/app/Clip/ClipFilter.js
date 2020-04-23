@@ -15,25 +15,25 @@ class ClipFilter extends Operation {
       videoId : data.videoId
     };
     //filters = data;
-    if(data.shotType){
+    if(data.shotType && (JSON.parse(data.shotType).length > 0)){
       filters.shotType = {
         [Op.in] : JSON.parse(data.shotType)
       };
     }
 
-    if(data.hitSpot){
+    if(data.hitSpot && (JSON.parse(data.hitSpot).length > 0)){
       filters.hitSpot = {
         [Op.in] : JSON.parse(data.hitSpot)
       };
     }
 
-    if(data.shotResult){
+    if(data.shotResult && (JSON.parse(data.shotResult).length > 0)){
       filters.shotResult = {
         [Op.in] : JSON.parse(data.shotResult)
       };
     }
 
-    if(data.shotDirection){
+    if(data.shotDirection && (JSON.parse(data.shotDirection).length > 0)){
       filters.shotDirection = {
         [Op.in] : JSON.parse(data.shotDirection)
       };
