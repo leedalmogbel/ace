@@ -22,12 +22,6 @@ class PersonKeypointRepository extends BaseRepository {
     this.ClipModel = ClipModel;
     this.VideoModel = VideoModel;
   }
-  async getAll(params){
-    return this.model.findAll({
-      where : params,
-      attributes: ['id', 'scenarioId', 'keypointLink']
-    });
-  }
 
   async getAllKeypoints(param){
     return this.model.findAll({
