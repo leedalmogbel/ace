@@ -2664,6 +2664,108 @@
           }
         }
       }
+    },
+    "/detectedPerson/{clipPersonId}/keypointStatus": {
+      "get": {
+        "summary": "Check detected person keypoints status",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "GetKeypointStatus",
+        "tags": [ "Keypoints" ],
+        "parameters": [
+          {
+            "name": "clipPersonId",
+            "in": "path",
+            "description": "Id of selected detected person",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "scenarioId",
+            "in": "query",
+            "description": "Selected scenario id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/detectedPerson/{clipPersonId}/generateKeypoint": {
+      "post": {
+        "summary": "Generate Keypoint",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "GenerateKeypoints",
+        "tags": [ "Keypoints" ],
+        "parameters": [
+          {
+            "name": "clipPersonId",
+            "in": "path",
+            "description": "Id of selected detected person",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "requestBody": {
+          "description": "Generate Keypoint",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "scenarioId": {
+                    "type": "integer"
+                  },
+                  "userId": {
+                    "type": "integer"
+                  }
+                },
+                "example": {
+                  "scenarioId": 1,
+                  "userId":1
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "defaultResponses": {

@@ -11,7 +11,11 @@ class ListPersonKeypoints extends Operation {
     const { SUCCESS, ERROR } = this.events;
 
     try {
-      const users = await this.PersonKeypointRepository.getAll(params);
+      const users = await this.PersonKeypointRepository.getAll({
+        where : params,
+        attributes: ['id', 'scenarioId', 'keypointLink']
+      });
+
       const data = Utils().resSuccess(users);
       return this.emit(SUCCESS, data);
     } catch(error) {

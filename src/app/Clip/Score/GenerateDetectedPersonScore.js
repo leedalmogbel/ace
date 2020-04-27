@@ -70,32 +70,11 @@ class GenerateDetectedPersonScore extends Operation {
         return this.emit(SUCCESS, {message:'Submitted for Score Generation.'});
       }
 
-      // SELECTED person have no generated keypoints yet
-      console.log('SetDetectedPersonKeypoints DATA : ', data);
-      const clipParent = await this.ClipRepository.getClipParent(data.clipId);
-      const personKeypoints = await this.PersonKeypointRepository.upsert({
-        scenarioId : data.scenarioId,
-        clipPersonId : data.clipPersonId,
-        userId : clipParent.video.userId,
+      return this.emit(VALIDATION_ERROR, {
+        details: {
+          errors : 'No Keypoints'
+        }
       });
-      // GENERATE KEYPOINTS
-
-      let extractionResponse = await this.ThirdPartyApis.callKeypointsExtraction(personKeypoints);
-      // let extractionResponse = {data:{
-      //   message:'Busy'
-      // }}
-      console.log('SetDetectedPersonKeypoints RESPONSE : ', extractionResponse);
-      if(extractionResponse.data.message == 'Busy'){
-        this.PersonKeypointRepository.update(personKeypoints.person_keypoint_id, {status:'failed'});
-        this.FailedQueueRepository.add({
-          data: JSON.stringify(personKeypoints),
-          source: 'extraction',
-        });
-        return this.emit(SERVICE_UNAVAILABLE, {message:'Server is busy for inference. Try again later.'});
-      }
-
-      this.emit(SUCCESS, {details:{message:'Generating keypoints. Try again later.'}});
-      return;
 
     } catch(error) {
       switch(error.message) {

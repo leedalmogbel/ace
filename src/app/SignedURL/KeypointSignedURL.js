@@ -1,6 +1,6 @@
 const { Operation } = require('@amberjs/core');
 const signURL = require('src/infra/services/signedUrl');
-const Keypoint = require('src/domain/Keypoint');
+const {Keypoint} = require('src/domain/Keypoint');
 
 class KeypointSignedURL extends Operation {
   constructor({ KeypointRepository }) {

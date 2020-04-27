@@ -19,9 +19,37 @@ const Keypoint = attributes({
   }
 });
 
-// Add constants below
-// e.g.:
-//
-// User.MIN_LEGAL_AGE = 21;
+const KeypointStatus = attributes({
+  clipPersonId : {
+    type: Number,
+    required: true
+  },
+  scenarioId : {
+    type: Number,
+    required: true
+  }
+})(class KeypointStatus {});
 
-module.exports = Keypoint;
+
+const KeypointExtraction = attributes({
+  clipPersonId : {
+    type: Number,
+    required: true
+  },
+  scenarioId : {
+    type: Number,
+    required: true
+  },
+  userId : {
+    type: Number,
+    required: true
+  }
+})(class KeypointExtraction {});
+
+
+
+module.exports = {
+  Keypoint,
+  KeypointStatus,
+  KeypointExtraction
+};

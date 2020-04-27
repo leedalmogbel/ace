@@ -37,7 +37,7 @@ class RetryFailedScenarios extends Operation {
           retryResult = await this.ThirdPartyApis.callKeypointsExtraction(data);
           break;
         case scenarios.PERSON_DETECTION:
-          retryResult = await this.ThirdPartyApis.callKeypointsExtraction(data);
+          retryResult = await this.ThirdPartyApis.callPersonDetection(data);
           break;
         case scenarios.SCORE_GENERATION:
           retryResult = await this.ThirdPartyApis.callScoresGeneration(data);
@@ -52,6 +52,10 @@ class RetryFailedScenarios extends Operation {
         if(retryResult.data.message !== 'Busy') {
           await this.FailedQueueRepository.update(failedScenario.id, {
             status: 'processing'
+          });
+        }else{
+          await this.FailedQueueRepository.update(failedScenario.id, {
+            status: 'done'
           });
         }
         
