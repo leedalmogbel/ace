@@ -539,6 +539,117 @@
         }
       }
     },
+    "/users/{id}/keypoints": {
+      "delete": {
+        "summary":"Delete user keypoints cascade to models and scores",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "DeleteUserKeypoints",
+        "tags": [ "Delete" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of user",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Delete user keypoints"
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/defaultResponses/NotFoundError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/scores": {
+      "delete": {
+        "summary":"Delete user scores",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "DeleteUserScores",
+        "tags": [ "Delete" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of user",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Delete user scores"
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/defaultResponses/NotFoundError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/models": {
+      "delete": {
+        "summary":"Delete user models",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "DeleteUserModels",
+        "tags": [ "Delete" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of user",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Delete user models"
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/defaultResponses/NotFoundError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/videos/{userId}/video": {
       "get": {
         "summary": "List all videos per userId",
@@ -733,6 +844,9 @@
                   "time": {
                     "type": "string",
                     "required": true
+                  },
+                  "autoCreateClip": {
+                    "type": "boolean"
                   }
                 },
                 "example": {
@@ -745,7 +859,8 @@
                   "tournament": "French Open",
                   "matchResult": "won",
                   "date": "10172019",
-                  "time": "17:54"
+                  "time": "17:54",
+                  "autoCreateClip": false
                 }
               }
             }
@@ -940,6 +1055,70 @@
         }
       }
     },
+    "/clips/autoCreate": {
+      "post": {
+        "summary": "Auto Create Clip",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "AutoCreateClip",
+        "tags": [ "Clips" ],
+        "requestBody": {
+          "description": "Auto create clip from selected video",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                 
+                },
+                "example": {
+                  "videoId": 3
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "User created successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "User not created because of validation error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/defaultResponses/ValidationError"
+              }
+            }
+          }
+        }
+      }
+    },
     "/clips/update/{id}": {
       "put": {
         "summary": "Update data of a clip",
@@ -990,7 +1169,7 @@
       }
     },
     "/clips/delete/{id}": {
-      "get": {
+      "delete": {
         "summary": "Delete a clip",
         "security": [
           {
@@ -999,6 +1178,16 @@
         ],
         "operationId": "DeleteClip",
         "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Clip id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Clip Deleted",
@@ -1996,6 +2185,7 @@
                   }
                 },
                 "example": {
+                  "scenarioId" : 1,
                   "score" : [
                     {
                       "keypointMap" : "all",
