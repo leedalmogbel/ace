@@ -2,9 +2,14 @@ const { attributes } = require('structure');
 
 const Video = attributes({
   // Add atttributes here
-  id: Number,
-  userId: Number,
-  videoName: String,
+  userId: {
+    type: Number,
+    required: true
+  },
+  videoName: {
+    type: String,
+    required: true
+  },
   path: String,
   status: String,
   opponent: String,
@@ -15,24 +20,25 @@ const Video = attributes({
   time: String,
   createdAt: Date,
   updatedAt: Date,
+  autoCreateClip : {
+    type: Boolean,
+    nullable: true
+  }
 
 })(class Video {
-  // Add validation functions below
-  // e.g.:
-  //
-  // isLegal() {
-  //   return this.age >= User.MIN_LEGAL_AGE;
-  // }
   videoOwnerId() {
     return this.userId === Video.userId; 
   }
 });
 
-// Add constants below
-// e.g.:
-//
-// User.MIN_LEGAL_AGE = 21;
-// Video.userId = async (id) => {
-
-// };
-module.exports = Video;
+const VideoId = attributes({
+  // Add atttributes here
+  videoId: {
+    type: Number,
+    required: true
+  }
+})(class VideoId {});
+module.exports = {
+  Video,
+  VideoId
+};

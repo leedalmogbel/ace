@@ -1,5 +1,5 @@
 const { Operation } = require('@amberjs/core');
-const User = require('src/domain/User');
+const {User} = require('src/domain/User');
 
 class CreateUser extends Operation {
   constructor({ UserRepository }) {

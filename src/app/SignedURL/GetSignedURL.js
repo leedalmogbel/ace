@@ -1,6 +1,6 @@
 const { Operation } = require('@amberjs/core');
 const signURL = require('src/infra/services/signedUrl');
-const Video = require('src/domain/Video');
+const {Video} = require('src/domain/Video');
 const Match = require('src/domain/Match');
 
 class GetSignedURL extends Operation {
@@ -17,20 +17,22 @@ class GetSignedURL extends Operation {
     const signed = signURL.fileUpload(data.userId, data.fileType, videoName);
     const pathURL = `https://${signed.bucketName}.s3.ap-southeast-1.amazonaws.com/${signed.key}`;
     const dataRDS = {
-      userId: data.userId,
+      ...data,
       videoName: videoName,
       path: pathURL,
       status: 'PENDING',
-      opponent: data.opponent,
-      matchType: data.matchType,
-      gameType: data.gameType,
-      type: data.type,
-      location: data.location,
-      date: data.date,
-      time: data.time,
     };
 
     const video = new Video(dataRDS);
+    const { valid, errors } = video.validate(dataRDS);
+    if (!valid) {
+      return this.emit(VALIDATION_ERROR, {
+        details: {
+          errors : errors
+        }
+      });
+    }
+
     try {
       const signedUrl = signed.signedUrl;
       const newVideo = await this.VideoRepository.add(video);
