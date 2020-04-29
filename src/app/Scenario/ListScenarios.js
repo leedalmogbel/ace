@@ -9,7 +9,6 @@ const parseResult = (input) => input.reduce((acc, val) => {
       acc[key].push(value[key]);
     });
   });
-  console.log(val);
   return acc;
 }, {
   activity : [],

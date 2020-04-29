@@ -22,13 +22,16 @@ const User = attributes({
     empty: true
   },
   subscribed: Boolean
-})(class User {
+})(class User {});
 
-});
+const UserId = attributes({
+  userId: {
+    type: Number,
+    required: true
+  }
+})(class User {});
 
-// Add constants below
-// e.g.:
-//
-// User.MIN_LEGAL_AGE = 21;
-
-module.exports = User;
+module.exports = {
+  User,
+  UserId
+};
