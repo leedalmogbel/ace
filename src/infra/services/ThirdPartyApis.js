@@ -29,4 +29,14 @@ module.exports = class ThirdPartyApis {
     console.log('ThirdPartyAPIS callModelTraining :', params);
     return axios.post(`${process.env.AI_ENGINE_LINK}/train`, params);
   }
+
+  callAutoClipCreation(params){
+    params.width = 640;
+    params.output_file = 'data/out.txt';
+    params.height = 360;
+    console.log('ThirdPartyAPIS callAutoClipCreation :', params);
+    return axios.post(`${process.env.AI_AUTO_DETECTION_LINK}/clip`, params);
+  }
+
+
 };
