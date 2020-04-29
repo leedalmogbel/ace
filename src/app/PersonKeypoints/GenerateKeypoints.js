@@ -2,12 +2,13 @@ const { Operation } = require('@amberjs/core');
 const {KeypointExtraction} = require('src/domain/Keypoint');
 const Utils = require('src/infra/services/utils.js');
 
-
+ 
 class GenerateKeypoints extends Operation {
-  constructor({ PersonKeypointRepository, ThirdPartyApis }) {
+  constructor({ PersonKeypointRepository, ThirdPartyApis, FailedQueueRepository }) {
     super();
     this.PersonKeypointRepository = PersonKeypointRepository;
     this.ThirdPartyApis = ThirdPartyApis;
+    this.FailedQueueRepository = FailedQueueRepository;
   }
 
   async execute(clipPersonId, data) {

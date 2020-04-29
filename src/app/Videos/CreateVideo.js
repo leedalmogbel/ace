@@ -1,5 +1,5 @@
 const { Operation } = require('@amberjs/core');
-const Video = require('src/domain/Video');
+const {Video} = require('src/domain/Video');
 const Utils = require('src/infra/services/utils.js');
 
 class CreateVideo extends Operation {
