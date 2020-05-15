@@ -21,7 +21,8 @@ class CreateDetectedPersons extends Operation {
     try {
       // update clip status to 'success' before saving dtected persons;
       this.ClipRepository.update(clipId, {status:'success'});
-      this.logger.info(`CreateDetectedPersons; Data from AI Extraction : ${JSON.stringify(persons)}`);
+      //this.logger.info(`CreateDetectedPersons; Data from AI Extraction : ${JSON.stringify(persons)}`);
+      this.logger.info(`CreateDetectedPersons; Data from AI Extraction`);
       await this.ClipPersonRepository.addMultiple(data);
 
       return this.emit(SUCCESS, {
@@ -29,7 +30,7 @@ class CreateDetectedPersons extends Operation {
           "message" : "Successfully Created"
       });
     } catch(error) {
-        console.log('ERROR', error);
+        console.log('CreateDetectedPersons ERROR', error);
       if(error.message === 'ValidationError') {
         return this.emit(VALIDATION_ERROR, error);
       }

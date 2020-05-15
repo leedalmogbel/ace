@@ -10,7 +10,6 @@ class ListDetectedPersons extends Operation {
   async execute(id) {
     const { SUCCESS, NOT_FOUND } = this.events;
     try {
-      console.log('ListDetectedPersons : ', id);
       // check clip status if detectedPerson is on queue 
       const detectedPersons = await this.ClipPersonRepository.getAll({
         where: {

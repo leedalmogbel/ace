@@ -12,10 +12,9 @@ module.exports = {
         type: DataTypes.STRING
       }, email : {
         type: DataTypes.STRING,
-        unique: true
       }, userType : {
-        type: DataTypes.ENUM('player', 'coach', 'admin'),
-        defaultValue: 'player'
+        type: DataTypes.ENUM('user', 'coach', 'admin', 'root'),
+        defaultValue: 'user'
       }, googleUserId : {
         type: DataTypes.STRING,
       }, fbUserId : {
@@ -26,7 +25,11 @@ module.exports = {
       },
     }, {
       tableName: 'users',
-      timestamps: true
+      timestamps: true,
+      indexes: [{
+        unique: true,
+        fields: ['email']
+      }]
     });
 
     UserModel.associate = () => {

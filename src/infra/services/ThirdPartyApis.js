@@ -5,6 +5,7 @@ module.exports = class ThirdPartyApis {
   */
   callPersonDetection(params){
     params.debug = process.env.AI_ENGINE_DEBUG;
+    console.log('ThirdPartyAPIS callPersonDetection :', params);
     return axios.post(`${process.env.AI_ENGINE_LINK}/detect`, params);
   }
 

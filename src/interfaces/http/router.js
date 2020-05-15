@@ -24,11 +24,11 @@ module.exports = ({ config, containerMiddleware, loggerMiddleware, errorHandler,
   }
  
   const apiRouter = Router();
-
+  
   apiRouter
     .use(methodOverride('X-HTTP-Method-Override'))
     .use(cors())
-    .use(bodyParser.json())
+    .use(bodyParser.json({limit: '1000mb', extended: true}))
     .use(compression())
     .use('/docs', openApiMiddleware(openApiDoc));
 

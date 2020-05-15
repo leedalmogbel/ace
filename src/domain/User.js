@@ -2,16 +2,13 @@ const { attributes } = require('structure');
 
 const User = attributes({
   // Add atttributes here
-  id: Number,
-  name: String,
-  email: {
+  name: {
     type: String,
     required: true
   },
-  userType: {
+  email: {
     type: String,
-    required: true,
-    equal: ['coach', 'admin', 'player']
+    required: true
   },
   googleUserId: {
     type: String,
@@ -20,8 +17,7 @@ const User = attributes({
   fbUserId: {
     type: String,
     empty: true
-  },
-  subscribed: Boolean
+  }
 })(class User {});
 
 const UserId = attributes({
