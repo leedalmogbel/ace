@@ -5,6 +5,7 @@ const s3 = new aws.S3(
 );
 const bucketName = process.env.AWS_S3_BUCKET;
 const s3Region = process.env.AWS_S3_REGION;
+const s3Domain= `https://${bucketName}.s3.${s3Region}.amazonaws.com`;
 // const baseURL = process.env.BUCKET_URL;
  
 
@@ -76,11 +77,11 @@ function generateSignedUrl(params){
  */
 function fileUpload(userId, fileType, videoName){
   // name before = String(Date.now())
-  const key = `videos/${process.env.NODE_ENV}/${userId}/${new Date().toISOString().substr(0, 10)}/${videoName}.${fileType}`;
+  const videoURI = `videos/${process.env.NODE_ENV}/${userId}/${new Date().toISOString().substr(0, 10)}/${videoName}.${fileType}`;
 
   const params = {
     Bucket: bucketName,
-    Key: key,
+    Key: videoURI,
     ContentType: 'video/mp4',
     ACL: 'public-read-write',
     Expires: 604800,
@@ -89,8 +90,8 @@ function fileUpload(userId, fileType, videoName){
   const signedUrl = s3.getSignedUrl('putObject', params);
   return  {
     signedUrl,
-    key,
-    bucketName
+    videoURI,
+    s3Domain
   };
 }
 
