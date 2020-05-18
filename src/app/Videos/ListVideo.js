@@ -10,7 +10,7 @@ class ListVideo extends Operation {
     const { SUCCESS, NOT_FOUND } = this.events;
 
     try {
-      const video = await this.VideoRepository.getVideoById(userId);
+      const video = await this.VideoRepository.getVideoByUserId(userId);
       const data = Utils().resSuccess(video);
       return this.emit(SUCCESS, data);
     } catch(error) {
