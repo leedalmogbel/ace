@@ -9,7 +9,7 @@ const config = {
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       dialect: process.env.DB_DIALECT,
-      isSync: 'true',
+      //isSync: 'true',
       //alter: true,
       logging: false,
       pool: {
@@ -29,7 +29,7 @@ const config = {
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       dialect: process.env.DB_DIALECT,
-     // isSync: 'true',
+      // isSync: 'true',
       logging: false,
       pool: {
         max: 50,
