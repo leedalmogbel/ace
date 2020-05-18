@@ -2,10 +2,9 @@ const { Operation } = require('@amberjs/core');
 const Utils = require('../infra/services/utils');
 
 class ListAnalytics extends Operation {
-  constructor({ VideoRepository, MatchRepository, ClipRepository, }) {
+  constructor({ VideoRepository, ClipRepository, }) {
     super();
     this.VideoRepository = VideoRepository;
-    this.MatchRepository = MatchRepository;
     this.ClipRepository = ClipRepository;
   }
 
@@ -32,7 +31,7 @@ class ListAnalytics extends Operation {
           'speed'
         ]
       });
-      const match = await this.MatchRepository.getAll();
+  
       const analytics = {
         videoName: video[0].videoName,
         clips,
