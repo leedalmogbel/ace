@@ -16,9 +16,12 @@ module.exports = {
       }, path : {
         type: DataTypes.STRING
       }, status : {
-        type: DataTypes.ENUM('PENDING', 'UPLOADED'),
-        defaultValue: 'PENDING'
-      }, opponent : {
+        type: DataTypes.ENUM('n/a', 'processing', 'done', 'failedProcess', 'serverError'),
+        defaultValue: 'n/a'
+      }, uploadStatus : {
+        type: DataTypes.ENUM('pending', 'uploaded'),
+        defaultValue: 'pending'
+      }, subActivityOne : {
         type: DataTypes.STRING
       }, matchType : {
         type: DataTypes.STRING
@@ -28,8 +31,15 @@ module.exports = {
         type: DataTypes.STRING
       }, time : {
         type: DataTypes.STRING
-      }, gameType : {
+      }, autoCreateClip : {
         type: DataTypes.STRING
+      }, source : {
+        type: DataTypes.STRING,
+        defaultValue: 'mobile'
+      }, createdBy : {
+        type: DataTypes.INTEGER
+      }, updatedBy : {
+        type: DataTypes.INTEGER
       }
     }, {
       tableName: 'videos',
@@ -37,21 +47,21 @@ module.exports = {
     });
 
     VideoModel.associate = () => {
-      VideoModel.belongsTo(datasource.models.UserModel, {
-        foreignKey: 'userId',
-        as: 'user'
+      VideoModel.hasMany(datasource.models.VideoUsersModel, {
+        foreignKey: 'videoId',
+        as: 'videoUser'
       });
       VideoModel.hasMany(datasource.models.ClipModel, {
         foreignKey: 'videoId',
         as: 'clips'
       });
-      VideoModel.hasMany(datasource.models.TypeMatchModel, {
+      VideoModel.hasOne(datasource.models.DanceModel, {
         foreignKey: 'videoId',
-        as: 'match'
+        as: 'dance'
       });
-      VideoModel.hasMany(datasource.models.TypePracticeModel, {
+      VideoModel.hasOne(datasource.models.TennisModel, {
         foreignKey: 'videoId',
-        as: 'practice'
+        as: 'tennis'
       });
     };
 

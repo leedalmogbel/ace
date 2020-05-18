@@ -1,9 +1,9 @@
 
 module.exports = {
-  name: 'TypeMatchModel',
+  name: 'TennisModel',
   datasource: 'tennis-trainer-db',
   definition: function(datasource, DataTypes) {
-    const TypeMatchModel = datasource.define('TypeMatchModel', {
+    const TennisModel = datasource.define('TennisModel', {
       id : {
         primaryKey: true,
         autoIncrement: true,
@@ -13,22 +13,18 @@ module.exports = {
         type: DataTypes.INTEGER
       }, tournament : {
         type: DataTypes.STRING
-      }, result : {
+      }, gameType : {
+        type: DataTypes.STRING
+      }, setType : {
         type: DataTypes.STRING
       },
     }, {
-      tableName: 'typeMatch',
+      tableName: 'tennis',
       timestamps: true
     });
-
-    TypeMatchModel.associate = () => {
-      TypeMatchModel.belongsTo(datasource.models.VideoModel, {
-        foreignKey: 'videoId',
-        as: 'video'
-      });
-    };
-
-    return TypeMatchModel;
+  
+  
+    return TennisModel;
   }
 };
-  
+    

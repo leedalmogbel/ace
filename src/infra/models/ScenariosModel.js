@@ -30,10 +30,10 @@ module.exports = {
     }, {
       tableName: 'scenarios',
       timestamps: true,
-      indexes: [{
-        unique: true,
-        fields: ['activity', 'subActivityOne', 'subActivityTwo', 'subActivityThree', 'subActivityFour', 'subActivityFive']
-      }]
+      // indexes: [{
+      //   unique: true,
+      //   fields: ['activity', 'subActivityOne', 'subActivityTwo', 'subActivityThree', 'subActivityFour', 'subActivityFive']
+      // }]
     });
     
        
@@ -49,6 +49,10 @@ module.exports = {
       ScenariosModel.hasMany(datasource.models.ScoreModel, {
         foreignKey: 'scenarioId',
         as: 'scores'
+      });
+      ScenariosModel.hasMany(datasource.models.DanceModel, {
+        foreignKey: 'scenarioId',
+        as: 'dance'
       });
     };
     

@@ -6,10 +6,32 @@ class VideoRepository extends BaseRepository {
     super(VideoModel);
     this.ClipModel = ClipModel;
   }
-  async getVideoById(id) {
+
+  async add(video, dance, tennis, users){
+    const newVideo = await this.model.create(video);
+    switch (video.subActivityOne) {
+      case 'tennis':
+        await newVideo.createTennis(tennis);
+      case 'dance':
+        await newVideo.createDance(dance);
+        users.map( user => {
+          newVideo.createVideoUser({
+            ...user,
+            videoId : newVideo.id
+          });
+        });
+      default:
+        break;
+    }
+    // if one fail revert everything back
+    return newVideo.reload({
+      include: [video.subActivityOne]
+    });
+  }
+  async getVideoByUserId(userId) {
     return this.model.findAll({
       where: {
-        userId: id
+        userId: userId
       },
       attributes: {
         exclude: [

@@ -9,9 +9,11 @@ class VideosController extends BaseController {
     const router = Router();
     // Video
     router.get('/:userId/video', this.injector('ListVideo'), this.showList);
-    router.post('/:userId/video', this.injector('CreateVideo'), this.create);
 
-    router.get('/analytics', this.injector('ListAnalytics'), this.showList);
+    router.put('/:id/upload-status', this.injector('UpdateUploadStatus'), this.update);
+    router.put('/:id/upload', this.injector('UpdateStatus'), this.update);
+
+    //router.get('/analytics', this.injector('ListAnalytics'), this.showList);
 
     router.post('/getSignedURL', this.injector('GetSignedURL'), this.create);
 
