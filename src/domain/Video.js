@@ -1,5 +1,20 @@
 const { attributes } = require('structure');
 
+const Player = attributes({
+  userId: {
+    type: Number,
+    nullable: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  result: {
+    type: String,
+    required: true
+  }
+})(class Player { });
+
 const Video = attributes({
   // Add atttributes here
   userId: {
@@ -10,26 +25,30 @@ const Video = attributes({
     type: String,
     required: true
   },
-  path: String,
-  status: String,
-  opponent: String,
-  matchType: String,
-  gameType: String,
+  path: {
+    type: String,
+    required: true
+  },
+  subActivityOne: {
+    type: String,
+    required: true
+  },
+  matchType: String, //drill or match
   location: String,
   date: String,
   time: String,
-  createdAt: Date,
-  updatedAt: Date,
   autoCreateClip : {
     type: Boolean,
     nullable: true
+  }, 
+  users: {
+    required: true,
+    type: Array,
+    minLength: 1,
+    unique: true,
+    itemType: Player
   }
-
-})(class Video {
-  videoOwnerId() {
-    return this.userId === Video.userId; 
-  }
-});
+})(class Video {});
 
 const VideoId = attributes({
   // Add atttributes here
@@ -38,7 +57,35 @@ const VideoId = attributes({
     required: true
   }
 })(class VideoId {});
+
+const Tennis = attributes({
+  // Add atttributes here
+  tournament: {
+    type: String,
+    required: true
+  },
+  gameType: {
+    type: String,
+    required: true
+  },
+  setType: {
+    type: String,
+    required: true
+  }
+})(class Tennis {});
+
+const Dance = attributes({
+  // Add atttributes here
+  scenarioId: {
+    type: Number,
+    required: true
+  }
+})(class Dance {});
+
+
 module.exports = {
   Video,
-  VideoId
+  VideoId,
+  Dance,
+  Tennis
 };

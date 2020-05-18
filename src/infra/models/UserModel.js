@@ -33,14 +33,9 @@ module.exports = {
     });
 
     UserModel.associate = () => {
-      UserModel.hasMany(datasource.models.CoachesModel, {
-        foreignKey: 'userId'
-      });
-      UserModel.hasMany(datasource.models.PlayerModel, {
-        foreignKey: 'userId'
-      });
       UserModel.hasMany(datasource.models.VideoModel, {
-        foreignKey: 'userId'
+        foreignKey: 'userId',
+        as : 'videos'
       });
     };
 
