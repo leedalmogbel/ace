@@ -691,49 +691,6 @@
             }
           }
         }
-      },
-      "post": {
-        "summary": "NOT IN USE",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "operationId": "CreateVideo",
-        "tags": [ "Videos" ],
-        "requestBody": {
-          "description": "Video data",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Project"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Project created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Project"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Project not created because of validation error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/defaultResponses/ValidationError"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/videos/analytics": {
@@ -818,24 +775,17 @@
                     "type": "string",
                     "required": true
                   },
-                  "opponent": {
-                    "type": "string"
+                  "subActivityOne": {
+                    "type": "string",
+                    "required": true
                   },
                   "matchType": {
-                    "type": "string"
+                    "type": "string",
+                    "required": true
                   },
                   "location": {
                     "type": "string",
                     "required": true
-                  },
-                  "type": {
-                    "type": "string"
-                  },
-                  "tournament": {
-                    "type": "string"
-                  },
-                  "matchResult": {
-                    "type": "string"
                   },
                   "date": {
                     "type": "string",
@@ -847,20 +797,53 @@
                   },
                   "autoCreateClip": {
                     "type": "boolean"
+                  },
+                  "users": {
+                    "type": "array",
+                    "required": true
+                  },
+                  "source": {
+                    "type": "string"
+                  },
+                  "tournament": {
+                    "type": "string"
+                  },
+                  "gameType": {
+                    "type": "string"
+                  },
+                  "setType": {
+                    "type": "string"
+                  },
+                  "scenarioId": {
+                    "type": "integer"
                   }
                 },
                 "example": {
-                  "userId": 2019131640,
-                  "fileType":"mp4",
-                  "opponent": "Opponent 1",
+                  "userId": 1,
+                  "fileType": "mp4",
+                  "subActivityOne": "dance",
                   "matchType": "match",
                   "location": "Manila",
-                  "type": "best of 3",
-                  "tournament": "French Open",
-                  "matchResult": "won",
-                  "date": "10172019",
-                  "time": "17:54",
-                  "autoCreateClip": false
+                  "date": "2020-02-20",
+                  "time": "20:20",
+                  "autoCreateClip": false,
+                  "users": [
+                    {
+                      "userId" : "",
+                      "name" : "Tine",
+                      "result" : "winner"
+                    },
+                    {
+                      "userId" : 1,
+                      "name" : "Bok",
+                      "result" : "lose"
+                    }
+                  ],
+                  "source": "web",
+                  "tournament": "Tou Tour",
+                  "gameType": "singles",
+                  "setType": "best of three",
+                  "scenarioId": 1
                 }
               }
             }
@@ -895,6 +878,90 @@
               }
             }
           }
+        }
+      }
+    },
+    "/videos/{id}/upload-status": {
+      "put": {
+        "summary": "FE use : Update video upload status.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "UpdateUploadStatus",
+        "tags": [ "Videos" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "video id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "requestBody": {
+          "description": "Update Subscription",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "uploadStatus": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "uploadStatus": "uploaded"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+        }
+      }
+    },
+    "/videos/{id}/status": {
+      "put": {
+        "summary": "AI use : Update video status if autoClip is true.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "UpdateStatus",
+        "tags": [ "Videos" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "video id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "requestBody": {
+          "description": "Update Subscription",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "status": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "status": "done"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
         }
       }
     },
