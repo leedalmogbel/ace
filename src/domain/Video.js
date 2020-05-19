@@ -47,7 +47,10 @@ const Video = attributes({
     minLength: 1,
     unique: true,
     itemType: Player
-  }
+  },
+  objective: String,
+  createdBy: Number,
+  updatedBy: Number
 })(class Video {});
 
 const VideoId = attributes({

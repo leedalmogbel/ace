@@ -26,6 +26,10 @@ module.exports = {
       }, subActivityFive : {
         type: DataTypes.STRING,
         allowNull: true
+      }, createdBy : {
+        type: DataTypes.INTEGER
+      }, updatedBy : {
+        type: DataTypes.INTEGER
       }
     }, {
       tableName: 'scenarios',

@@ -40,6 +40,8 @@ module.exports = {
         type: DataTypes.INTEGER
       }, updatedBy : {
         type: DataTypes.INTEGER
+      }, objective : {
+        type: DataTypes.TEXT
       }
     }, {
       tableName: 'videos',

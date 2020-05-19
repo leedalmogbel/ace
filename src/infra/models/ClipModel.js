@@ -38,8 +38,7 @@ module.exports = {
         type: DataTypes.STRING,
         defaultValue: 'basic'
       }, errorType : {
-        type: DataTypes.STRING,
-        defaultValue: 'NA'
+        type: DataTypes.STRING
       }, winner : {
         type: DataTypes.ENUM('yes', 'no'),
         defaultValue: null
@@ -50,6 +49,10 @@ module.exports = {
       }, detectPersonStatus : {
         type: DataTypes.STRING,
         defaultValue: 'init'
+      }, createdBy : {
+        type: DataTypes.INTEGER
+      }, updatedBy : {
+        type: DataTypes.INTEGER
       }
     }, {
       tableName: 'clips',

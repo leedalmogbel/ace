@@ -8,11 +8,12 @@ const activityOneArr = {
 
 
 class GetSignedURL extends Operation {
-  constructor({ VideoRepository, TennisRepository, DanceRepository}) {
+  constructor({ VideoRepository, TennisRepository, DanceRepository, sessionUser}) {
     super();
     this.VideoRepository = VideoRepository;
     this.TennisRepository = TennisRepository;
     this.DanceRepository = DanceRepository;
+    this.sessionUser = sessionUser;
   }
 
   async execute(data) {     
@@ -26,7 +27,9 @@ class GetSignedURL extends Operation {
     const videoParams = {
       ...data,
       videoName: videoName,
-      path: signed.videoURI
+      path: signed.videoURI,
+      createdBy: this.sessionUser.dataValues.id, // must updated based on logged user
+      updatedBy: this.sessionUser.dataValues.id // must updated based on logged user
     };
 
     const video = new Video(videoParams);

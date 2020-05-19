@@ -816,6 +816,9 @@
                   },
                   "scenarioId": {
                     "type": "integer"
+                  },
+                  "objective": {
+                    "type": "string"
                   }
                 },
                 "example": {
@@ -843,7 +846,8 @@
                   "tournament": "Tou Tour",
                   "gameType": "singles",
                   "setType": "best of three",
-                  "scenarioId": 1
+                  "scenarioId": 1,
+                  "objective" : "Drill objective here"
                 }
               }
             }
@@ -1054,30 +1058,18 @@
                 "example": {
                   "videoId": 3,
                   "clipName": "Clip Test name",
-                  "set": 3,
-                  "game": 2,
                   "startTime": "94",
                   "endTime": "102",
-                  "currentSetScore": "5-4",
-                  "currentGameScore": "40-15",
-                  "oppositeSetScore": "5-4",
-                  "oppositeGameScore": "40-15",
                   "shotType": "backhand",
-                  "shotDirection": "cross-court",
                   "hitSpot": "behind baseline",
-                  "moveDirection": "body shot",
                   "shotResult": "winner",
-                  "smartPattern": "true",
-                  "extra": "hit ball early",
-                  "errorType": "NA",
-                  "spin": "NA",
-                  "speed": "NA",
+                  "shotDirection": "cross-court",
                   "comments":"",
+                  "clipType" : "forGoldStandard",
                   "winner": "no",
-                  "errorLocation":"wide",
+                  "errorType":"wide",
                   "move" : "return",
-                  "rallyLength":"1-4",
-                  "clipType" : "forGoldStandard"
+                  "rallyLength":"1-4"
                 }
               }
             }
@@ -1293,13 +1285,6 @@
             "type": "string"
           },
           {
-            "name": "errorType",
-            "in": "query",
-            "description": "error type of the shot",
-            "required": false,
-            "type": "string"
-          },
-          {
             "name": "shotDirection",
             "in": "query",
             "description": "direction of the shot",
@@ -1446,22 +1431,12 @@
                             "id": 3,
                             "videoId": 1,
                             "clipName": "Danville_10172019_17:54-from:00:01:34_to:00:01:42",
-                            "set": 3,
-                            "game": 2,
-                            "startTime": "94",
-                            "endTime": "102",
-                            "currentSetScore": "5-4",
-                            "currentGameScore": "40-15",
                             "shotType": "forehand",
                             "moveDirection": "body shot",
                             "hitSpot": "behind baseline",
                             "shotResult": "winner",
-                            "smartPattern": true,
-                            "extra": "hit ball early",
-                            "errorType": "NA",
-                            "spin": "NA",
+                            "errorType": "",
                             "shotDirection": "NA",
-                            "speed": "NA",
                             "comments": null
                           }
                         ]
@@ -2664,14 +2639,6 @@
             "name": "hitSpot",
             "in": "query",
             "description": "Possible Values : behind baseline, inside baseline, inside service line",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "errorType",
-            "in": "query",
-            "description": "Possible Values : into net, long, wide",
             "required": false,
             "type": "integer",
             "format": "int64"
