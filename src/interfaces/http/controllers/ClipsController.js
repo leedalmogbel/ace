@@ -13,9 +13,6 @@ class ClipsController extends BaseController {
     router.put('/update/:id', this.injector('UpdateClip'), this.update);
     router.delete('/delete/:id', this.injector('DeleteClip'), this.delete);
 
-
-    router.post('/autoCreate', this.injector('AutoCreateClip'), this.create);
-
     router.get('/keypoint/list', this.injector('ListKeypoints'), this.index);
     router.get('/keypoint', this.injector('GetKeypoint'), this.showList);
     router.post('/keypoint', this.injector('KeypointSignedURL'), this.create);
@@ -28,6 +25,7 @@ class ClipsController extends BaseController {
     // Get List of Detected Persons
     router.get('/:id/detectedPerson', this.injector('ListDetectedPersons'), this.show);
     router.post('/:id/detectedPerson', this.injector('CreateDetectedPersons'), this.createPerson);
+    router.get('/:id/detect-persons', this.injector('DetectPersons'), this.show);
     //router.put('/:clipId/detectedPerson:id', this.injector('UpdateDetectedPersons'), this.update);
 
     router.post('/:clipId/detectedPerson/:id/setKeypoints', this.injector('SetDetectedPersonKeypoints'), this.showPersonKeypoints);

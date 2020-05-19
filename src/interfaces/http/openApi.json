@@ -1122,70 +1122,6 @@
         }
       }
     },
-    "/clips/autoCreate": {
-      "post": {
-        "summary": "Auto Create Clip",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "operationId": "AutoCreateClip",
-        "tags": [ "Clips" ],
-        "requestBody": {
-          "description": "Auto create clip from selected video",
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                 
-                },
-                "example": {
-                  "videoId": 3
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "responses": {
-        "201": {
-          "description": "User created successfully",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "400": {
-          "description": "User not created because of validation error",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/defaultResponses/ValidationError"
-              }
-            }
-          }
-        }
-      }
-    },
     "/clips/update/{id}": {
       "put": {
         "summary": "Update data of a clip",
@@ -1621,6 +1557,43 @@
             "application/json": {
               "schema": {
                 "$ref": "#/defaultResponses/ValidationError"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clips/{id}/detect-persons": {
+      "get": {
+        "summary": "Detect persons from clip",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "DetectPersons",
+        "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of selected clip",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return array of persons image",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
               }
             }
           }
@@ -3016,6 +2989,48 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/defaults": {
+      "get": {
+        "summary": "List all default values",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ListDefaults",
+        "tags": [ "Defaults" ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name of field"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List value of defaults",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "data": [
+                      {
+                        "label": "Drill",
+                        "value": "drill"
+                      }, {
+                        "label": "Practice",
+                        "value": "practice"
+                      }
+                    ]
                   }
                 }
               }
