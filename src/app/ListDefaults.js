@@ -1,5 +1,5 @@
 const { Operation } = require('@amberjs/core');
-class ListKeypoints extends Operation {
+class ListDefaults extends Operation {
   constructor({ Utils }) {
     super();
     this.Utils = Utils;
@@ -22,6 +22,6 @@ class ListKeypoints extends Operation {
   }
 }
 
-ListKeypoints.setEvents(['SUCCESS', 'ERROR', 'VALIDATION_ERROR', 'NOT_FOUND']);
+ListDefaults.setEvents(['SUCCESS', 'ERROR', 'VALIDATION_ERROR', 'NOT_FOUND']);
 
-module.exports = ListKeypoints;
+module.exports = ListDefaults;
