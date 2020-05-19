@@ -68,6 +68,12 @@ functions:
           authorizer:
             arn:  arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
       - http:
+          path: /api/defaults
+          method: any
+          cors: true
+          authorizer:
+            arn:  arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
+      - http:
           path: /api/clips/keypoint/list
           method: GET
           # authorizer: arn:aws:cognito-idp:${file(env.yml):${self:custom.stage}.AUTH_REGION}:${file(env.yml):${self:custom.stage}.AUTH_ACCOUNT}:userpool/${file(env.yml):${self:custom.stage}.AUTH_COGNITO_POOL_ID}
