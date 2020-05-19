@@ -34,17 +34,9 @@ module.exports = {
       
          
     PersonKeypointModel.associate = () => {
-      PersonKeypointModel.belongsTo(datasource.models.ScenariosModel, {
-        foreignKey: 'scenarioId',
-        as: 'scenario'
-      });
-      PersonKeypointModel.belongsTo(datasource.models.ClipPersonModel, {
+      PersonKeypointModel.hasMany(datasource.models.ScoreModel, {
         foreignKey: 'clipPersonId',
-        as: 'clipPerson'
-      });
-      PersonKeypointModel.belongsTo(datasource.models.UserModel, {
-        foreignKey: 'userId',
-        as: 'user'
+        as: 'score'
       });
     };
       

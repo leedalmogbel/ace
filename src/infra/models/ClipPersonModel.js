@@ -24,17 +24,13 @@ module.exports = {
     });
   
     ClipPersonModel.associate = () => {
-      ClipPersonModel.belongsTo(datasource.models.ClipModel, {
-        foreignKey: 'clipId',
-        as: 'clip'
-      });
       ClipPersonModel.hasMany(datasource.models.ScoreModel, {
         foreignKey: 'clipPersonId',
-        as: 'scores'
+        as: 'score'
       });
       ClipPersonModel.hasMany(datasource.models.PersonKeypointModel, {
         foreignKey: 'clipPersonId',
-        as: 'personKeypoints'
+        as: 'personKeypoint'
       });
     };
   

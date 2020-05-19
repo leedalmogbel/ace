@@ -30,21 +30,7 @@ module.exports = {
       timestamps: true
     });
   
-     
-    ScoreModel.associate = () => {
-      ScoreModel.belongsTo(datasource.models.ClipModel, {
-        foreignKey: 'clipId',
-        as: 'clip'
-      });
-      ScoreModel.belongsTo(datasource.models.ClipPersonModel, {
-        foreignKey: 'clipPersonId',
-        as: 'clipPersons'
-      });
-      ScoreModel.belongsTo(datasource.models.ScenariosModel, {
-        foreignKey: 'scenarioId',
-        as: 'scenario'
-      });
-    };
+
   
     return ScoreModel;
   }

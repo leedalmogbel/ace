@@ -44,11 +44,11 @@ module.exports = {
       });
       ScenariosModel.hasMany(datasource.models.PersonKeypointModel, {
         foreignKey: 'scenarioId',
-        as: 'keypoints'
+        as: 'keypoint'
       });
       ScenariosModel.hasMany(datasource.models.ScoreModel, {
         foreignKey: 'scenarioId',
-        as: 'scores'
+        as: 'score'
       });
       ScenariosModel.hasMany(datasource.models.DanceModel, {
         foreignKey: 'scenarioId',
