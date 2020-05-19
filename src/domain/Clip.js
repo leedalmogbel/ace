@@ -18,30 +18,15 @@ const Clip = attributes({
     type: String,
     required: true
   },
-  currentSetScore: {
-    type: String,
-    empty: true
-  },
-  currentGameScore: {
-    type: String,
-    empty: true
-  },
   shotType: String,
-  moveDirection: String,
   hitSpot: String,
   shotResult: String,
-  smartPattern: Boolean,
-  extra: String,
   errorType: String,
-  spin: String,
   shotDirection: String,
-  speed: String,
   comments: {
     type: String,
     empty: true
   },
-  createdAt: Date,
-  updatedAt: Date,
   clipType: {
     type: String,
     //required: true,
@@ -49,16 +34,10 @@ const Clip = attributes({
   },
   winner: String,
   move: String,
-  end: {
-    type: String,
-    nullable: true
-  },
   rallyLength: {
     type: String,
     empty: true
-  },
-  opponentGameScore: String,
-  opponentPointScore: String
+  }
 })(class Clip {});
 
 module.exports = {
