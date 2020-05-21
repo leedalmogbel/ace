@@ -24,17 +24,45 @@ const Clip = attributes({
     empty: true
   },
   clipType: String,
-  errorLocation: String,
+  errorType: String,
   winner: String,
   move: String,
   rallyLength: {
     type: String,
     empty: true
   },
-  createdBy: Number,
-  updatedBy: Number
+  createdBy: {
+    type: Number,
+    nullable: true
+  },
+  updatedBy: {
+    type: Number,
+    nullable: true
+  }
 })(class Clip {});
 
+const UpdateClip = attributes({
+  // Add atttributes here
+  clipName:{
+    type: String,
+    required: true
+  },
+  startTime: {
+    type: String,
+    required: true
+  },
+  endTime: {
+    type: String,
+    required: true
+  },
+  updatedBy: {
+    type: Number,
+    nullable: true
+  }
+})(class UpdateClip {});
+
+
 module.exports = {
-  Clip
+  Clip,
+  UpdateClip
 };
