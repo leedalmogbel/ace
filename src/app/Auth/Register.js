@@ -9,6 +9,13 @@ class Register extends Operation {
 
   async execute(data) {
     const { SUCCESS, ERROR, VALIDATION_ERROR, NOT_FOUND } = this.events;
+    if(data.cognitoAppId == process.env.COGNITO_AI_CLIENT_ID){
+      return this.emit(SUCCESS, {
+        id: null,
+        userType: 'AI'
+      });
+    }
+
     let params = {
         ...data
     };
