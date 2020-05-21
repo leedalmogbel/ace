@@ -4,25 +4,29 @@ const Utils = require('src/infra/services/utils.js');
 
 
 class CreateClip extends Operation {
-  constructor({ ClipRepository, VideoRepository, logger }) {
+  constructor({ ClipRepository, VideoRepository, logger, sessionUser }) {
     super();
     this.ClipRepository = ClipRepository;
     this.VideoRepository = VideoRepository;
     this.logger = logger;
+    this.sessionUser = sessionUser;
   }
 
   async execute(data) {
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
+    console.log(data);
     
-    const nameStartTime = Utils().formatTime(data.startTime);
-    const nameEndTime = Utils().formatTime(data.endTime);
-    const video = await this.VideoRepository.getVideoName(data.videoId);
+    if(!data.clipName || data.clipName == ''){
+      const nameStartTime = Utils().formatTime(data.startTime);
+      const nameEndTime = Utils().formatTime(data.endTime);
+      const video = await this.VideoRepository.getVideoName(data.videoId);
+      data.clipName = `${video[0].videoName}-from:${nameStartTime}_to:${nameEndTime}`;
+    }
 
     let params = {
       ...data,
-      clipName: `${video[0].videoName}-from:${nameStartTime}_to:${nameEndTime}`,
-      createdBy: this.sessionUser.dataValues.id, // must updated based on logged user
-      updatedBy: this.sessionUser.dataValues.id // must updated based on logged user
+      createdBy: this.sessionUser.id, // must updated based on logged user
+      updatedBy: this.sessionUser.id // must updated based on logged user
     }
    
     const clip = new Clip(params);

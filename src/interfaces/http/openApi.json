@@ -1114,7 +1114,42 @@
         }
       }
     },
-    "/clips/update/{id}": {
+    "/clips/{id}": {
+      "get": {
+        "summary": "Get single clip data",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ShowClip",
+        "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Clip id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Clip data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "put": {
         "summary": "Update data of a clip",
         "security": [
@@ -1124,6 +1159,43 @@
         ],
         "operationId": "UpdateClip",
         "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Clip id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "requestBody": {
+          "description": "Updated Value here",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                 
+                },
+                "example": {
+                  "clipName": "Clip Test name",
+                  "startTime": "94",
+                  "endTime": "102",
+                  "shotType": "backhand",
+                  "hitSpot": "behind baseline",
+                  "shotResult": "winner",
+                  "shotDirection": "cross-court",
+                  "comments":"",
+                  "clipType" : "forGoldStandard",
+                  "winner": "no",
+                  "errorType":"wide",
+                  "move" : "return",
+                  "rallyLength":"1-4"
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Clip updated",
@@ -1140,30 +1212,6 @@
           }
         }
       },
-      "responses": {
-        "201": {
-          "description": "Updated successfully",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "400": {
-          "description": "User not created because of validation error",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/defaultResponses/ValidationError"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/clips/delete/{id}": {
       "delete": {
         "summary": "Delete a clip",
         "security": [
@@ -1201,7 +1249,7 @@
       },
       "responses": {
         "201": {
-          "description": "User created successfully",
+          "description": "Updated successfully",
           "content": {
             "application/json": {
               "schema": {

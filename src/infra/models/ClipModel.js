@@ -50,9 +50,11 @@ module.exports = {
         type: DataTypes.STRING,
         defaultValue: 'init'
       }, createdBy : {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: true
       }, updatedBy : {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: true
       }
     }, {
       tableName: 'clips',
