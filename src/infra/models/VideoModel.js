@@ -37,9 +37,11 @@ module.exports = {
         type: DataTypes.STRING,
         defaultValue: 'mobile'
       }, createdBy : {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: true
       }, updatedBy : {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: true
       }, objective : {
         type: DataTypes.TEXT
       }
