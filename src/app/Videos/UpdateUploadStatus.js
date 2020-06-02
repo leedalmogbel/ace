@@ -13,6 +13,7 @@ class UpdateUploadStatus extends Operation {
     try {
       let videoData = await this.VideoRepository.update(id, params);
       videoData = videoData.toJSON();
+      console.log('UPDATE UPLOAD STATUS :', videoData);
       /**
       * If status = 'uploaded' AND autocreateclip = true AND status value in statusArr
       *     call AI link for autoClip
@@ -22,13 +23,22 @@ class UpdateUploadStatus extends Operation {
         const s3Region = process.env.AWS_S3_REGION;
         const s3Domain= `https://${bucketName}.s3.${s3Region}.amazonaws.com`;
 
-        this.ThirdPartyApis.callAutoClipCreation({
-          video_id : videoData.id,
-          video_path : `${s3Domain}/${videoData.path}`
-        }); 
-        console.log('S3 DOMAIN ', s3Domain);
+        try {
+          this.ThirdPartyApis.callAutoClipCreation({
+            video_id : videoData.id,
+            video_path : `${s3Domain}/${videoData.path}`,
+            activity : videoData.subActivityOne
+          }); 
+          console.log('S3 DOMAIN ', s3Domain);
+          this.VideoRepository.update(id, {status : 'processing'});
+
+        } catch (error) {
+          console.log('UpdateUploadStatus AUTOCLIPCREATION ERROR : ', error);
+          this.VideoRepository.update(id, {status : 'serverError'});
+          
+        }
+        
       }
-      
       return this.emit(SUCCESS, videoData);
     } catch(error) {
       if(error.message === 'NotFoundError') {

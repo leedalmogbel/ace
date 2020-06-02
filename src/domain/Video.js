@@ -7,11 +7,12 @@ const Player = attributes({
   },
   name: {
     type: String,
-    required: true
+    required: true,
   },
   result: {
     type: String,
-    required: true
+    empty: true,
+    nullable: true
   }
 })(class Player { });
 

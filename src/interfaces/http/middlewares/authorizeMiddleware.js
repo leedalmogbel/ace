@@ -13,6 +13,7 @@ const authorizeMiddleware = (req, res, next) => {
   }
   
   let decodedAuth = jwtDecode(req.headers['authorization']);
+  
   let curEpoch = Math.round(Date.now()/1000);
   let tokenExp = decodedAuth.exp;
   let cognitoAppId;
@@ -41,7 +42,7 @@ const authorizeMiddleware = (req, res, next) => {
     params = {
       cognitoAppId: cognitoAppId,
       email : decodedAuth.email,
-      name : decodedAuth.name,
+      name : decodedAuth.name, //should update to name
       providerId : decodedAuth.identities[0].userId,
       provider: decodedAuth.identities[0].providerName
     };
@@ -53,7 +54,6 @@ const authorizeMiddleware = (req, res, next) => {
 
   authorize
     .on(SUCCESS, (result) => {
-      console.log("RESULT : ", result);
       req.container.register({ 
         sessionUser: asValue(result)
       });

@@ -19,7 +19,7 @@ module.exports = {
         type: DataTypes.ENUM('n/a', 'processing', 'done', 'failedProcess', 'serverError'),
         defaultValue: 'n/a'
       }, uploadStatus : {
-        type: DataTypes.ENUM('pending', 'uploaded'),
+        type: DataTypes.ENUM('pending', 'uploaded', 'failed'),
         defaultValue: 'pending'
       }, subActivityOne : {
         type: DataTypes.STRING
