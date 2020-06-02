@@ -32,9 +32,9 @@ module.exports = class ThirdPartyApis {
   }
 
   callAutoClipCreation(params){
-    params.width = 640;
-    params.output_file = 'data/out.txt';
-    params.height = 360;
+    // params.width = 640;
+    // params.output_file = 'data/out.txt';
+    // params.height = 360;
     console.log('ThirdPartyAPIS callAutoClipCreation :', params);
     return axios.post(`${process.env.AI_AUTO_DETECTION_LINK}/clip`, params);
   }

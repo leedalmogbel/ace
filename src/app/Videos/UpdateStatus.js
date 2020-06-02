@@ -10,6 +10,7 @@ class UpdateStatus extends Operation {
 
     try {
       const videoData = await this.VideoRepository.update(id, params);
+      console.log('UpdateStatus from AI : ', videoData);
       return this.emit(SUCCESS, videoData);
     } catch(error) {
       if(error.message === 'NotFoundError') {
