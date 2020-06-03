@@ -35,17 +35,7 @@ module.exports = {
       }]
     });
       
-         
-    StandardModel.associate = () => {
-      StandardModel.belongsTo(datasource.models.ScenariosModel, {
-        foreignKey: 'scenarioId',
-        as: 'scenario'
-      });
-      StandardModel.belongsTo(datasource.models.UserModel, {
-        foreignKey: 'userId',
-        as: 'user'
-      });
-    };
+        
       
     return StandardModel;
   }

@@ -19,7 +19,7 @@ module.exports = {
         type: DataTypes.ENUM('n/a', 'processing', 'done', 'failedProcess', 'serverError'),
         defaultValue: 'n/a'
       }, uploadStatus : {
-        type: DataTypes.ENUM('pending', 'uploaded'),
+        type: DataTypes.ENUM('pending', 'uploaded', 'failed'),
         defaultValue: 'pending'
       }, subActivityOne : {
         type: DataTypes.STRING
@@ -37,9 +37,13 @@ module.exports = {
         type: DataTypes.STRING,
         defaultValue: 'mobile'
       }, createdBy : {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: true
       }, updatedBy : {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: true
+      }, objective : {
+        type: DataTypes.TEXT
       }
     }, {
       tableName: 'videos',

@@ -25,7 +25,6 @@ class ListAnalytics extends Operation {
           'shotResult',
           'smartPattern',
           'extra',
-          'errorType',
           'spin',
           'shotDirection',
           'speed'

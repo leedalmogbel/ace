@@ -28,15 +28,10 @@ class ClipRepository extends BaseRepository {
   }
 
   getDataWithRelation(id){
-    return this._getById(id, {
-      include: [
-        {
-          model: this.VideoModel,
-          attributes: ['path'],
-          as: 'video'
-        },
-      ]
-    });
+    return this._getById(id);
+  }
+  getById(id) {
+    return this._getById(id);
   }
 
   async updateStatus(id, data){

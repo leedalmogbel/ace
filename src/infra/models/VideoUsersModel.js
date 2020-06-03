@@ -17,7 +17,7 @@ module.exports = {
         type: DataTypes.INTEGER,
         allowNull: false
       }, userId : {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: true
       }
     }, {

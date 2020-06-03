@@ -2,17 +2,13 @@ const { Router } = require('express');
 const { BaseController } = require('@amberjs/core');
 const Status = require('http-status');
 
-class VideosController extends BaseController {
+class DefaultsController extends BaseController {
   
   constructor() {
     super();
     const router = Router();
     // Video
-    router.get('/:userId/video', this.injector('ListVideo'), this.showList);
-    router.put('/:id/upload-status', this.injector('UpdateUploadStatus'), this.update);
-    router.put('/:id/status', this.injector('UpdateStatus'), this.update);
-    //router.get('/analytics', this.injector('ListAnalytics'), this.showList);
-    router.post('/getSignedURL', this.injector('GetSignedURL'), this.create);
+    router.get('/', this.injector('ListDefaults'), this.showList);
 
     return router;
   }
@@ -36,8 +32,8 @@ class VideosController extends BaseController {
       })
       .on(ERROR, next);
 
-    operation.execute(Number(req.params.userId)||Number(req.query.videoId), Number(req.query.set), req.body);
+    operation.execute(req.query);
   }
 }
 
-module.exports = VideosController;
+module.exports = DefaultsController;

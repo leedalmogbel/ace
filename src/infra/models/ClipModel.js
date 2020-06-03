@@ -15,68 +15,46 @@ module.exports = {
       }, clipName : {
         type: DataTypes.STRING,
         allowNull: false
-      }, set : {
-        type: DataTypes.INTEGER
-      }, game : {
-        type: DataTypes.INTEGER
       }, startTime : {
         type: DataTypes.STRING,
         allowNull: false
       }, endTime : {
         type: DataTypes.STRING,
         allowNull: false
-      }, currentSetScore : {
-        type: DataTypes.STRING,
-      }, currentGameScore : {
-        type: DataTypes.STRING,
       }, shotType : {
-        type: DataTypes.STRING
-      }, moveDirection : {
         type: DataTypes.STRING
       }, hitSpot : {
         type: DataTypes.STRING
       }, shotResult : {
         type: DataTypes.STRING
-      }, smartPattern : {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-      }, extra : {
-        type: DataTypes.STRING,
-        defaultValue: 'none'
-      }, errorType : {
-        type: DataTypes.STRING,
-        defaultValue: 'NA'
-      }, spin : {
-        type: DataTypes.STRING,
-        defaultValue: 'NA'
       }, shotDirection : {
         type: DataTypes.STRING,
-        defaultValue: 'NA'
-      }, speed : {
-        type: DataTypes.STRING,
-        defaultValue: 'NA'
       }, comments : {
         type: DataTypes.STRING,
       }, status : {
-        type: DataTypes.ENUM('init', 'failed', 'success'),
+        type: DataTypes.STRING,
         defaultValue: 'init'
       }, clipType : {
-        type: DataTypes.ENUM('basic', 'forAnalytics', 'forGoldStandard'),
+        type: DataTypes.STRING,
         defaultValue: 'basic'
+      }, errorType : {
+        type: DataTypes.STRING
       }, winner : {
-        type: DataTypes.ENUM('yes', 'no'),
-        defaultValue: null
-      }, end : {
         type: DataTypes.ENUM('yes', 'no'),
         defaultValue: null
       }, move : {
         type: DataTypes.STRING,
-      }, opponentGameScore : {
-        type: DataTypes.STRING,
-      }, opponentPointScore : {
-        type: DataTypes.STRING,
       }, rallyLength : {
         type: DataTypes.STRING,
+      }, detectPersonStatus : {
+        type: DataTypes.STRING,
+        defaultValue: 'init'
+      }, createdBy : {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      }, updatedBy : {
+        type: DataTypes.INTEGER,
+        allowNull: true
       }
     }, {
       tableName: 'clips',
@@ -103,7 +81,7 @@ module.exports = {
       });
       ClipModel.hasMany(datasource.models.ClipPersonModel, {
         foreignKey: 'clipId',
-        as: 'personImages'
+        as: 'detectedPerson'
       });
     };
 

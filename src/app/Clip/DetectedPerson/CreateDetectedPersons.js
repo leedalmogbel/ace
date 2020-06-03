@@ -20,7 +20,7 @@ class CreateDetectedPersons extends Operation {
 
     try {
       // update clip status to 'success' before saving dtected persons;
-      this.ClipRepository.update(clipId, {status:'success'});
+      this.ClipRepository.update(clipId, {detectPersonStatus:'success'});
       //this.logger.info(`CreateDetectedPersons; Data from AI Extraction : ${JSON.stringify(persons)}`);
       this.logger.info(`CreateDetectedPersons; Data from AI Extraction`);
       await this.ClipPersonRepository.addMultiple(data);

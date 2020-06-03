@@ -816,6 +816,9 @@
                   },
                   "scenarioId": {
                     "type": "integer"
+                  },
+                  "objective": {
+                    "type": "string"
                   }
                 },
                 "example": {
@@ -843,7 +846,8 @@
                   "tournament": "Tou Tour",
                   "gameType": "singles",
                   "setType": "best of three",
-                  "scenarioId": 1
+                  "scenarioId": 1,
+                  "objective" : "Drill objective here"
                 }
               }
             }
@@ -1054,30 +1058,18 @@
                 "example": {
                   "videoId": 3,
                   "clipName": "Clip Test name",
-                  "set": 3,
-                  "game": 2,
                   "startTime": "94",
                   "endTime": "102",
-                  "currentSetScore": "5-4",
-                  "currentGameScore": "40-15",
-                  "oppositeSetScore": "5-4",
-                  "oppositeGameScore": "40-15",
                   "shotType": "backhand",
-                  "shotDirection": "cross-court",
                   "hitSpot": "behind baseline",
-                  "moveDirection": "body shot",
                   "shotResult": "winner",
-                  "smartPattern": "true",
-                  "extra": "hit ball early",
-                  "errorType": "NA",
-                  "spin": "NA",
-                  "speed": "NA",
+                  "shotDirection": "cross-court",
                   "comments":"",
+                  "clipType" : "forGoldStandard",
                   "winner": "no",
-                  "errorLocation":"wide",
+                  "errorType":"wide",
                   "move" : "return",
-                  "rallyLength":"1-4",
-                  "clipType" : "forGoldStandard"
+                  "rallyLength":"1-4"
                 }
               }
             }
@@ -1122,34 +1114,29 @@
         }
       }
     },
-    "/clips/autoCreate": {
-      "post": {
-        "summary": "Auto Create Clip",
+    "/clips/{id}": {
+      "get": {
+        "summary": "Get single clip data",
         "security": [
           {
             "bearerAuth": []
           }
         ],
-        "operationId": "AutoCreateClip",
+        "operationId": "ShowClip",
         "tags": [ "Clips" ],
-        "requestBody": {
-          "description": "Auto create clip from selected video",
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                 
-                },
-                "example": {
-                  "videoId": 3
-                }
-              }
-            }
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Clip id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
           }
-        },
+        ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "Clip data",
             "content": {
               "application/json": {
                 "schema": {
@@ -1163,30 +1150,6 @@
           }
         }
       },
-      "responses": {
-        "201": {
-          "description": "User created successfully",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "400": {
-          "description": "User not created because of validation error",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/defaultResponses/ValidationError"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/clips/update/{id}": {
       "put": {
         "summary": "Update data of a clip",
         "security": [
@@ -1196,6 +1159,43 @@
         ],
         "operationId": "UpdateClip",
         "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Clip id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "requestBody": {
+          "description": "Updated Value here",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                 
+                },
+                "example": {
+                  "clipName": "Clip Test name",
+                  "startTime": "94",
+                  "endTime": "102",
+                  "shotType": "backhand",
+                  "hitSpot": "behind baseline",
+                  "shotResult": "winner",
+                  "shotDirection": "cross-court",
+                  "comments":"",
+                  "clipType" : "forGoldStandard",
+                  "winner": "no",
+                  "errorType":"wide",
+                  "move" : "return",
+                  "rallyLength":"1-4"
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Clip updated",
@@ -1212,30 +1212,6 @@
           }
         }
       },
-      "responses": {
-        "201": {
-          "description": "Updated successfully",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "400": {
-          "description": "User not created because of validation error",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/defaultResponses/ValidationError"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/clips/delete/{id}": {
       "delete": {
         "summary": "Delete a clip",
         "security": [
@@ -1273,7 +1249,7 @@
       },
       "responses": {
         "201": {
-          "description": "User created successfully",
+          "description": "Updated successfully",
           "content": {
             "application/json": {
               "schema": {
@@ -1353,13 +1329,6 @@
             "name": "shotResult",
             "in": "query",
             "description": "point result of the player",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "errorType",
-            "in": "query",
-            "description": "error type of the shot",
             "required": false,
             "type": "string"
           },
@@ -1510,22 +1479,12 @@
                             "id": 3,
                             "videoId": 1,
                             "clipName": "Danville_10172019_17:54-from:00:01:34_to:00:01:42",
-                            "set": 3,
-                            "game": 2,
-                            "startTime": "94",
-                            "endTime": "102",
-                            "currentSetScore": "5-4",
-                            "currentGameScore": "40-15",
                             "shotType": "forehand",
                             "moveDirection": "body shot",
                             "hitSpot": "behind baseline",
                             "shotResult": "winner",
-                            "smartPattern": true,
-                            "extra": "hit ball early",
-                            "errorType": "NA",
-                            "spin": "NA",
+                            "errorType": "",
                             "shotDirection": "NA",
-                            "speed": "NA",
                             "comments": null
                           }
                         ]
@@ -1621,6 +1580,43 @@
             "application/json": {
               "schema": {
                 "$ref": "#/defaultResponses/ValidationError"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clips/{id}/detect-persons": {
+      "get": {
+        "summary": "Detect persons from clip",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "DetectPersons",
+        "tags": [ "Clips" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of selected clip",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return array of persons image",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
               }
             }
           }
@@ -2509,6 +2505,21 @@
                   },
                   "subActivityFive": {
                     "type": "string"
+                  },
+                  "subActivitySix": {
+                    "type": "string"
+                  },
+                  "subActivitySeven": {
+                    "type": "string"
+                  },
+                  "subActivityEight": {
+                    "type": "string"
+                  },
+                  "subActivityNine": {
+                    "type": "string"
+                  },
+                  "subActivityTen": {
+                    "type": "string"
                   }
                 },
                 "example": {
@@ -2517,7 +2528,12 @@
                   "subActivityTwo":"groundstroke-forehand",
                   "subActivityThree":"cross-court",
                   "subActivityFour":"behind baseline",
-                  "subActivityFive":""
+                  "subActivityFive":"",
+                  "subActivitySix":"",
+                  "subActivitySeven":"",
+                  "subActivityEight":"",
+                  "subActivityNine":"",
+                  "subActivityTen":""
                 }
               }
             }
@@ -2691,14 +2707,6 @@
             "name": "hitSpot",
             "in": "query",
             "description": "Possible Values : behind baseline, inside baseline, inside service line",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "errorType",
-            "in": "query",
-            "description": "Possible Values : into net, long, wide",
             "required": false,
             "type": "integer",
             "format": "int64"
@@ -3016,6 +3024,48 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/defaults": {
+      "get": {
+        "summary": "List all default values",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "ListDefaults",
+        "tags": [ "Defaults" ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name of field"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List value of defaults",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "data": [
+                      {
+                        "label": "Drill",
+                        "value": "drill"
+                      }, {
+                        "label": "Practice",
+                        "value": "practice"
+                      }
+                    ]
                   }
                 }
               }

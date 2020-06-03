@@ -1,6 +1,6 @@
 const { Operation } = require('@amberjs/core');
 const signURL = require('src/infra/services/signedUrl');
-const {Video, Dance, Tennis} = require('src/domain/Video');
+const {Video, Dance, Tennis, TennisDrill} = require('src/domain/Video');
 const activityOneArr = {
   TENNIS : 'tennis',
   DANCE : 'dance'
@@ -8,15 +8,17 @@ const activityOneArr = {
 
 
 class GetSignedURL extends Operation {
-  constructor({ VideoRepository, TennisRepository, DanceRepository}) {
+  constructor({ VideoRepository, TennisRepository, DanceRepository, sessionUser}) {
     super();
     this.VideoRepository = VideoRepository;
     this.TennisRepository = TennisRepository;
     this.DanceRepository = DanceRepository;
+    this.sessionUser = sessionUser;
   }
 
   async execute(data) {     
     const { SUCCESS, ERROR, VALIDATION_ERROR } = this.events;
+    console.log('SESSION', this.sessionUser);
     let errorArr = [];
     // Get Signed URL
     const videoName = `${data.location}_${data.date}_${data.time}`;
@@ -26,7 +28,9 @@ class GetSignedURL extends Operation {
     const videoParams = {
       ...data,
       videoName: videoName,
-      path: signed.videoURI
+      path: signed.videoURI,
+      createdBy: this.sessionUser.id, // must updated based on logged user
+      updatedBy: this.sessionUser.id // must updated based on logged user
     };
 
     const video = new Video(videoParams);
@@ -36,11 +40,14 @@ class GetSignedURL extends Operation {
     }
 
     // Check subActivityOne value if tennis or dance 
-    const tennis = new Tennis(data);
+console.log('DATA MATCH TYPE :', data.matchType);
+    const tennis = (data.matchType == 'match') ? new Tennis(data) : new TennisDrill(data);
     const dance = new Dance(data);
+
     switch (video.subActivityOne) {
       case activityOneArr.TENNIS:
         const tennisValidation = tennis.validate();
+        console.log(tennis);
         if (!tennisValidation.valid) {
           errorArr.push(...tennisValidation.errors);
         }

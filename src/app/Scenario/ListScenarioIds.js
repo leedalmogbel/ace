@@ -25,16 +25,21 @@ class ListScenarioIds extends Operation {
     // }
 
     try {
-      let idArr = await this.ScenarioRepository.getAll({
-        attributes:['id'],
-        where : params
-      });
+      let idArr;
+      if(params.userId){
+        idArr = await this.ScenarioRepository.getAllScenariosAndModel(params).map((dt) => {
+          let data = dt.dataValues;
+          data.standardModel = data.standardModel.length;
+          return dt;
+        });
+      }else{
+        idArr = await this.ScenarioRepository.getAll({
+          attributes:['id'],
+          where : params
+        });
+      }
 
-      // let idArr = await this.ScenarioRepository.getAllScenariosAndModel(params).map((dt) => {
-      //   let data = dt.dataValues;
-      //   data.standardModel = data.standardModel.length;
-      //   return dt;
-      // });
+      
       
       const data = Utils().resSuccess(idArr);
       return this.emit(SUCCESS, data);

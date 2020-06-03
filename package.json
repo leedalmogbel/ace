@@ -10,7 +10,7 @@
   "scripts": {
     "start": "cross-env NODE_PATH=. NODE_ENV=local nodemon",
     "start:sls": "sls offline -s local --aws-profile tennis-dev",
-    "deploy:dev": "sls deploy -s dev --aws-profile tennis-dev",
+    "deploy:dev": "sls deploy -v dev --aws-profile tennis-dev",
     "deploy:staging": "sls deploy -s staging --aws-profile tennis-staging",
     "dev": "cross-env NODE_PATH=. NODE_ENV=local nodemon",
     "test": "npm run test:all",

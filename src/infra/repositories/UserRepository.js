@@ -1,10 +1,9 @@
 const { BaseRepository } = require('@amberjs/core');
 
 class UserRepository extends BaseRepository {
-  constructor({ UserModel, PlayerRepository, CoachesRepository }) {
+  constructor({ UserModel, PlayerRepository }) {
     super(UserModel);
     this.PlayerRepository = PlayerRepository;
-    this.CoachesRepository = CoachesRepository;
   }
 
   async add(data) {

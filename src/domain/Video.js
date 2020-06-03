@@ -7,11 +7,12 @@ const Player = attributes({
   },
   name: {
     type: String,
-    required: true
+    required: true,
   },
   result: {
     type: String,
-    required: true
+    empty: true,
+    nullable: true
   }
 })(class Player { });
 
@@ -41,12 +42,22 @@ const Video = attributes({
     type: Boolean,
     nullable: true
   }, 
+  source:String,
   users: {
     required: true,
     type: Array,
     minLength: 1,
     unique: true,
     itemType: Player
+  },
+  objective: String,
+  createdBy: {
+    type: Number,
+    nullable: true
+  },
+  updatedBy: {
+    type: Number,
+    nullable: true
   }
 })(class Video {});
 
@@ -74,6 +85,22 @@ const Tennis = attributes({
   }
 })(class Tennis {});
 
+const TennisDrill = attributes({
+  // Add atttributes here
+  tournament: {
+    type: String,
+    empty: true
+  },
+  gameType: {
+    type: String,
+    empty: true
+  },
+  setType: {
+    type: String,
+    empty: true
+  }
+})(class TennisDrill {});
+
 const Dance = attributes({
   // Add atttributes here
   scenarioId: {
@@ -87,5 +114,6 @@ module.exports = {
   Video,
   VideoId,
   Dance,
-  Tennis
+  Tennis,
+  TennisDrill
 };
