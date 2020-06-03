@@ -19,13 +19,28 @@ module.exports = {
         allowNull: false
       }, subActivityThree : {
         type: DataTypes.STRING,
-        allowNull: true,
+        defaultValue: ''
       }, subActivityFour : {
         type: DataTypes.STRING,
-        allowNull: true
+        defaultValue: ''
       }, subActivityFive : {
         type: DataTypes.STRING,
-        allowNull: true
+        defaultValue: ''
+      }, subActivitySix : {
+        type: DataTypes.STRING,
+        defaultValue: ''
+      }, subActivitySeven : {
+        type: DataTypes.STRING,
+        defaultValue: ''
+      }, subActivityEight : {
+        type: DataTypes.STRING,
+        defaultValue: ''
+      }, subActivityNine : {
+        type: DataTypes.STRING,
+        defaultValue: ''
+      }, subActivityTen : {
+        type: DataTypes.STRING,
+        defaultValue: ''
       }, createdBy : {
         type: DataTypes.INTEGER
       }, updatedBy : {

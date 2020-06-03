@@ -31,6 +31,26 @@ const Scenario = attributes({
   subActivityFive: {
     type: String,
     empty: true
+  },
+  subActivitySix: {
+    type: String,
+    empty: true
+  },
+  subActivitySeven: {
+    type: String,
+    empty: true
+  },
+  subActivityEight: {
+    type: String,
+    empty: true
+  },
+  subActivityNine: {
+    type: String,
+    empty: true
+  },
+  subActivityTen: {
+    type: String,
+    empty: true
   }
 })(class Scenario {});
 module.exports = {

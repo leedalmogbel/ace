@@ -2505,6 +2505,21 @@
                   },
                   "subActivityFive": {
                     "type": "string"
+                  },
+                  "subActivitySix": {
+                    "type": "string"
+                  },
+                  "subActivitySeven": {
+                    "type": "string"
+                  },
+                  "subActivityEight": {
+                    "type": "string"
+                  },
+                  "subActivityNine": {
+                    "type": "string"
+                  },
+                  "subActivityTen": {
+                    "type": "string"
                   }
                 },
                 "example": {
@@ -2513,7 +2528,12 @@
                   "subActivityTwo":"groundstroke-forehand",
                   "subActivityThree":"cross-court",
                   "subActivityFour":"behind baseline",
-                  "subActivityFive":""
+                  "subActivityFive":"",
+                  "subActivitySix":"",
+                  "subActivitySeven":"",
+                  "subActivityEight":"",
+                  "subActivityNine":"",
+                  "subActivityTen":""
                 }
               }
             }

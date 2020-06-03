@@ -1,12 +1,14 @@
 const { Operation } = require('@amberjs/core');
 const Utils = require('src/infra/services/utils.js');
 
-const scenariosFields = ['activity', 'subActivityOne', 'subActivityTwo', 'subActivityThree', 'subActivityFour', 'subActivityFive']; 
+const scenariosFields = ['activity', 'subActivityOne', 'subActivityTwo', 'subActivityThree', 'subActivityFour', 'subActivityFive', 'subActivitySix', 'subActivitySeven', 'subActivityEight', 'subActivityNine', 'subActivityTen']; 
 const parseResult = (input) => input.reduce((acc, val) => {
   val.forEach(data => {
     Object.keys(data).forEach( (key) =>{
       let value = JSON.parse(JSON.stringify(data));
-      acc[key].push(value[key]);
+      if(value[key]){
+        acc[key].push(value[key]);
+      }
     });
   });
   return acc;
@@ -17,6 +19,11 @@ const parseResult = (input) => input.reduce((acc, val) => {
   subActivityThree : [],
   subActivityFour : [],
   subActivityFive : [],
+  subActivitySix : [],
+  subActivitySeven : [],
+  subActivityEight : [],
+  subActivityNine : [],
+  subActivityTen : []
 });
 
 
